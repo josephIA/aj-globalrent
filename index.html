@@ -547,43 +547,38 @@
 
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-    <script>
-      <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      // Only run if Netlify Identity is available
-      if (window.netlifyIdentity) {
-        
-        // Initialize the widget
-        window.netlifyIdentity.on('init', user => {
-          // If user is not logged in and this is an admin page, redirect to login
-          const isAdminPage = window.location.pathname.includes('/admin');
-          if (!user && isAdminPage) {
-            // Optional: show a login modal instead of redirecting
-            window.netlifyIdentity.open();
-          }
-        });
+<!-- Netlify Identity Widget -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    // Initialize widget
+    window.netlifyIdentity.on('init', user => {
+      const isAdminPage = window.location.pathname.includes('/admin');
 
-        // On login
-        window.netlifyIdentity.on('login', user => {
-          // Close the widget
-          window.netlifyIdentity.close();
-
-          // Redirect users depending on page type
-          const isAdminPage = window.location.pathname.includes('/admin');
-          if (isAdminPage) {
-            document.location.href = '/admin'; // send admin to dashboard
-          } else {
-            document.location.href = '/'; // send public users to home
-          }
-        });
-
-        // On logout (optional)
-        window.netlifyIdentity.on('logout', () => {
-          document.location.href = '/'; // redirect after logout
-        });
+      if (!user && isAdminPage) {
+        // Show login modal for admin pages
+        window.netlifyIdentity.open();
       }
-    </script>
+    });
+
+    // On login
+    window.netlifyIdentity.on('login', user => {
+      window.netlifyIdentity.close();
+      const isAdminPage = window.location.pathname.includes('/admin');
+      if (isAdminPage) {
+        document.location.href = '/admin';
+      } else {
+        document.location.href = '/';
+      }
+    });
+
+    // On logout
+    window.netlifyIdentity.on('logout', () => {
+      document.location.href = '/';
+    });
+  }
+
+
 
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
