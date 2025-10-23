@@ -1,1 +1,47 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Admin — AJ GlobalRent</title></head><body><script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script></body></html>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Admin — AJ GlobalRent</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Welcome - AJ GlobalRent</title>
+</head>
+<body>
+  <h2>Processing your invitation...</h2>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('invitation');
+
+        if (token) {
+          // Accept the invitation
+          window.netlifyIdentity.acceptInvite(token)
+            .then(() => {
+              // Redirect to admin dashboard after accepting
+              document.location.href = '/admin';
+            })
+            .catch(err => {
+              console.error('Invitation error:', err);
+              alert('Failed to accept invitation. Please try again.');
+            });
+        } else if (!user) {
+          // No token & not logged in → show login modal
+          window.netlifyIdentity.open();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+
+  </body>
+</html>
