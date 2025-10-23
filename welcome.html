@@ -1,30 +1,109 @@
-here<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Redirecting...</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>AJ GlobalRent — Signing you in…</title>
+  <style>
+    body{background:#070708;
+         color:#F8FAFC;
+         font-family:Inter,Arial;
+         display:flex;
+         align-items:center;
+         justify-content:center;
+         height:100vh;margin:0}
+    
+    .box{max-width:720px;
+         padding:28px;
+         border-radius:12px;
+         background:#0b0b0d;
+         border:1px solid rgba(255,255,255,0.03);text-align:center}
+    
+    .spinner{width:56px;
+             height:56px;
+             border-radius:50%;
+             border:6px solid rgba(212,175,55,0.12);border-top-color:#D4AF37;
+             margin:18px auto;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .muted{color:#9CA3AF;
+           font-size:14px}
+    pre{color:#f8f8f2;
+        text-align:left;
+        max-height:200px;
+        overflow:auto;
+        background:#050507;
+        padding:10px;
+        border-radius:6px;
+        border:1px solid rgba(255,255,255,0.02)}
+  </style>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <p>Processing your login... Please wait.</p>
+  <div class="box">
+    <div class="spinner"></div>
+    <h2>Processing your invitation…</h2>
+    <p class="muted">If this takes longer than a few seconds, error details will appear below.</p>
+    <div id="info" style="margin-top:12px"></div>
+    <pre id="log" style="display:none"></pre>
+  </div>
 
   <script>
-    // Ensure Netlify Identity is ready
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        if (!user) {
-          // If user not logged in yet, try to finish token login
-          window.netlifyIdentity.on('login', () => {
-            window.location.href = '/';
-          });
-        } else {
-          window.location.href = '/';
-        }
-      });
-    } else {
-      console.error('Netlify Identity script not loaded properly.');
+    const logEl = document.getElementById('log');
+    function log(...args){ logEl.style.display='block'; 
+      logEl.textContent += args.map(a=>typeof a==='object'?JSON.stringify(a,null,2):String(a)).join(' ') + '\\n'; 
+      console.log(...args); }
+
+    function safeRedirect(url){
+      setTimeout(()=>{ window.location.href = url; }, 800);
     }
+
+    // Wait for Identity widget to be available
+    function initIdentity(){
+      if(!window.netlifyIdentity){
+        log('Netlify Identity widget not loaded.');
+        // retry a couple times
+        setTimeout(()=>{ if(!window.netlifyIdentity) log('widget still not loaded — check console/network'); }, 1000);
+        return;
+      }
+
+      log('Netlify Identity widget loaded.');
+      // Initialize (safe to call)
+      try { netlifyIdentity.init(); } catch(e){ log('init error', e); }
+
+      // Show current hash for debugging
+      const h = location.hash || '';
+      log('location.hash:', h);
+
+      // If token present in hash, try to handle it by letting widget process and then redirect
+      if(h.includes('invite_token') || h.includes('confirmation_token') || h.includes('recovery_token')){
+        log('Detected token in URL. Waiting for widget to process token...');
+        // The widget automatically handles token on init; listen for login
+        netlifyIdentity.on('login', user=>{
+          log('Login event fired. User:', user && user.email);
+          safeRedirect('/');
+        });
+        // Also listen for error events (if any)
+        netlifyIdentity.on('error', err=>{
+          log('Identity error event:', err);
+          document.getElementById('info').innerHTML = '<p class="muted">There was an error processing the invite — try again or contact support.</p>';
+        });
+        // If token processing doesn't trigger login within X seconds, show diagnostic info
+        setTimeout(()=>{
+          log('Timeout waiting for login. Current user:', netlifyIdentity.currentUser());
+          if(!netlifyIdentity.currentUser()){
+            document.getElementById('info').innerHTML = '<p class="muted">Still not signed in. Please close this tab and open the admin login at <code>/admin</code>, then use "Recover password" or request a new invite.</p>';
+          }
+        },6000);
+        return;
+      }
+
+      // No token present — simply redirect to home
+      log('No token present in URL. Redirect to home.');
+      safeRedirect('/');
+    }
+
+    // Try init immediately, or wait a little
+    if(window.netlifyIdentity) initIdentity(); else setTimeout(initIdentity, 500);
   </script>
 </body>
 </html>
