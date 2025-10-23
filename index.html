@@ -286,23 +286,43 @@
       });
     </script>
 
-    <!-- Netlify Identity -->
+    <!-- ==== NETLIFY IDENTITY ==== -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
-      if(window.netlifyIdentity){
-        window.netlifyIdentity.on('init', user=>{
-          const isAdminPage = window.location.pathname.includes('/admin');
-          if(!user && isAdminPage){ window.netlifyIdentity.open(); }
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', user => {
+          // Accept invitation if token exists
+          const params = new URLSearchParams(window.location.search);
+          const token = params.get('invitation');
+          if (token) {
+            window.netlifyIdentity.acceptInvite(token)
+              .then(() => {
+                window.netlifyIdentity.close();
+                // Redirect only if not already on /admin
+                if (window.location.pathname !== '/admin') {
+                  document.location.href = '/admin';
+                }
+              })
+              .catch(err => console.error('Invite error:', err));
+          } else if (!user) {
+            window.netlifyIdentity.open();
+          }
         });
 
-        window.netlifyIdentity.on('login', user=>{
+        window.netlifyIdentity.on('login', user => {
           window.netlifyIdentity.close();
-          const isAdminPage = window.location.pathname.includes('/admin');
-          if(isAdminPage){ document.location.href='/admin'; } else { document.location.href='/'; }
+          if (window.location.pathname !== '/admin') {
+            document.location.href = '/admin';
+          }
         });
 
-        window.netlifyIdentity.on('logout', ()=>{ document.location.href='/'; });
+        window.netlifyIdentity.on('logout', () => {
+          if (window.location.pathname !== '/') {
+            document.location.href = '/';
+          }
+        });
       }
+    
     </script>
   </body>
 </html>
