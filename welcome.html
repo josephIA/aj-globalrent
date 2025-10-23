@@ -6,103 +6,134 @@
   <title>Welcome - AJ GlobalRent</title>
   <link rel="icon" href="/static/assets/favicon.png">
   <style>
+    :root {
+      --bg: #0B0B0D;
+      --panel: #111827;
+      --gold: #D4AF37;
+      --blue: #1E40AF;
+      --muted: #9CA3AF;
+      --text: #F8FAFC;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Inter, system-ui, Roboto, Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background: #0B0B0D;
-      color: #F8FAFC;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: Inter, system-ui, Roboto, Arial;
+      background: var(--bg);
+      color: var(--text);
     }
-    .container {
-      text-align: center;
-      max-width: 600px;
-      padding: 20px;
-      background: #111827;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.7);
-    }
-    h1 {
-      color: #D4AF37;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #9CA3AF;
-      margin-bottom: 20px;
-    }
-    .btn {
-      background: linear-gradient(90deg, #1E40AF, #2563EB);
-      color: #fff;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1100px; margin: 28px auto; padding: 0 18px; }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .logo { width: 56px; height: 56px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), var(--blue)); display:flex;align-items:center;justify-content:center;color:#071022;font-weight:800; }
+    .tag { font-size: 13px; color: var(--muted); }
+    nav a { margin-left: 12px; color: var(--muted); font-weight: 700; cursor:pointer; }
+
+    .hero { background: linear-gradient(180deg, rgba(13,15,17,0.5), transparent); padding: 20px; border-radius: 12px; margin-top: 14px; display:flex; gap:18px; }
+    .hero-left { flex: 1; }
+    h1 { margin: 0 0 6px; font-size:26px; }
+    .lead { margin: 0; color: var(--muted); }
+    .btn { background: linear-gradient(90deg, var(--blue), #2563EB); padding:9px 14px; border-radius:8px; color:#fff; font-weight:700; border:none; cursor:pointer; }
+    .preloader { position: fixed; inset:0; display:flex;align-items:center;justify-content:center; background: var(--bg); z-index:9999; }
+    .spinner { width:64px; height:64px; border-radius:50%; border:6px solid rgba(212,175,55,0.12); border-top-color: var(--gold); animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:10px; padding:10px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 8px 30px rgba(2,6,23,0.7); cursor:pointer; }
+    .card img { width:100%; height:150px; object-fit:cover; border-radius:8px; }
+    .meta { color: var(--muted); font-size:13px; }
+    .badge { background: rgba(212,175,55,0.12); color:var(--gold); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+    @media(max-width:900px) { .grid { grid-template-columns:repeat(2,1fr); } }
   </style>
 </head>
+
 <body>
+  <div id="pre" class="preloader">
+    <div class="spinner"></div>
+  </div>
 
-<div class="container" id="welcomeContent" style="display:none">
-  <h1>Welcome to AJ GlobalRent</h1>
-  <p>Explore listings, services, and more. Your premium rental experience starts here.</p>
-  <button class="btn" onclick="openLogin()">Login</button>
-</div>
+  <div class="container" id="welcomePage" style="display:none">
+    <header>
+      <div class="brand">
+        <div class="logo">AJ</div>
+        <div>
+          <div style="font-weight:800">AJ GlobalRent & Services</div>
+          <div class="tag">Luxury. Trust. Global Convenience.</div>
+        </div>
+      </div>
+      <nav>
+        <a onclick="openLogin()">Sign In / Sign Up</a>
+        <a href="/">Home</a>
+        <a href="/admin">Admin</a>
+      </nav>
+    </header>
 
-<div id="loading" class="container">
-  <h2>Processing your invitation...</h2>
-  <p>Please wait while we verify your account.</p>
-</div>
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Welcome to AJ GlobalRent</h1>
+        <p class="lead">Search properties and services across the USA, Germany, Spain, UK & Nigeria. Your premium rental experience starts here.</p>
+        <button class="btn" onclick="openLogin()">Sign In / Sign Up</button>
+      </div>
+    </section>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  function openLogin() {
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.open();
+    <section id="featuredSection" style="margin-top:20px">
+      <h2>Featured Listings</h2>
+      <div id="featuredGrid" class="grid"></div>
+    </section>
+  </div>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    const SAMPLE = [
+      { id:1, slug:"modern-loft-berlin", title:"Modern Loft in Berlin", category:"rent", country:"DE", price:1200, currency:"EUR", featured:true, images:["/static/assets/sample-house.jpg"], description:"Spacious modern loft in the heart of Berlin. Furnished, 2 beds, fast internet." },
+      { id:2, slug:"family-home-london", title:"Family Home — London", category:"sale", country:"UK", price:450000, currency:"GBP", featured:true, images:["/static/assets/sample-sale.jpg"], description:"Beautiful 3-bedroom family home near parks and schools." },
+      { id:3, slug:"event-chairs-set", title:"Event Chairs & Tables (Pack of 50)", category:"service", country:"US", price:500, currency:"USD", featured:false, images:["/static/assets/sample-service.jpg"], description:"Complete chair and table set for events, delivery & setup available." }
+    ];
+
+    function el(q){ return document.querySelector(q); }
+    function card(l){
+      const d=document.createElement('div'); d.className='card';
+      const img=document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
+      const h=document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
+      const m=document.createElement('div'); m.className='meta'; m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.country}</span>`; d.appendChild(m);
+      const p=document.createElement('div'); p.style.marginTop='10px'; p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`; d.appendChild(p);
+      return d;
     }
-  }
+    function show(list, sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i))); }
 
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init', user => {
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get('invitation');
+    function openLogin() { if(window.netlifyIdentity) window.netlifyIdentity.open(); }
 
-      if (token) {
-        // Accept invitation and redirect to admin
-        window.netlifyIdentity.acceptInvite(token)
-          .then(() => {
-            window.netlifyIdentity.close();
-            window.location.href = '/admin';
-          })
-          .catch(err => {
-            console.error('Invitation error:', err);
-            alert('Failed to accept invitation. Please try again.');
-          });
-      } else {
-        // Either logged-in user or guest → show welcome content
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('welcomeContent').style.display = 'block';
-      }
-    });
+    if(window.netlifyIdentity){
+      window.netlifyIdentity.on('init', user=>{
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('invitation');
 
-    // Optional: handle login redirects
-    window.netlifyIdentity.on('login', () => {
-      window.netlifyIdentity.close();
-      document.getElementById('welcomeContent').style.display = 'block';
-    });
+        if(token){
+          window.netlifyIdentity.acceptInvite(token)
+            .then(()=>{ window.netlifyIdentity.close(); window.location.href='/admin'; })
+            .catch(err=>{ console.error('Invitation error:', err); alert('Failed to accept invitation.'); });
+        } else {
+          document.getElementById('pre').style.display='none';
+          document.getElementById('welcomePage').style.display='block';
+          show(SAMPLE.filter(s=>s.featured), '#featuredGrid');
+        }
+      });
 
-    window.netlifyIdentity.on('logout', () => {
-      document.getElementById('welcomeContent').style.display = 'block';
-    });
-  } else {
-    // Netlify Identity not available → show welcome content anyway
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('welcomeContent').style.display = 'block';
-  }
-</script>
-
+      window.netlifyIdentity.on('login', ()=>{
+        window.netlifyIdentity.close();
+        document.getElementById('pre').style.display='none';
+        document.getElementById('welcomePage').style.display='block';
+        show(SAMPLE.filter(s=>s.featured), '#featuredGrid');
+      });
+    } else {
+      document.getElementById('pre').style.display='none';
+      document.getElementById('welcomePage').style.display='block';
+      show(SAMPLE.filter(s=>s.featured), '#featuredGrid');
+    }
+  </script>
 </body>
 </html>
