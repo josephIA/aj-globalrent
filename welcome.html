@@ -1,109 +1,64 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>AJ GlobalRent — Signing you in…</title>
+  <meta charset="utf-8">
+  <title>Welcome - AJ GlobalRent</title>
   <style>
-    body{background:#070708;
-         color:#F8FAFC;
-         font-family:Inter,Arial;
-         display:flex;
-         align-items:center;
-         justify-content:center;
-         height:100vh;margin:0}
-    
-    .box{max-width:720px;
-         padding:28px;
-         border-radius:12px;
-         background:#0b0b0d;
-         border:1px solid rgba(255,255,255,0.03);text-align:center}
-    
-    .spinner{width:56px;
-             height:56px;
-             border-radius:50%;
-             border:6px solid rgba(212,175,55,0.12);border-top-color:#D4AF37;
-             margin:18px auto;animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .muted{color:#9CA3AF;
-           font-size:14px}
-    pre{color:#f8f8f2;
-        text-align:left;
-        max-height:200px;
-        overflow:auto;
-        background:#050507;
-        padding:10px;
-        border-radius:6px;
-        border:1px solid rgba(255,255,255,0.02)}
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Inter, sans-serif;
+      background: #0B0B0D;
+      color: #F8FAFC;
+      text-align: center;
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 6px solid rgba(212, 175, 55, 0.2);
+      border-top-color: #D4AF37;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-  <div class="box">
+  <div>
+    <h2>Processing your invitation...</h2>
     <div class="spinner"></div>
-    <h2>Processing your invitation…</h2>
-    <p class="muted">If this takes longer than a few seconds, error details will appear below.</p>
-    <div id="info" style="margin-top:12px"></div>
-    <pre id="log" style="display:none"></pre>
+    <p>Please wait while we verify your account.</p>
   </div>
 
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    const logEl = document.getElementById('log');
-    function log(...args){ logEl.style.display='block'; 
-      logEl.textContent += args.map(a=>typeof a==='object'?JSON.stringify(a,null,2):String(a)).join(' ') + '\\n'; 
-      console.log(...args); }
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('invitation');
 
-    function safeRedirect(url){
-      setTimeout(()=>{ window.location.href = url; }, 800);
+        if (token) {
+          // Accept the invitation token
+          window.netlifyIdentity.acceptInvite(token)
+            .then(() => {
+              // Redirect to admin dashboard after acceptance
+              document.location.href = '/admin';
+            })
+            .catch(err => {
+              console.error('Invitation error:', err);
+              alert('Failed to accept invitation. Please try again or contact support.');
+            });
+        } else if (!user) {
+          // No token & not logged in → show login modal
+          window.netlifyIdentity.open();
+        }
+      });
     }
-
-    // Wait for Identity widget to be available
-    function initIdentity(){
-      if(!window.netlifyIdentity){
-        log('Netlify Identity widget not loaded.');
-        // retry a couple times
-        setTimeout(()=>{ if(!window.netlifyIdentity) log('widget still not loaded — check console/network'); }, 1000);
-        return;
-      }
-
-      log('Netlify Identity widget loaded.');
-      // Initialize (safe to call)
-      try { netlifyIdentity.init(); } catch(e){ log('init error', e); }
-
-      // Show current hash for debugging
-      const h = location.hash || '';
-      log('location.hash:', h);
-
-      // If token present in hash, try to handle it by letting widget process and then redirect
-      if(h.includes('invite_token') || h.includes('confirmation_token') || h.includes('recovery_token')){
-        log('Detected token in URL. Waiting for widget to process token...');
-        // The widget automatically handles token on init; listen for login
-        netlifyIdentity.on('login', user=>{
-          log('Login event fired. User:', user && user.email);
-          safeRedirect('/');
-        });
-        // Also listen for error events (if any)
-        netlifyIdentity.on('error', err=>{
-          log('Identity error event:', err);
-          document.getElementById('info').innerHTML = '<p class="muted">There was an error processing the invite — try again or contact support.</p>';
-        });
-        // If token processing doesn't trigger login within X seconds, show diagnostic info
-        setTimeout(()=>{
-          log('Timeout waiting for login. Current user:', netlifyIdentity.currentUser());
-          if(!netlifyIdentity.currentUser()){
-            document.getElementById('info').innerHTML = '<p class="muted">Still not signed in. Please close this tab and open the admin login at <code>/admin</code>, then use "Recover password" or request a new invite.</p>';
-          }
-        },6000);
-        return;
-      }
-
-      // No token present — simply redirect to home
-      log('No token present in URL. Redirect to home.');
-      safeRedirect('/welcome');
-    }
-
-    // Try init immediately, or wait a little
-    if(window.netlifyIdentity) initIdentity(); else setTimeout(initIdentity, 500);
   </script>
 </body>
 </html>
