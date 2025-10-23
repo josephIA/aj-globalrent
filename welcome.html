@@ -1,0 +1,30 @@
+here<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting...</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <p>Processing your login... Please wait.</p>
+
+  <script>
+    // Ensure Netlify Identity is ready
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        if (!user) {
+          // If user not logged in yet, try to finish token login
+          window.netlifyIdentity.on('login', () => {
+            window.location.href = '/';
+          });
+        } else {
+          window.location.href = '/';
+        }
+      });
+    } else {
+      console.error('Netlify Identity script not loaded properly.');
+    }
+  </script>
+</body>
+</html>
