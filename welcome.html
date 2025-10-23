@@ -2,64 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Welcome - AJ GlobalRent</title>
+  <link rel="icon" href="/static/assets/favicon.png">
   <style>
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: Inter, sans-serif;
+      font-family: Inter, system-ui, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       background: #0B0B0D;
       color: #F8FAFC;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
       text-align: center;
+      max-width: 600px;
+      padding: 20px;
+      background: #111827;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.7);
     }
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 6px solid rgba(212, 175, 55, 0.2);
-      border-top-color: #D4AF37;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
+    h1 {
+      color: #D4AF37;
+      margin-bottom: 10px;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    p {
+      color: #9CA3AF;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: linear-gradient(90deg, #1E40AF, #2563EB);
+      color: #fff;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div>
-    <h2>Processing your invitation...</h2>
-    <div class="spinner"></div>
-    <p>Please wait while we verify your account.</p>
-  </div>
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
+<div class="container" id="welcomeContent" style="display:none">
+  <h1>Welcome to AJ GlobalRent</h1>
+  <p>Explore listings, services, and more. Your premium rental experience starts here.</p>
+  <button class="btn" onclick="openLogin()">Login</button>
+</div>
+
+<div id="loading" class="container">
+  <h2>Processing your invitation...</h2>
+  <p>Please wait while we verify your account.</p>
+</div>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  function openLogin() {
     if (window.netlifyIdentity) {
-  window.netlifyIdentity.on('init', user => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('invitation');
-
-    if (token) {
-      window.netlifyIdentity.acceptInvite(token)
-        .then(() => {
-          window.netlifyIdentity.close();
-          // redirect to admin after invite accepted
-          window.location.href = '/admin';
-        })
-        .catch(err => {
-          console.error('Invitation error:', err);
-          alert('Failed to accept invitation. Please try again.');
-        });
-    } else {
-      // no token → just show welcome message, don't redirect
-      console.log('No invitation token found');
+      window.netlifyIdentity.open();
     }
-  });
-}
+  }
 
-  </script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('invitation');
+
+      if (token) {
+        // Accept invitation and redirect to admin
+        window.netlifyIdentity.acceptInvite(token)
+          .then(() => {
+            window.netlifyIdentity.close();
+            window.location.href = '/admin';
+          })
+          .catch(err => {
+            console.error('Invitation error:', err);
+            alert('Failed to accept invitation. Please try again.');
+          });
+      } else {
+        // Either logged-in user or guest → show welcome content
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('welcomeContent').style.display = 'block';
+      }
+    });
+
+    // Optional: handle login redirects
+    window.netlifyIdentity.on('login', () => {
+      window.netlifyIdentity.close();
+      document.getElementById('welcomeContent').style.display = 'block';
+    });
+
+    window.netlifyIdentity.on('logout', () => {
+      document.getElementById('welcomeContent').style.display = 'block';
+    });
+  } else {
+    // Netlify Identity not available → show welcome content anyway
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('welcomeContent').style.display = 'block';
+  }
+</script>
+
 </body>
 </html>
