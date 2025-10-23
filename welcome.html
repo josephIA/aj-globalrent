@@ -38,27 +38,28 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        const params = new URLSearchParams(window.location.search);
-        const token = params.get('invitation');
+  window.netlifyIdentity.on('init', user => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('invitation');
 
-        if (token) {
-          // Accept the invitation token
-          window.netlifyIdentity.acceptInvite(token)
-            .then(() => {
-              // Redirect to admin dashboard after acceptance
-              document.location.href = '/admin';
-            })
-            .catch(err => {
-              console.error('Invitation error:', err);
-              alert('Failed to accept invitation. Please try again or contact support.');
-            });
-        } else if (!user) {
-          // No token & not logged in → show login modal
-          window.netlifyIdentity.open();
-        }
-      });
+    if (token) {
+      window.netlifyIdentity.acceptInvite(token)
+        .then(() => {
+          window.netlifyIdentity.close();
+          // redirect to admin after invite accepted
+          window.location.href = '/admin';
+        })
+        .catch(err => {
+          console.error('Invitation error:', err);
+          alert('Failed to accept invitation. Please try again.');
+        });
+    } else {
+      // no token → just show welcome message, don't redirect
+      console.log('No invitation token found');
     }
+  });
+}
+
   </script>
 </body>
 </html>
