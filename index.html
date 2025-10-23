@@ -562,33 +562,20 @@
     });
 
     // On login
-    window.netlifyIdentity.on('login', user => {
-      window.netlifyIdentity.close();
-      const isAdminPage = window.location.pathname.includes('/admin');
-      if (isAdminPage) {
-        document.location.href = '/admin';
-      } else {
-        document.location.href = '/';
-      }
-    });
-
-    // On logout
-    window.netlifyIdentity.on('logout', () => {
-      document.location.href = '/';
-    });
+window.netlifyIdentity.on('login', user => {
+  window.netlifyIdentity.close();
+  const isAdminPage = window.location.pathname.includes('/admin');
+  if (isAdminPage) {
+    document.location.href = '/admin';
+  } else {
+    document.location.href = '/welcome'; // redirect to welcome page for invitations
   }
+});
 
+window.netlifyIdentity.on('logout', () => {
+  document.location.href = '/'; // public homepage after logout
+});
 
-
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/"; // or your dashboard page
-            });
-          }
-        });
-      }
     </script>
   </body>
 </html>
