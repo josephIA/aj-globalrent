@@ -1,0 +1,23 @@
+backend:
+  name: github
+  repo: josephIA/aj-globalrent
+  branch: main
+media_folder: "static/assets"
+public_folder: "/static/assets"
+collections:
+  - name: "listings"
+    label: "Listings"
+    folder: "content/listings"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: "title", label: "Title" }
+      - { name: "slug", label: "Slug" }
+      - { name: "category", label: "Category", widget: "select", options: ["rent","sale","service"] }
+      - { name: "country", label: "Country", widget: "select", options: ["US","DE","ES","UK","NG"] }
+      - { name: "price", label: "Price", widget: "number" }
+      - { name: "currency", label: "Currency", widget: "string" }
+      - { name: "featured", label: "Featured", widget: "boolean" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "images", label: "Images", widget: "list", field: { name: "image", widget: "image" } }
+      - { name: "description", label: "Description", widget: "markdown" }
