@@ -1,36 +1,28 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>User Dashboard - AJ GlobalRent</title>
-  <link rel="icon" href="/static/assets/favicon.png">
-  <style>
-    :root {
-      --bg:#ffffff;
-      --text:#000000;
-      --btn-bg:#000000;
-      --btn-text:#ffffff;
-      --muted:#555555;
-    }
-    *{box-sizing:border-box;}
-    body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);}
-    header{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid #ccc;}
-    .logo{font-weight:800;font-size:24px;cursor:default;}
-    nav button{padding:8px 16px;border:none;border-radius:6px;background:var(--btn-bg);color:var(--btn-text);cursor:pointer;}
-    .container{max-width:1200px;margin:0 auto;padding:16px;}
-    h1,h2{margin-bottom:16px;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
-    .card{border:1px solid #ccc;border-radius:10px;padding:12px;}
-    .card img{width:100%;border-radius:8px;height:160px;object-fit:cover;}
-    .badge{font-size:12px;font-weight:700;padding:2px 6px;border:1px solid var(--text);border-radius:999px;}
-    button.details{margin-top:8px;padding:6px 12px;border:none;border-radius:6px;background:var(--btn-bg);color:var(--btn-text);cursor:pointer;}
-    @media(max-width:768px){ header{flex-direction:column;gap:8px;} }
-    /* Modal */
-    .modal{position:fixed;inset:0;background: rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:9999;}
-    .modal-content{background:#fff;color:#000;padding:24px;border-radius:12px;max-width:600px;width:90%;position:relative;}
-    .close{position:absolute;top:8px;right:12px;font-size:20px;cursor:pointer;}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>User Dashboard - AJ GlobalRent</title>
+<link rel="icon" href="/static/assets/favicon.png">
+<style>
+:root{--bg:#fff;--text:#000;--btn-bg:#000;--btn-text:#fff;--muted:#555;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid #ccc;flex-wrap:wrap;}
+.logo{font-weight:800;font-size:24px;cursor:default;}
+nav button{padding:8px 16px;border:none;border-radius:6px;background:var(--btn-bg);color:var(--btn-text);cursor:pointer;}
+.container{max-width:1400px;margin:0 auto;padding:16px;}
+h1,h2{margin-bottom:16px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.card{border:1px solid #ccc;border-radius:10px;padding:12px;position:relative;}
+.card img{width:100%;border-radius:8px;height:160px;object-fit:cover;}
+button.details{margin-top:8px;padding:6px 12px;border:none;border-radius:6px;background:var(--btn-bg);color:var(--btn-text);cursor:pointer;}
+@media(max-width:768px){ header{flex-direction:column;align-items:flex-start;gap:8px;} }
+.modal{position:fixed;inset:0;background: rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:9999;}
+.modal-content{background:#fff;color:#000;padding:24px;border-radius:12px;max-width:600px;width:90%;position:relative;}
+.close{position:absolute;top:8px;right:12px;font-size:20px;cursor:pointer;}
+</style>
 </head>
 <body>
 <header>
@@ -41,12 +33,10 @@
 </header>
 
 <div class="container">
-  <h1>Welcome, <span id="userEmail"></span></h1>
-  <h2>Your Saved Listings</h2>
-  <div id="savedGrid" class="grid"></div>
+  <h1>Your Favorites</h1>
+  <div id="favoritesGrid" class="grid"></div>
 </div>
 
-<!-- Detail Modal -->
 <div id="modal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
@@ -55,41 +45,33 @@
 </div>
 
 <script>
-let user = JSON.parse(localStorage.getItem("currentUser")) || null;
-const favorites = JSON.parse(localStorage.getItem("favorites")) || {};
-const SAMPLE = JSON.parse(localStorage.getItem("sampleListings")) || [];
-
-if(!user){
-  alert("You must be logged in to access dashboard");
-  window.location.href = "index.html";
+let currentUser=JSON.parse(localStorage.getItem("currentUser"));
+if(!currentUser){ alert("Please sign in first"); window.location.href="index.html"; }
+const logoutBtn=document.getElementById("logoutBtn");
+logoutBtn.onclick=()=>{
+  localStorage.removeItem("currentUser"); window.location.href="index.html";
 }
+const SAMPLE=JSON.parse(localStorage.getItem("sampleListings"));
+const favorites=JSON.parse(localStorage.getItem("favorites")) || {};
+const favList=(favorites[currentUser.email]||[]);
+const container=document.getElementById("favoritesGrid");
 
-document.getElementById("userEmail").textContent = user.email;
+favList.forEach(id=>{
+  const item=SAMPLE.find(x=>x.id===id);
+  if(!item) return;
+  const div=document.createElement("div");
+  div.className="card";
+  div.innerHTML=`<img src="${item.images[0]}">
+    <h3>${item.title}</h3>
+    <p>${item.state} · ${item.category.toUpperCase()}</p>
+    <p><strong>${item.currency} ${item.price.toLocaleString()}</strong></p>
+    <button class="details" onclick="openModal(${item.id})">View Details</button>`;
+  container.appendChild(div);
+});
 
-// Show saved listings
-function showSaved(){
-  const savedIds = favorites[user.email] || [];
-  const savedItems = SAMPLE.filter(x=>savedIds.includes(x.id));
-  const container = document.getElementById("savedGrid");
-  container.innerHTML="";
-  if(savedItems.length===0){
-    container.innerHTML="<p>You have no saved listings yet.</p>";
-    return;
-  }
-  savedItems.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="card";
-    div.innerHTML=`<img src="${item.images[0]}"><h3>${item.title}</h3>
-      <p>${item.state} · ${item.category.toUpperCase()}</p>
-      <p><strong>${item.currency} ${item.price.toLocaleString()}</strong></p>
-      <button class="details" onclick="openModal(${item.id})">View Details</button>`;
-    container.appendChild(div);
-  });
-}
-
-// Modal functions
+// Modal
 function openModal(id){
-  const item = SAMPLE.find(x=>x.id===id);
+  const item=SAMPLE.find(x=>x.id===id);
   const modal=document.getElementById("modal");
   const body=document.getElementById("modal-body");
   body.innerHTML=`<h2>${item.title}</h2>
@@ -99,18 +81,6 @@ function openModal(id){
   modal.style.display="flex";
 }
 function closeModal(){ document.getElementById("modal").style.display="none"; }
-
-// Logout
-document.getElementById("logoutBtn").onclick=()=>{
-  localStorage.removeItem("currentUser");
-  alert("Signed out");
-  window.location.href="index.html";
-}
-
-// Init
-window.onload=()=>{
-  showSaved();
-};
 </script>
 </body>
 </html>
