@@ -1,134 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJ GlobalRent & Services</title>
-  <link rel="icon" href="/static/assets/favicon.png">
-  <style>
-    :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --accent: #000000;
-      --button-bg: #000000;
-      --button-text: #ffffff;
-      --muted: #555555;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJ GlobalRent & Services</title>
+<link rel="icon" href="/static/assets/favicon.png">
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #000000;
+    --btn-bg: #000000;
+    --btn-text: #ffffff;
+    --muted: #555555;
+    --highlight: #000000;
+  }
 
-    * { box-sizing: border-box; margin:0; padding:0; }
+  * { box-sizing: border-box; margin:0; padding:0; font-family: Arial, sans-serif; }
 
-    body {
-      font-family: Inter, system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+  body { background: var(--bg); color: var(--text); }
 
-    a { text-decoration: none; color: inherit; }
+  a { text-decoration:none; color: inherit; }
 
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 24px; border-bottom: 1px solid #ddd;
-      position: sticky; top: 0; background: var(--bg); z-index: 1000;
-    }
+  .container { max-width: 1300px; margin: auto; padding: 20px; }
 
-    .logo { font-weight: 800; font-size: 24px; cursor: pointer; }
+  header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #ddd; flex-wrap:wrap; }
 
-    nav {
-      display: flex; gap: 16px;
-    }
+  .logo { font-weight:bold; font-size:24px; cursor:pointer; }
 
-    nav a { font-weight: 600; color: var(--muted); }
+  nav { display:flex; gap:15px; flex-wrap:wrap; }
 
-    nav a:hover { color: var(--text); }
+  nav a { padding:6px 12px; border-radius:5px; transition:0.2s; }
+  nav a:hover { background: var(--btn-bg); color: var(--btn-text); }
 
-    .menu-toggle { display: none; cursor: pointer; }
+  .btn { padding:6px 14px; border:none; border-radius:5px; cursor:pointer; background: var(--btn-bg); color: var(--btn-text); transition:0.2s; }
+  .btn:hover { opacity:0.8; }
 
-    .container { max-width: 1300px; margin: 20px auto; padding: 0 16px; }
+  .hero { display:flex; justify-content:space-between; margin:20px 0; flex-wrap:wrap; gap:20px; }
+  .hero-left { flex:1; }
+  .hero-right { width:300px; }
 
-    .hero {
-      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px;
-      margin-bottom: 24px;
-    }
+  .filters { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  .filters input, .filters select { padding:6px 8px; border:1px solid #ccc; border-radius:5px; }
 
-    .hero-left { flex:1; min-width: 300px; }
-    .hero h1 { font-size: 28px; margin-bottom: 8px; }
-    .hero p { color: var(--muted); margin-bottom: 12px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:15px; margin-top:20px; }
 
-    .btn {
-      padding: 8px 14px;
-      background: var(--button-bg);
-      color: var(--button-text);
-      border-radius: 6px; font-weight: 600; border:none;
-      cursor:pointer;
-    }
+  .card { border:1px solid #ddd; border-radius:8px; overflow:hidden; position:relative; cursor:pointer; transition:0.2s; }
+  .card:hover { box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+  .card img { width:100%; height:180px; object-fit:cover; }
+  .card h3 { padding:10px; margin:0; font-size:18px; }
+  .card .meta { padding:0 10px 10px; color: var(--muted); display:flex; justify-content:space-between; align-items:center; }
+  .card .price { padding:0 10px 10px; font-weight:bold; color:var(--highlight); }
+  .favorite { position:absolute; top:10px; right:10px; font-size:24px; cursor:pointer; }
 
-    .filters { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  footer { text-align:center; padding:20px 0; margin-top:30px; color: var(--muted); border-top:1px solid #ddd; }
 
-    input, select { padding:8px; border:1px solid #ddd; border-radius:6px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-      gap: 16px; margin-top: 16px;
-    }
-
-    .card {
-      border:1px solid #ddd; border-radius:10px; overflow:hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor:pointer; position: relative;
-    }
-
-    .card img { width:100%; height:160px; object-fit:cover; }
-
-    .card-content { padding:12px; }
-    .card-content h3 { margin-bottom:4px; font-size:18px; }
-    .card-content .meta { font-size:13px; color:var(--muted); margin-bottom:8px; }
-    .card-content .price { font-weight:700; color: var(--text); margin-bottom:8px; }
-
-    .favorite {
-      position:absolute; top:8px; right:8px;
-      font-size:20px; cursor:pointer;
-      color: var(--muted);
-    }
-
-    .favorite.active { color: red; }
-
-    footer { text-align:center; padding:16px; color: var(--muted); border-top:1px solid #ddd; margin-top:24px; }
-
-    @media(max-width:768px){
-      nav { display:none; flex-direction: column; gap: 12px; background: var(--bg); position: absolute; top: 60px; right:16px; padding:12px; border:1px solid #ddd; border-radius:6px; }
-      nav.active { display:flex; }
-      .menu-toggle { display:block; }
-    }
-  </style>
+  /* Responsive nav for mobile */
+  @media(max-width:768px){
+    header { flex-direction:column; align-items:flex-start; }
+    nav { width:100%; justify-content:flex-start; gap:10px; }
+    .hero { flex-direction:column; }
+  }
+</style>
 </head>
 <body>
+
+<div class="container">
+
   <header>
-    <div class="logo" id="logo">AJ GlobalRent</div>
-    <div class="menu-toggle" id="menuToggle">☰</div>
-    <nav id="navMenu">
+    <div class="logo">AJ GlobalRent</div>
+    <nav>
       <a href="#/">Home</a>
-      <a href="#/rent">Rent</a>
-      <a href="#/sale">Sale</a>
+      <a href="#/rent">Houses (Rent)</a>
+      <a href="#/sale">Houses (Sale)</a>
       <a href="#/services">Services</a>
       <a href="#/about">About</a>
-      <a href="#" id="favoritesLink">Favorites</a>
       <span id="authLinks">
-        <a href="#" id="signInBtn">Sign In</a> | 
-        <a href="#" id="signUpBtn">Sign Up</a>
+        <button class="btn" onclick="openAuth('login')">Sign In</button>
+        <button class="btn" onclick="openAuth('signup')">Sign Up</button>
       </span>
-      <span id="userGreeting" style="display:none;">Welcome, <span id="userEmail"></span> | <a href="#" id="logoutBtn">Sign Out</a></span>
+      <span id="userLinks" style="display:none;">
+        <span id="userEmail"></span>
+        <button class="btn" onclick="logoutUser()">Sign Out</button>
+      </span>
     </nav>
   </header>
 
-  <div class="container">
-    <div class="hero">
-      <div class="hero-left">
-        <h1>Find Your Perfect Home & Service</h1>
-        <p>Search properties and services across USA.</p>
-        <div class="filters">
-          <input type="text" id="searchQuery" placeholder="Search city or listing">
-          <select id="stateSelect">
-            <option value="all">All States</option>
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Premium global rentals — homes & services, simplified</h1>
+      <p style="color:var(--muted);">Search properties and services across the USA.</p>
+
+      <div class="filters">
+        <input id="q" type="text" placeholder="Search listing">
+        <select id="state">
+          <option value="all">All States</option>
     <option value="AL">Alabama</option>
     <option value="AK">Alaska</option>
     <option value="AZ">Arizona</option>
@@ -179,178 +144,132 @@
     <option value="WV">West Virginia</option>
     <option value="WI">Wisconsin</option>
     <option value="WY">Wyoming</option>
-          </select>
-          <select id="categorySelect">
-            <option value="all">All</option>
-            <option value="rent">Rent</option>
-            <option value="sale">Sale</option>
-            <option value="service">Service</option>
-          </select>
-          <button class="btn" onclick="applyFilters()">Search</button>
-        </div>
+        </select>
+        <select id="cat">
+          <option value="all">All</option>
+          <option value="rent">Rent</option>
+          <option value="sale">Sale</option>
+          <option value="service">Service</option>
+        </select>
+        <button class="btn" onclick="apply()">Search</button>
       </div>
     </div>
 
-    <section>
-      <h2>Featured Listings</h2>
-      <div class="grid" id="featuredGrid"></div>
-    </section>
-
-    <section style="margin-top:24px;">
-      <h2>All Listings</h2>
-      <div class="grid" id="resultsGrid"></div>
-    </section>
-  </div>
-
-  <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
-
-  <!-- Sign In / Sign Up Modal -->
-  <div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;">
-    <div style="background:#fff;padding:24px;border-radius:10px;max-width:400px;width:100%;position:relative;">
-      <h3 id="authTitle">Sign In</h3>
-      <form id="authForm">
-        <input type="email" id="authEmail" placeholder="Email" required style="width:100%;padding:8px;margin-bottom:8px;">
-        <input type="password" id="authPassword" placeholder="Password" required style="width:100%;padding:8px;margin-bottom:8px;">
-        <button class="btn" type="submit" style="width:100%;">Submit</button>
-      </form>
-      <button id="closeAuth" style="position:absolute;top:8px;right:8px;font-size:18px;">×</button>
+    <div class="hero-right">
+      <div style="border:1px solid #ddd; padding:10px; border-radius:8px;">
+        <strong>Need Help?</strong>
+        <p>Email: <a href="mailto:homeandapartment@gmail.com">homeandapartment@gmail.com</a></p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    // Initialize Netlify Identity
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        updateAuthUI(user);
-      });
+  <section>
+    <h2>Featured Listings</h2>
+    <div id="featuredGrid" class="grid"></div>
+  </section>
 
-      window.netlifyIdentity.on('login', user => {
-        window.netlifyIdentity.close();
-        updateAuthUI(user);
-      });
+  <section>
+    <h2>All Listings</h2>
+    <div id="resultsGrid" class="grid"></div>
+  </section>
 
-      window.netlifyIdentity.on('logout', () => {
-        updateAuthUI(null);
-      });
-    }
+</div>
 
-    const authModal = document.getElementById('authModal');
-    const authForm = document.getElementById('authForm');
-    const authTitle = document.getElementById('authTitle');
+<footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
 
-    document.getElementById('signInBtn').onclick = () => { openAuth('login'); };
-    document.getElementById('signUpBtn').onclick = () => { openAuth('signup'); };
-    document.getElementById('closeAuth').onclick = () => { authModal.style.display = 'none'; };
-    document.getElementById('logoutBtn').onclick = () => { window.netlifyIdentity.logout(); };
+<!-- Netlify Identity Widget -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-    function openAuth(type){
-      authTitle.textContent = type === 'login' ? 'Sign In' : 'Sign Up';
-      authModal.style.display = 'flex';
-      authForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('authEmail').value;
-        const password = document.getElementById('authPassword').value;
-        try {
-          if(type==='login') await window.netlifyIdentity.login(email,password);
-          else await window.netlifyIdentity.signup(email,password);
-          authModal.style.display='none';
-        } catch(err){
-          alert(err.message);
-        }
-      };
-    }
+<script>
+// Sample Listings
+const SAMPLE = [
+  {id:1,slug:"modern-loft-ca",title:"Modern Loft California",category:"rent",state:"CA",price:1200,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
+  {id:2,slug:"family-home-ny",title:"Family Home New York",category:"sale",state:"NY",price:450000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
+  {id:3,slug:"event-chairs-set",title:"Event Chairs & Tables",category:"service",state:"TX",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
+  {id:4,slug:"beach-condo-fl",title:"Beach Condo Florida",category:"rent",state:"FL",price:1500,currency:"USD",featured:true,images:["/static/assets/sample-house2.jpg"]},
+  {id:5,slug:"downtown-apartment-il",title:"Downtown Apartment Illinois",category:"sale",state:"IL",price:300000,currency:"USD",featured:true,images:["/static/assets/sample-sale2.jpg"]},
+  {id:6,slug:"villa-ca",title:"Luxury Villa California",category:"sale",state:"CA",price:750000,currency:"USD",featured:true,images:["/static/assets/sample-villa.jpg"]},
+  {id:7,slug:"studio-ny",title:"Studio Apartment NY",category:"rent",state:"NY",price:1000,currency:"USD",featured:false,images:["/static/assets/sample-house3.jpg"]},
+  {id:8,slug:"event-tables",title:"Event Tables Rental",category:"service",state:"FL",price:300,currency:"USD",featured:false,images:["/static/assets/sample-service2.jpg"]},
+  {id:9,slug:"suburban-home-il",title:"Suburban Home Illinois",category:"sale",state:"IL",price:250000,currency:"USD",featured:false,images:["/static/assets/sample-sale3.jpg"]},
+];
 
-    function updateAuthUI(user){
-      if(user){
-        document.getElementById('authLinks').style.display='none';
-        document.getElementById('userGreeting').style.display='inline';
-        document.getElementById('userEmail').textContent=user.email;
-      } else {
-        document.getElementById('authLinks').style.display='inline';
-        document.getElementById('userGreeting').style.display='none';
-      }
-    }
+let favorites = [];
 
-    // Menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.getElementById('navMenu');
-    menuToggle.onclick = () => navMenu.classList.toggle('active');
+// DOM helpers
+function el(q){ return document.querySelector(q); }
 
-    // Sample listings
-    const SAMPLE = [
-      {id:1,title:"Modern Loft in California",category:"rent",state:"CA",price:2000,currency:"USD",featured:true,images:["/static/assets/sample1.jpg"]},
-      {id:2,title:"Family Home in Texas",category:"sale",state:"TX",price:350000,currency:"USD",featured:true,images:["/static/assets/sample2.jpg"]},
-      {id:3,title:"Event Chairs & Tables",category:"service",state:"NY",price:500,currency:"USD",featured:false,images:["/static/assets/sample3.jpg"]},
-      {id:4,title:"Luxury Apartment in Florida",category:"rent",state:"FL",price:3000,currency:"USD",featured:true,images:["/static/assets/sample4.jpg"]},
-      {id:5,title:"Villa in Illinois",category:"sale",state:"IL",price:600000,currency:"USD",featured:false,images:["/static/assets/sample5.jpg"]},
-      {id:6,title:"Office Cleaning Service",category:"service",state:"PA",price:200,currency:"USD",featured:false,images:["/static/assets/sample6.jpg"]},
-      {id:7,title:"Beach House in Ohio",category:"rent",state:"OH",price:1500,currency:"USD",featured:false,images:["/static/assets/sample7.jpg"]},
-      {id:8,title:"Condo in Georgia",category:"sale",state:"GA",price:250000,currency:"USD",featured:true,images:["/static/assets/sample8.jpg"]},
-      {id:9,title:"Photography Service",category:"service",state:"NC",price:300,currency:"USD",featured:false,images:["/static/assets/sample9.jpg"]}
-    ];
+// Render Cards
+function card(listing){
+  const d=document.createElement('div'); d.className='card';
+  const fav = document.createElement('span'); fav.className='favorite'; fav.innerHTML = '☆';
+  fav.onclick = e => { e.stopPropagation(); toggleFavorite(listing,fav); };
+  d.appendChild(fav);
+  const img=document.createElement('img'); img.src=listing.images[0]; d.appendChild(img);
+  const h=document.createElement('h3'); h.textContent=listing.title; d.appendChild(h);
+  const m=document.createElement('div'); m.className='meta'; m.innerHTML=`<span>${listing.category}</span> <span>${listing.state}</span>`; d.appendChild(m);
+  const p=document.createElement('div'); p.className='price'; p.textContent=`${listing.currency} ${listing.price.toLocaleString()}`; d.appendChild(p);
+  return d;
+}
 
-    const favorites = new Set();
+function show(list,sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i))); }
 
-    function createCard(listing){
-      const div = document.createElement('div');
-      div.className='card';
-      div.innerHTML=`
-        <img src="${listing.images[0]}" />
-        <div class="card-content">
-          <h3>${listing.title}</h3>
-          <div class="meta">${listing.state} · ${listing.category}</div>
-          <div class="price">${listing.currency} ${listing.price.toLocaleString()}</div>
-        </div>
-        <div class="favorite" data-id="${listing.id}">★</div>
-      `;
-      const fav = div.querySelector('.favorite');
-      if(favorites.has(listing.id)) fav.classList.add('active');
-      fav.onclick = (e)=>{
-        e.stopPropagation();
-        if(!window.netlifyIdentity.currentUser()) openAuth('login');
-        else{
-          if(favorites.has(listing.id)){ favorites.delete(listing.id); fav.classList.remove('active'); }
-          else { favorites.add(listing.id); fav.classList.add('active'); }
-        }
-      };
-      return div;
-    }
+function apply(){
+  const q=el('#q').value.toLowerCase();
+  const s=el('#state').value;
+  const c=el('#cat').value;
+  let r=SAMPLE.filter(i=>{
+    if(c!=='all'&&i.category!==c) return false;
+    if(s!=='all'&&i.state!==s) return false;
+    if(q&&!(i.title.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  show(r,'#resultsGrid');
+}
 
-    function showListings(list,container){
-      const grid=document.getElementById(container);
-      grid.innerHTML='';
-      list.forEach(item=>grid.appendChild(createCard(item)));
-    }
+function toggleFavorite(listing,favEl){
+  if(!window.netlifyIdentity.currentUser()){
+    alert('Please sign in to save favorites');
+    openAuth('login');
+    return;
+  }
+  const idx=favorites.findIndex(f=>f.id===listing.id);
+  if(idx===-1){ favorites.push(listing); favEl.innerHTML='★'; }
+  else { favorites.splice(idx,1); favEl.innerHTML='☆'; }
+  console.log('Favorites:',favorites);
+}
 
-    function applyFilters(){
-      const q=document.getElementById('searchQuery').value.toLowerCase();
-      const state=document.getElementById('stateSelect').value;
-      const cat=document.getElementById('categorySelect').value;
+// Netlify Identity
+if(window.netlifyIdentity){
+  window.netlifyIdentity.on('init', user => updateAuthUI(user));
+  window.netlifyIdentity.on('login', user => { window.netlifyIdentity.close(); updateAuthUI(user); });
+  window.netlifyIdentity.on('logout', () => updateAuthUI(null));
+  window.netlifyIdentity.init();
+}
 
-      const results=SAMPLE.filter(s=>{
-        if(state!=='all' && s.state!==state) return false;
-        if(cat!=='all' && s.category!==cat) return false;
-        if(q && !s.title.toLowerCase().includes(q)) return false;
-        return true;
-      });
+function openAuth(type){
+  if(!window.netlifyIdentity) return alert("Netlify Identity not initialized!");
+  window.netlifyIdentity.open(type);
+}
 
-      showListings(results,'resultsGrid');
-    }
+function updateAuthUI(user){
+  if(user){
+    el('#authLinks').style.display='none';
+    el('#userLinks').style.display='inline';
+    el('#userEmail').textContent = user.email;
+  } else {
+    el('#authLinks').style.display='inline';
+    el('#userLinks').style.display='none';
+  }
+}
 
-    function init(){
-      showListings(SAMPLE.filter(s=>s.featured),'featuredGrid');
-      showListings(SAMPLE,'resultsGrid');
+function logoutUser(){ if(window.netlifyIdentity) window.netlifyIdentity.logout(); }
 
-      document.getElementById('logo').onclick = ()=>{ window.location.href="#/"; };
-      document.getElementById('favoritesLink').onclick = (e)=>{
-        e.preventDefault();
-        if(!window.netlifyIdentity.currentUser()) openAuth('login');
-        else window.location.href='favorites.html';
-      };
-    }
-
-    window.addEventListener('load',init);
-  </script>
+// Initial render
+window.addEventListener('load',()=>{
+  show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
+  show(SAMPLE,'#resultsGrid');
+});
+</script>
 </body>
 </html>
