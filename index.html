@@ -1,404 +1,236 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AJ GlobalRent & Services</title>
-  <link rel="icon" href="/static/assets/favicon.png">
-  <style>
-    :root {
-      --bg: #0B0B0D;
-      --panel: #111827;
-      --gold: #D4AF37;
-      --blue: #1E40AF;
-      --muted: #9CA3AF;
-      --text: #F8FAFC;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
-      background: var(--bg);
-      color: var(--text);
-    }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1400px; margin: 28px auto; padding: 0 24px; }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0;
-      flex-wrap: wrap;
-    }
-    .brand { display: flex; gap: 12px; align-items: center; }
-    .logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--gold), var(--blue));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #071022;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    .tag { font-size: 13px; color: var(--muted); }
-    nav {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    nav a { color: var(--muted); font-weight: 700; cursor: pointer; }
-    .menu-btn { display:none; font-size:24px; cursor:pointer; color: var(--text);}
-    .menu-items { display:flex; gap:12px; flex-wrap:wrap; }
-    .hero {
-      background: linear-gradient(180deg, rgba(13, 15, 17, 0.5), transparent);
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 14px;
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-    .hero-left { flex: 1; min-width: 300px; }
-    h1 { margin: 0 0 6px; font-size: 26px; }
-    .lead { margin: 0; color: var(--muted); }
-    .btn {
-      background: linear-gradient(90deg, var(--blue), #2563EB);
-      padding: 9px 14px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 700;
-      border: none;
-      cursor:pointer;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .card {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
-      border-radius: 10px;
-      padding: 10px;
-      border: 1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 8px 30px rgba(2,6,23,0.7);
-      position: relative;
-    }
-    .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
-    .meta { color: var(--muted); font-size: 13px; margin-top: 6px; }
-    .badge {
-      background: rgba(212,175,55,0.12);
-      color: var(--gold);
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-weight:700;
-      font-size:12px;
-    }
-    .filters { display:flex; gap:8px; margin-top:12px; flex-wrap: wrap; }
-    .sidebar { width: 300px; min-width: 250px; }
-    .main { display:flex; gap:16px; margin-top:18px; flex-wrap: wrap; }
-    .muted { color: var(--muted); }
-    footer { margin-top:28px; text-align:center; color: var(--muted); font-size:13px; }
-    .preloader {
-      position: fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: var(--bg);
-      z-index: 9999;
-    }
-    .spinner {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      border: 6px solid rgba(212,175,55,0.12);
-      border-top-color: var(--gold);
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to{ transform: rotate(360deg);} }
-
-    /* Responsive */
-    @media(max-width:900px){
-      .grid { grid-template-columns: repeat(2,1fr); }
-      .main { flex-direction: column; }
-      .menu-btn { display:block; }
-      .menu-items { display:none; flex-direction: column; gap: 8px; margin-top: 8px; }
-      .menu-items.active { display:flex; }
-    }
-  </style>
-</head>
-<body>
-  <div id="pre" class="preloader"><div class="spinner"></div></div>
-  <div class="container" id="app" style="display:none">
-    <header>
-      <div class="brand">
-        <div class="logo" onclick="location.href='/'">AJ</div>
-        <div>
-          <div style="font-weight:800">AJ GlobalRent & Services</div>
-          <div class="tag">Luxury. Trust. Global Convenience.</div>
-        </div>
-      </div>
-      <div class="menu-btn" onclick="document.querySelector('.menu-items').classList.toggle('active')">&#9776;</div>
-      <nav class="menu-items">
-        <a href="#/">Home</a>
-        <a href="#/rent">Houses (Rent)</a>
-        <a href="#/sale">Houses (Sale)</a>
-        <a href="#/services">Services</a>
-        <a href="#/about">About</a>
-        <span id="authLinks">
-          <a onclick="openSignIn()">Sign In</a>
-          <a onclick="openSignUp()">Sign Up</a>
-        </span>
-      </nav>
-    </header>
-
-    <section class="hero">
-      <div class="hero-left">
-        <h1>Premium global rentals — homes & services, simplified</h1>
-        <p class="lead">Search properties and services across the USA, Germany, Spain, UK, France, Italy, Canada, Australia, India.</p>
-        <div class="filters">
-          <input id="q" type="text" placeholder="Search city or listing" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
-          <select id="country" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
-            <option value="all">All countries</option>
-            <option value="US">USA</option>
-            <option value="DE">Germany</option>
-            <option value="ES">Spain</option>
-            <option value="UK">UK</option>
-            <option value="FR">France</option>
-            <option value="IT">Italy</option>
-            <option value="CA">Canada</option>
-            <option value="AU">Australia</option>
-            <option value="IN">India</option>
-          </select>
-          <select id="state" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
-            <option value="all">All States</option>
-          </select>
-          <select id="cat" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
-            <option value="all">All</option>
-            <option value="rent">Rent</option>
-            <option value="sale">Sale</option>
-            <option value="service">Service</option>
-          </select>
-          <button class="btn" onclick="apply()">Search</button>
-        </div>
-        <div style="margin-top:12px">
-          <a class="btn" href="#/rent">Browse Rentals</a>
-        </div>
-      </div>
-      <div style="width:320px">
-        <div style="background:linear-gradient(135deg,rgba(212,175,55,0.06),transparent);padding:14px;border-radius:10px">
-          <div style="font-weight:800;color:var(--gold)">Need Help?</div>
-          <div class="muted" style="margin-top:8px">Email: <a href="mailto:homeandapartment@gmail.com">homeandapartment@gmail.com</a></div>
-          <div style="margin-top:10px"><span class="badge">Verified</span></div>
-        </div>
-      </div>
-    </section>
-
-    <div class="main">
-      <div style="flex:1">
-        <section id="featured">
-          <h2>Featured</h2>
-          <div id="featuredGrid" class="grid"></div>
-        </section>
-
-        <section id="results" style="margin-top:18px">
-          <h2>Results</h2>
-          <div id="resultsGrid" class="grid"></div>
-        </section>
-      </div>
-      <aside class="sidebar">
-        <div class="card">
-          <h3 style="margin:0">Filters</h3>
-          <div style="margin-top:8px" class="muted">Quick filters</div>
-          <div style="margin-top:10px">
-            <label class="muted">Min</label>
-            <input id="min" type="text" placeholder="0" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent">
-          </div>
-          <div style="margin-top:8px">
-            <label class="muted">Max</label>
-            <input id="max" type="text" placeholder="1000000" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent">
-          </div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn" onclick="apply()">Apply</button>
-            <button class="btn" onclick="reset()">Reset</button>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
-  </div>
-
-  <!-- Sign In / Sign Up Modal -->
-  <div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.9);z-index:10000;align-items:center;justify-content:center;">
-    <div style="background:var(--panel);padding:24px;border-radius:12px;max-width:400px;width:100%;color:var(--text);">
-      <h2 id="authTitle">Sign In</h2>
-      <input type="email" id="authEmail" placeholder="Email" style="width:100%;padding:8px;margin-top:10px;border-radius:6px;border:none">
-      <input type="password" id="authPass" placeholder="Password" style="width:100%;padding:8px;margin-top:10px;border-radius:6px;border:none">
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button class="btn" onclick="submitAuth()">Submit</button>
-        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);" onclick="closeAuth()">Cancel</button>
-      </div>
-      <div style="margin-top:8px;font-size:12px;">
-        <span id="toggleAuth" style="color:var(--gold);cursor:pointer;" onclick="toggleAuth()">Don't have an account? Sign Up</span>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const countries = {
-      'US': ['California','New York','Texas'],
-      'DE': ['Berlin','Hamburg','Munich'],
-      'ES': ['Madrid','Barcelona','Valencia'],
-      'UK': ['London','Manchester','Liverpool'],
-      'FR': ['Paris','Lyon','Marseille'],
-      'IT': ['Rome','Milan','Naples'],
-      'CA': ['Toronto','Vancouver','Montreal'],
-      'AU': ['Sydney','Melbourne','Brisbane'],
-      'IN': ['Delhi','Mumbai','Bangalore']
-    };
-
-    const SAMPLE = [
-      {id:1,slug:"modern-loft-berlin",title:"Modern Loft in Berlin",category:"rent",country:"DE",state:"Berlin",price:1200,currency:"EUR",featured:true,images:["/static/assets/sample-house.jpg"]},
-      {id:2,slug:"family-home-london",title:"Family Home — London",category:"sale",country:"UK",state:"London",price:450000,currency:"GBP",featured:true,images:["/static/assets/sample-sale.jpg"]},
-      {id:3,slug:"event-chairs-set",title:"Event Chairs & Tables (Pack of 50)",category:"service",country:"US",state:"California",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
-      {id:4,slug:"villa-marseille",title:"Villa in Marseille",category:"sale",country:"FR",state:"Marseille",price:600000,currency:"EUR",featured:true,images:["/static/assets/sample-sale2.jpg"]},
-      {id:5,slug:"apartment-sydney",title:"Apartment in Sydney",category:"rent",country:"AU",state:"Sydney",price:2200,currency:"AUD",featured:true,images:["/static/assets/sample-house2.jpg"]},
-      {id:6,slug:"office-mumbai",title:"Office Space in Mumbai",category:"service",country:"IN",state:"Mumbai",price:1500,currency:"INR",featured:false,images:["/static/assets/sample-service2.jpg"]},
-      {id:7,slug:"modern-apartment-nyc",title:"Modern Apartment NYC",category:"rent",country:"US",state:"New York",price:3500,currency:"USD",featured:true,images:["/static/assets/sample-house3.jpg"]},
-      {id:8,slug:"loft-rome",title:"Loft in Rome",category:"rent",country:"IT",state:"Rome",price:2500,currency:"EUR",featured:true,images:["/static/assets/sample-house4.jpg"]},
-      {id:9,slug:"villa-toronto",title:"Villa in Toronto",category:"sale",country:"CA",state:"Toronto",price:750000,currency:"CAD",featured:true,images:["/static/assets/sample-sale3.jpg"]},
-      {id:10,slug:"apartment-barcelona",title:"Apartment in Barcelona",category:"rent",country:"ES",state:"Barcelona",price:1800,currency:"EUR",featured:false,images:["/static/assets/sample-house5.jpg"]}
-    ];
-
-    let loggedInUser = null;
-    let savedListings = [];
-
-    function el(q){ return document.querySelector(q); }
-    function show(list, sel){
-      const g=el(sel); g.innerHTML='';
-      list.forEach(i=>g.appendChild(card(i)));
-    }
-    function card(l){
-      const d=document.createElement('div'); d.className='card';
-      const img=document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
-
-      const h=document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
-      const m=document.createElement('div'); m.className='meta';
-      m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.country}</span>`;
-      d.appendChild(m);
-      const p=document.createElement('div'); p.style.marginTop='10px';
-      p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`;
-      d.appendChild(p);
-
-      // Favorite star
-      const star = document.createElement('span');
-      star.style.position='absolute'; star.style.top='12px'; star.style.right='12px';
-      star.style.fontSize='24px'; star.style.cursor='pointer';
-      updateStar(star, l.id);
-      star.onclick = (e)=>{
-        e.stopPropagation();
-        if(!loggedInUser){ openSignIn(); return; }
-        if(savedListings.includes(l.id)){
-          savedListings = savedListings.filter(x=>x!==l.id);
-        }else{
-          savedListings.push(l.id);
-        }
-        updateStar(star,l.id);
-      };
-      d.appendChild(star);
-
-      d.onclick=()=>{ location.hash='#/item/'+l.slug; };
-      return d;
-    }
-    function updateStar(star,id){
-      star.textContent = savedListings.includes(id)? '★':'☆';
-      star.style.color = savedListings.includes(id)? 'var(--gold)':'var(--muted)';
-    }
-
-    function apply(){
-      const q = el('#q').value.toLowerCase();
-      const c = el('#country').value;
-      const s = el('#state').value;
-      const cat = el('#cat').value;
-      const min = parseFloat(el('#min').value || 0);
-      const max = parseFloat(el('#max').value || Infinity);
-      let r = SAMPLE.filter(l=>{
-        if(cat!=='all' && l.category!==cat) return false;
-        if(c!=='all' && l.country!==c) return false;
-        if(s!=='all' && l.state!==s) return false;
-        if(q && !(l.title.toLowerCase().includes(q))) return false;
-        if(l.price<min || l.price>max) return false;
-        return true;
-      });
-      show(r,'#resultsGrid');
-    }
-    function reset(){
-      el('#q').value=''; el('#country').value='all'; el('#state').value='all';
-      el('#cat').value='all'; el('#min').value=''; el('#max').value='';
-      show(SAMPLE,'#resultsGrid');
-    }
-
-    // Update states dropdown
-    el('#country').addEventListener('change',()=>{
-      const c = el('#country').value;
-      const stateSel = el('#state'); stateSel.innerHTML='<option value="all">All States</option>';
-      if(c!=='all' && countries[c]){
-        countries[c].forEach(st=>{ const opt=document.createElement('option'); opt.value=st; opt.textContent=st; stateSel.appendChild(opt); });
-      }
-    });
-
-    function openSignIn(){
-      el('#authModal').style.display='flex';
-      el('#authTitle').textContent='Sign In';
-      el('#toggleAuth').textContent="Don't have an account? Sign Up";
-    }
-    function openSignUp(){
-      el('#authModal').style.display='flex';
-      el('#authTitle').textContent='Sign Up';
-      el('#toggleAuth').textContent="Already have an account? Sign In";
-    }
-    function closeAuth(){ el('#authModal').style.display='none'; }
-
-    function toggleAuth(){
-      if(el('#authTitle').textContent==='Sign In'){ openSignUp(); }else{ openSignIn(); }
-    }
-
-    function submitAuth(){
-  const email = el('#authEmail').value;
-  const pass = el('#authPass').value;
-  if(!email || !pass){ alert('Please fill all fields'); return; }
-
-  // Simulate account creation or login
-  loggedInUser = {email};
-
-  // Hide modal
-  el('#authModal').style.display='none';
-  el('#authEmail').value=''; 
-  el('#authPass').value='';
-
-  // Hide auth links in navbar
-  document.getElementById('authLinks').style.display='none';
-
-  // Redirect to home page
-  location.hash = '#/';
-
-  // Optional: show success message
-  alert('Welcome, ' + email + '! You are now logged in.');
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AJ GlobalRent & Services</title>
+<link rel="icon" href="/static/assets/favicon.png">
+<style>
+:root {
+  --bg: #0B0B0D;
+  --panel: #111827;
+  --gold: #D4AF37;
+  --blue: #1E40AF;
+  --muted: #9CA3AF;
+  --text: #F8FAFC;
 }
 
+* { box-sizing:border-box; }
+body { margin:0; font-family:Inter, system-ui, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
+a { color:inherit; text-decoration:none; }
+.container { max-width: 1400px; margin:28px auto; padding:0 18px; }
+header { display:flex; align-items:center; justify-content:space-between; padding:12px 0; flex-wrap:wrap; }
+.brand { display:flex; gap:12px; align-items:center; cursor:pointer; }
+.logo { width:56px; height:56px; border-radius:10px; background:linear-gradient(135deg,var(--gold),var(--blue)); display:flex; align-items:center; justify-content:center; color:#071022; font-weight:800; }
+.tag { font-size:13px; color:var(--muted); }
+nav { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+nav a { font-weight:700; color:var(--muted); }
+.hero { background:linear-gradient(180deg, rgba(13,15,17,0.5), transparent); padding:20px; border-radius:12px; margin-top:14px; display:flex; gap:18px; flex-wrap:wrap; }
+.hero-left { flex:1; min-width:280px; }
+h1 { margin:0 0 6px; font-size:26px; }
+.lead { margin:0; color:var(--muted); }
+.btn { background:linear-gradient(90deg, var(--blue), #2563EB); padding:9px 14px; border-radius:8px; color:#fff; font-weight:700; border:none; cursor:pointer; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px; }
+.card { background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:10px; padding:10px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 8px 30px rgba(2,6,23,0.7); position:relative; }
+.card img { width:100%; height:150px; object-fit:cover; border-radius:8px; }
+.meta { color:var(--muted); font-size:13px; }
+.badge { background:rgba(212,175,55,0.12); color:var(--gold); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+.filters { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+.sidebar { width:300px; }
+.main { display:flex; gap:16px; margin-top:18px; flex-wrap:wrap; }
+.muted { color:var(--muted); }
+footer { margin-top:28px; text-align:center; color:var(--muted); font-size:13px; }
+.preloader { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg); z-index:9999; }
+.spinner { width:64px; height:64px; border-radius:50%; border:6px solid rgba(212,175,55,0.12); border-top-color:var(--gold); animation:spin 1s linear infinite; }
+@keyframes spin { to{ transform:rotate(360deg); } }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; z-index:9999; display:none; }
+.modal-content { background:var(--panel); padding:24px; border-radius:10px; width:320px; max-width:90%; }
+.close-btn { background:transparent; border:none; color:var(--text); font-size:20px; cursor:pointer; position:absolute; top:10px; right:14px; }
+.favorite { position:absolute; top:10px; right:10px; font-size:22px; cursor:pointer; color:var(--muted); }
+.favorite.active { color:var(--gold); }
+@media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} .sidebar{width:100%;} .main{flex-direction:column;} nav{flex-direction:column; gap:6px;} }
+</style>
+</head>
+<body>
+<div id="pre" class="preloader"><div class="spinner"></div></div>
+<div class="container" id="app" style="display:none">
+<header>
+  <div class="brand" onclick="goHome()">
+    <div class="logo">AJ</div>
+    <div>
+      <div style="font-weight:800">AJ GlobalRent & Services</div>
+      <div class="tag">Luxury. Trust. Global Convenience.</div>
+    </div>
+  </div>
+  <nav id="navLinks">
+    <a href="#/">Home</a>
+    <a href="#/rent">Houses (Rent)</a>
+    <a href="#/sale">Houses (Sale)</a>
+    <a href="#/services">Services</a>
+    <a href="#/about">About</a>
+    <span id="authLinks">
+      <a href="#" onclick="openAuth('login')">Sign In</a>
+      <a href="#" onclick="openAuth('signup')">Sign Up</a>
+    </span>
+  </nav>
+</header>
 
-    window.addEventListener('hashchange',()=>{});
-    window.addEventListener('load',()=>{
-      setTimeout(()=>{ el('#pre').style.display='none'; el('#app').style.display='block'; },600);
-      show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
-      show(SAMPLE,'#resultsGrid');
-    });
-  </script>
+<section class="hero">
+  <div class="hero-left">
+    <h1>Premium global rentals — homes & services, simplified</h1>
+    <p class="lead">Search properties and services across multiple countries.</p>
+    <div class="filters">
+      <input id="q" type="text" placeholder="Search city or listing" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
+      <select id="country" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
+        <option value="all">All countries</option>
+        <option value="US">USA</option>
+        <option value="DE">Germany</option>
+        <option value="ES">Spain</option>
+        <option value="UK">UK</option>
+        <option value="FR">France</option>
+        <option value="IT">Italy</option>
+        <option value="CA">Canada</option>
+        <option value="AU">Australia</option>
+        <option value="MX">Mexico</option>
+      </select>
+      <select id="cat" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
+        <option value="all">All</option>
+        <option value="rent">Rent</option>
+        <option value="sale">Sale</option>
+        <option value="service">Service</option>
+      </select>
+      <button class="btn" onclick="apply()">Search</button>
+    </div>
+  </div>
+</section>
+
+<div class="main">
+  <div style="flex:1">
+    <section id="featured">
+      <h2>Featured</h2>
+      <div id="featuredGrid" class="grid"></div>
+    </section>
+    <section id="results" style="margin-top:18px">
+      <h2>Results</h2>
+      <div id="resultsGrid" class="grid"></div>
+    </section>
+  </div>
+  <aside class="sidebar">
+    <div class="card">
+      <h3 style="margin:0">Filters</h3>
+      <div style="margin-top:8px" class="muted">Quick filters</div>
+      <div style="margin-top:10px">
+        <label class="muted">Min</label>
+        <input id="min" type="text" placeholder="0" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent">
+      </div>
+      <div style="margin-top:8px">
+        <label class="muted">Max</label>
+        <input id="max" type="text" placeholder="1000000" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent">
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <button class="btn" onclick="apply()">Apply</button>
+        <button class="btn" onclick="reset()">Reset</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
+</div>
+
+<!-- Auth Modal -->
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeAuth()">×</button>
+    <h2 id="authTitle">Sign In</h2>
+    <input id="authEmail" type="email" placeholder="Email" style="width:100%;margin-top:10px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
+    <input id="authPass" type="password" placeholder="Password" style="width:100%;margin-top:10px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
+    <button class="btn" style="margin-top:10px;width:100%" onclick="submitAuth()">Submit</button>
+  </div>
+</div>
+
+<script>
+const el = q => document.querySelector(q);
+const usersDB = []; // store registered users
+let loggedInUser = null;
+const favoritesDB = [];
+
+const SAMPLE = [
+  {id:1,slug:"modern-loft-berlin",title:"Modern Loft in Berlin",category:"rent",country:"DE",price:1200,currency:"EUR",featured:true,images:["/static/assets/sample-house.jpg"],description:"Spacious modern loft in Berlin."},
+  {id:2,slug:"family-home-london",title:"Family Home London",category:"sale",country:"UK",price:450000,currency:"GBP",featured:true,images:["/static/assets/sample-sale.jpg"],description:"Beautiful 3-bedroom family home."},
+  {id:3,slug:"event-chairs-set",title:"Event Chairs & Tables",category:"service",country:"US",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"],description:"Complete chair and table set."},
+  {id:4,slug:"apartment-paris",title:"Apartment Paris",category:"rent",country:"FR",price:1800,currency:"EUR",featured:false,images:["/static/assets/sample2.jpg"],description:"Cozy apartment in Paris."},
+  {id:5,slug:"villa-italy",title:"Villa Italy",category:"sale",country:"IT",price:750000,currency:"EUR",featured:true,images:["/static/assets/sample3.jpg"],description:"Luxury villa in Italy."},
+  {id:6,slug:"condo-toronto",title:"Condo Toronto",category:"rent",country:"CA",price:2000,currency:"CAD",featured:false,images:["/static/assets/sample4.jpg"],description:"Modern condo in Toronto."},
+  {id:7,slug:"house-sydney",title:"House Sydney",category:"sale",country:"AU",price:650000,currency:"AUD",featured:false,images:["/static/assets/sample5.jpg"],description:"Spacious house in Sydney."},
+  {id:8,slug:"apartment-mexico",title:"Apartment Mexico",category:"rent",country:"MX",price:1000,currency:"USD",featured:false,images:["/static/assets/sample6.jpg"],description:"Comfortable apartment in Mexico."},
+  {id:9,slug:"loft-us",title:"Loft in NY",category:"rent",country:"US",price:2200,currency:"USD",featured:false,images:["/static/assets/sample7.jpg"],description:"Stylish loft in New York."}
+];
+
+function card(l){
+  const d = document.createElement('div'); d.className='card';
+  const img = document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
+  const h = document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
+  const m = document.createElement('div'); m.className='meta'; m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.country}</span>`; d.appendChild(m);
+  const p = document.createElement('div'); p.style.marginTop='10px'; p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`; d.appendChild(p);
+
+  const fav = document.createElement('span'); fav.className='favorite'; fav.innerHTML='★';
+  if(favoritesDB.includes(l.id)) fav.classList.add('active');
+  fav.onclick = e => { e.stopPropagation(); toggleFavorite(l.id,fav); };
+  d.appendChild(fav);
+
+  d.onclick = () => { alert('Open detail page: '+l.title); };
+  return d;
+}
+
+function show(list,sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i)); }
+
+function apply(){
+  const q=el('#q').value.toLowerCase(); const c=el('#country').value; const cat=el('#cat').value; const min=parseFloat(el('#min').value||0); const max=parseFloat(el('#max').value||Infinity);
+  let r=SAMPLE.filter(s=>{ if(cat!=='all' && s.category!==cat) return false; if(c!=='all' && s.country!==c) return false; if(q && !(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false; if(s.price<min || s.price>max) return false; return true; });
+  show(r,'#resultsGrid');
+}
+
+function reset(){ el('#q').value=''; el('#country').value='all'; el('#cat').value='all'; el('#min').value=''; el('#max').value=''; show(SAMPLE,'#resultsGrid'); }
+
+function openAuth(type){
+  el('#authModal').style.display='flex';
+  el('#authTitle').textContent = type==='login' ? 'Sign In' : 'Sign Up';
+  el('#authType').value = type;
+}
+
+function closeAuth(){ el('#authModal').style.display='none'; }
+
+function submitAuth(){
+  const email=el('#authEmail').value.trim(); const pass=el('#authPass').value.trim();
+  if(!email||!pass){ alert('Fill all fields'); return; }
+  const type=el('#authTitle').textContent.toLowerCase().includes('sign up')?'signup':'login';
+
+  if(type==='signup'){
+    if(usersDB.find(u=>u.email===email)){ alert('Email exists. Please login.'); return; }
+    const user={email,password:pass}; usersDB.push(user); loggedInUser=user;
+    alert('Welcome! Account created.');
+  } else {
+    const user=usersDB.find(u=>u.email===email && u.password===pass);
+    if(!user){ alert('Invalid credentials'); return; }
+    loggedInUser=user; alert('Welcome back!');
+  }
+
+  closeAuth();
+  el('#authEmail').value=''; el('#authPass').value='';
+  document.getElementById('authLinks').style.display='none';
+  location.hash='#/';
+}
+
+function toggleFavorite(id,el){ 
+  if(!loggedInUser){ alert('Please login first'); openAuth('login'); return; }
+  const idx=favoritesDB.indexOf(id);
+  if(idx>-1){ favoritesDB.splice(idx,1); el.classList.remove('active'); } else { favoritesDB.push(id); el.classList.add('active'); }
+}
+
+function goHome(){ location.hash='#/'; }
+
+window.addEventListener('load',()=>{ setTimeout(()=>{ el('#pre').style.display='none'; el('#app').style.display='block'; show(SAMPLE.filter(s=>s.featured),'#featuredGrid'); show(SAMPLE,'#resultsGrid'); },600); });
+</script>
 </body>
 </html>
