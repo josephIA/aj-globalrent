@@ -1,324 +1,287 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AJ GlobalRent & Services</title>
-<link rel="icon" href="/static/assets/favicon.png">
-<style>
-:root {
-  --bg: #ffffff;
-  --text: #000000;
-  --btn-bg: #000000;
-  --btn-text: #ffffff;
-  --muted: #555555;
-  --highlight: #000000;
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
-
-a { color: inherit; text-decoration: none; }
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px;
-  border-bottom: 1px solid #ddd;
-}
-
-.logo { font-weight: 800; font-size: 24px; }
-
-nav {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-nav a { font-weight: 600; color: var(--muted); }
-
-nav a.active { color: var(--text); }
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-.hero {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-
-.hero-left { flex: 1; min-width: 280px; }
-
-.hero input, .hero select, .filters button {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.filters { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-
-.filters button {
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
-  cursor: pointer;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
-  gap: 16px;
-}
-
-.card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 8px;
-  position: relative;
-  cursor: pointer;
-}
-
-.card img { width: 100%; height: 160px; object-fit: cover; border-radius: 6px; }
-
-.card .badge {
-  background: #000;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-size: 12px;
-  margin-right: 4px;
-}
-
-.card button.fav {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: black;
-}
-
-#signModal {
-  position: fixed; inset: 0;
-  display: none;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-#signModal .modal-content {
-  background: var(--bg);
-  padding: 24px;
-  border-radius: 12px;
-  width: 320px;
-  max-width: 90%;
-}
-
-#signModal input {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.btn { padding: 8px 14px; border: none; border-radius: 6px; background: var(--btn-bg); color: var(--btn-text); cursor: pointer; }
-
-footer { text-align: center; margin-top: 36px; color: var(--muted); }
-
-@media(max-width:700px) {
-  .hero { flex-direction: column; }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AJ GlobalRent</title>
+  <link rel="icon" href="/static/assets/favicon.png">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --btn-bg: #000000;
+      --btn-text: #ffffff;
+      --muted: #555555;
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, sans-serif; background: var(--bg); color: var(--text); }
+    a { text-decoration: none; color: inherit; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #ccc; }
+    .logo { font-weight: 800; font-size: 24px; cursor: default; }
+    nav a { margin-left: 16px; font-weight: 600; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .hero { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+    .hero-left { flex: 1; min-width: 280px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    input, select { padding:8px; border:1px solid #ccc; border-radius: 6px; }
+    button { padding:8px 16px; border:none; border-radius:6px; background: var(--btn-bg); color: var(--btn-text); cursor:pointer; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+    .card { border:1px solid #ccc; border-radius:10px; padding:12px; }
+    .card img { width:100%; border-radius:8px; height:160px; object-fit:cover; }
+    .badge { font-size:12px; font-weight:700; padding:2px 6px; border:1px solid var(--text); border-radius:999px; }
+    .fav { cursor:pointer; float:right; font-size:18px; }
+    footer { margin-top:24px; text-align:center; color: var(--muted); }
+    @media(max-width:768px){ nav { display:flex; flex-direction:column; gap:8px; margin-top:8px; } }
+    /* Modal */
+    .modal { position:fixed; inset:0; background: rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:9999; }
+    .modal-content { background:#fff; color:#000; padding:24px; border-radius:12px; max-width:600px; width:90%; position:relative; }
+    .close { position:absolute; top:8px; right:12px; font-size:20px; cursor:pointer; }
+    /* Sign-in/Sign-up */
+    .auth-btn { margin-left:16px; }
+  </style>
 </head>
 <body>
-
 <header>
   <div class="logo">AJ GlobalRent</div>
-  <nav id="navLinks">
-    <a href="#/" class="active">Home</a>
-    <a href="#/rent">Houses (Rent)</a>
-    <a href="#/sale">Houses (Sale)</a>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#/rent">Rent</a>
+    <a href="#/sale">Sale</a>
     <a href="#/services">Services</a>
     <a href="#/about">About</a>
-    <a href="#" id="signInBtn">Sign In / Sign Up</a>
+    <a href="#" id="auth-link" class="auth-btn">Sign In / Sign Up</a>
   </nav>
 </header>
 
-<div class="container" id="app">
-
-  <!-- Hero / Filters -->
-  <section class="hero">
+<div class="container">
+  <div class="hero">
     <div class="hero-left">
-      <h1>Premium rentals — homes & services</h1>
-      <p>Search properties across USA states.</p>
+      <h1>Premium rentals & services simplified</h1>
+      <p style="color:var(--muted)">Search properties and services across the USA.</p>
       <div class="filters">
-        <input type="text" id="q" placeholder="Search city or listing">
-        <select id="stateSelect">
+        <input type="text" id="search" placeholder="Search city or listing">
+        <select id="state">
           <option value="all">All States</option>
-          <option value="CA">California</option>
-          <option value="TX">Texas</option>
-          <option value="NY">New York</option>
-          <option value="FL">Florida</option>
-          <option value="IL">Illinois</option>
-          <option value="PA">Pennsylvania</option>
-          <option value="OH">Ohio</option>
-          <option value="MI">Michigan</option>
-          <option value="GA">Georgia</option>
-        </select>
-        <select id="catSelect">
+    <option value="AL">Alabama</option>
+    <option value="AK">Alaska</option>
+    <option value="AZ">Arizona</option>
+    <option value="AR">Arkansas</option>
+    <option value="CA">California</option>
+    <option value="CO">Colorado</option>
+    <option value="CT">Connecticut</option>
+    <option value="DE">Delaware</option>
+    <option value="FL">Florida</option>
+    <option value="GA">Georgia</option>
+    <option value="HI">Hawaii</option>
+    <option value="ID">Idaho</option>
+    <option value="IL">Illinois</option>
+    <option value="IN">Indiana</option>
+    <option value="IA">Iowa</option>
+    <option value="KS">Kansas</option>
+    <option value="KY">Kentucky</option>
+    <option value="LA">Louisiana</option>
+    <option value="ME">Maine</option>
+    <option value="MD">Maryland</option>
+    <option value="MA">Massachusetts</option>
+    <option value="MI">Michigan</option>
+    <option value="MN">Minnesota</option>
+    <option value="MS">Mississippi</option>
+    <option value="MO">Missouri</option>
+    <option value="MT">Montana</option>
+    <option value="NE">Nebraska</option>
+    <option value="NV">Nevada</option>
+    <option value="NH">New Hampshire</option>
+    <option value="NJ">New Jersey</option>
+    <option value="NM">New Mexico</option>
+    <option value="NY">New York</option>
+    <option value="NC">North Carolina</option>
+    <option value="ND">North Dakota</option>
+    <option value="OH">Ohio</option>
+    <option value="OK">Oklahoma</option>
+    <option value="OR">Oregon</option>
+    <option value="PA">Pennsylvania</option>
+    <option value="RI">Rhode Island</option>
+    <option value="SC">South Carolina</option>
+    <option value="SD">South Dakota</option>
+    <option value="TN">Tennessee</option>
+    <option value="TX">Texas</option>
+    <option value="UT">Utah</option>
+    <option value="VT">Vermont</option>
+    <option value="VA">Virginia</option>
+    <option value="WA">Washington</option>
+    <option value="WV">West Virginia</option>
+    <option value="WI">Wisconsin</option>
+    <option value="WY">Wyoming</option>
+        <select id="cat">
           <option value="all">All</option>
           <option value="rent">Rent</option>
           <option value="sale">Sale</option>
           <option value="service">Service</option>
         </select>
-        <button onclick="apply()">Search</button>
+        <button onclick="applyFilters()">Search</button>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Featured / Results -->
-  <section id="featuredSection">
-    <h2>Featured Listings</h2>
-    <div id="featuredGrid" class="grid"></div>
-  </section>
+  <h2>Featured Listings</h2>
+  <div id="featuredGrid" class="grid"></div>
 
-  <section id="resultsSection" style="margin-top:24px">
-    <h2>All Listings</h2>
-    <div id="resultsGrid" class="grid"></div>
-  </section>
-
+  <h2>All Listings</h2>
+  <div id="allGrid" class="grid"></div>
 </div>
 
-<footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
+<footer>© 2025 AJ GlobalRent. All rights reserved.</footer>
 
-<!-- Sign In / Sign Up Modal -->
-<div id="signModal">
+<!-- Detail Modal -->
+<div id="modal" class="modal">
   <div class="modal-content">
-    <h3 id="modalTitle">Sign In / Sign Up</h3>
-    <input type="email" id="emailInput" placeholder="Email" required>
-    <input type="password" id="passInput" placeholder="Password" required>
-    <button id="submitSignBtn" class="btn">Submit</button>
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Auth Modal -->
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAuth()">&times;</span>
+    <h2 id="authTitle">Sign In</h2>
+    <input type="email" id="authEmail" placeholder="Email" style="width:100%; margin:8px 0;">
+    <input type="password" id="authPass" placeholder="Password" style="width:100%; margin:8px 0;">
+    <button id="authBtn">Submit</button>
+    <p id="switchAuth" style="margin-top:8px; cursor:pointer; color:var(--btn-bg);">Switch to Sign Up</p>
   </div>
 </div>
 
 <script>
 const SAMPLE = [
-  {id:1,slug:"loft-la",title:"Modern Loft Los Angeles",category:"rent",country:"US",state:"CA",price:1500,currency:"USD",featured:true,images:["/static/assets/sample1.jpg"],description:"Beautiful loft in LA"},
-  {id:2,slug:"home-ny",title:"Family Home NY",category:"sale",country:"US",state:"NY",price:450000,currency:"USD",featured:true,images:["/static/assets/sample2.jpg"],description:"Spacious home in NY"},
-  {id:3,slug:"service-chairs",title:"Event Chairs Set",category:"service",country:"US",state:"TX",price:500,currency:"USD",featured:false,images:["/static/assets/sample3.jpg"],description:"50 chairs and tables"},
-  {id:4,slug:"apartment-mi",title:"Apartment Michigan",category:"rent",country:"US",state:"MI",price:1200,currency:"USD",featured:false,images:["/static/assets/sample4.jpg"],description:"Modern apartment"},
-  {id:5,slug:"villa-fl",title:"Villa Florida",category:"sale",country:"US",state:"FL",price:750000,currency:"USD",featured:true,images:["/static/assets/sample5.jpg"],description:"Luxury villa"},
-  {id:6,slug:"condo-il",title:"Condo Illinois",category:"rent",country:"US",state:"IL",price:1000,currency:"USD",featured:false,images:["/static/assets/sample6.jpg"],description:"Downtown condo"},
-  {id:7,slug:"cottage-pa",title:"Cottage Pennsylvania",category:"sale",country:"US",state:"PA",price:320000,currency:"USD",featured:false,images:["/static/assets/sample7.jpg"],description:"Cozy cottage"},
-  {id:8,slug:"house-oh",title:"House Ohio",category:"rent",country:"US",state:"OH",price:900,currency:"USD",featured:false,images:["/static/assets/sample8.jpg"],description:"Nice house"},
-  {id:9,slug:"townhome-ga",title:"Townhome Georgia",category:"sale",country:"US",state:"GA",price:400000,currency:"USD",featured:false,images:["/static/assets/sample9.jpg"],description:"Modern townhome"}
+  {id:1,title:"Modern Loft, California",category:"rent",state:"CA",price:1200,currency:"USD",featured:true,images:["/static/assets/sample1.jpg"],description:"2 bed modern loft."},
+  {id:2,title:"Family Home, Texas",category:"sale",state:"TX",price:450000,currency:"USD",featured:true,images:["/static/assets/sample2.jpg"],description:"3 bed family home."},
+  {id:3,title:"Event Chairs, New York",category:"service",state:"NY",price:500,currency:"USD",featured:false,images:["/static/assets/sample3.jpg"],description:"Chairs & tables rental."},
+  {id:4,title:"Luxury Condo, Florida",category:"rent",state:"FL",price:2200,currency:"USD",featured:false,images:["/static/assets/sample4.jpg"],description:"2 bed condo."},
+  {id:5,title:"Office Space, Illinois",category:"sale",state:"IL",price:750000,currency:"USD",featured:false,images:["/static/assets/sample5.jpg"],description:"Large office."},
+  {id:6,title:"Gardening Service, Pennsylvania",category:"service",state:"PA",price:200,currency:"USD",featured:false,images:["/static/assets/sample6.jpg"],description:"Lawn care."},
+  {id:7,title:"Villa, Ohio",category:"rent",state:"OH",price:3000,currency:"USD",featured:false,images:["/static/assets/sample7.jpg"],description:"Luxury villa."},
+  {id:8,title:"Apartment, Georgia",category:"sale",state:"GA",price:350000,currency:"USD",featured:false,images:["/static/assets/sample8.jpg"],description:"2 bed apartment."},
+  {id:9,title:"Photography Service, North Carolina",category:"service",state:"NC",price:400,currency:"USD",featured:false,images:["/static/assets/sample9.jpg"],description:"Event photography."}
 ];
 
-function el(q){return document.querySelector(q);}
+let user = null; // current logged-in user
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let favorites = JSON.parse(localStorage.getItem("favorites")) || {};
 
-// Card Creation
-function card(l){
-  const d=document.createElement('div'); d.className='card';
-  const img=document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
-  const h=document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
-  const m=document.createElement('div'); m.className='meta';
-  m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:4px'>${l.state}</span>`;
-  d.appendChild(m);
-  const p=document.createElement('div'); p.style.marginTop='8px';
-  p.innerHTML=`<span style='font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`;
-  d.appendChild(p);
-
-  const favBtn=document.createElement('button'); favBtn.className='fav'; favBtn.innerHTML='★';
-  d.appendChild(favBtn);
-
-  const currentUser=JSON.parse(localStorage.getItem('currentUser'));
-  const allFavs=JSON.parse(localStorage.getItem('favorites')||'{}');
-  if(currentUser){if((allFavs[currentUser.email]||[]).includes(l.slug)) favBtn.style.color='gold';}
-
-  favBtn.onclick=(e)=>{
-    e.stopPropagation();
-    if(!currentUser){alert('Please sign in to save favorites'); return;}
-    let favs=allFavs[currentUser.email]||[];
-    if(favs.includes(l.slug)){favs=favs.filter(s=>s!==l.slug); favBtn.style.color='black';}
-    else{favs.push(l.slug); favBtn.style.color='gold';}
-    allFavs[currentUser.email]=favs;
-    localStorage.setItem('favorites',JSON.stringify(allFavs));
-  }
-
-  d.onclick=()=>{openDetail(l);}
-  return d;
+function showListings(list, containerId){
+  const container = document.getElementById(containerId);
+  container.innerHTML="";
+  list.forEach(item=>{
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`<img src="${item.images[0]}"><h3>${item.title}<span class="fav" onclick="toggleFav(${item.id},event)">☆</span></h3>
+    <p>${item.state} · ${item.category.toUpperCase()}</p>
+    <p><strong>${item.currency} ${item.price.toLocaleString()}</strong></p>
+    <button onclick="openModal(${item.id})">Details</button>`;
+    container.appendChild(div);
+    // Fill favorite if logged in
+    if(user && favorites[user.email]?.includes(item.id)){
+      div.querySelector(".fav").textContent="★";
+    }
+  });
 }
 
-// Show Listings
-function show(list,sel){const g=el(sel);g.innerHTML='';list.forEach(i=>g.appendChild(card(i));}
+// Modal functions
+function openModal(id){
+  const item = SAMPLE.find(x=>x.id===id);
+  const modal=document.getElementById("modal");
+  const body=document.getElementById("modal-body");
+  body.innerHTML=`<h2>${item.title}</h2>
+    <p>${item.state} · ${item.category.toUpperCase()}</p>
+    <p>${item.description}</p>
+    <p><strong>${item.currency} ${item.price.toLocaleString()}</strong></p>`;
+  modal.style.display="flex";
+}
+function closeModal(){ document.getElementById("modal").style.display="none"; }
 
-// Search / Filters
-function apply(){
-  const q=el('#q').value.toLowerCase();
-  const st=el('#stateSelect').value;
-  const cat=el('#catSelect').value;
-  let r=SAMPLE.filter(s=>{
-    if(cat!=='all' && s.category!==cat) return false;
-    if(st!=='all' && s.state!==st) return false;
+// Favorites
+function toggleFav(id,event){
+  event.stopPropagation();
+  if(!user){ openAuth(); return; }
+  favorites[user.email] = favorites[user.email] || [];
+  if(favorites[user.email].includes(id)){
+    favorites[user.email]=favorites[user.email].filter(x=>x!==id);
+  } else { favorites[user.email].push(id); }
+  localStorage.setItem("favorites",JSON.stringify(favorites));
+  showListings(SAMPLE,"allGrid");
+  showListings(SAMPLE.filter(x=>x.featured),"featuredGrid");
+}
+
+// Filters
+function applyFilters(){
+  const q=document.getElementById("search").value.toLowerCase();
+  const state=document.getElementById("state").value;
+  const cat=document.getElementById("cat").value;
+  const filtered=SAMPLE.filter(s=>{
+    if(cat!=="all" && s.category!==cat) return false;
+    if(state!=="all" && s.state!==state) return false;
     if(q && !(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false;
     return true;
   });
-  show(r,'#resultsGrid');
+  showListings(filtered,"allGrid");
+  showListings(filtered.filter(x=>x.featured),"featuredGrid");
 }
 
-// Detail Modal
-function openDetail(it){
-  const o=document.createElement('div'); o.style.position='fixed'; o.style.inset=0; o.style.background='rgba(0,0,0,0.9)';
-  o.style.zIndex=9999; o.style.padding='24px'; const c=document.createElement('div');
-  c.style.maxWidth='800px'; c.style.margin='40px auto'; c.style.background='white'; c.style.padding='16px'; c.style.borderRadius='12px';
-  c.innerHTML=`<h2>${it.title}</h2><img src="${it.images[0]}" style="width:100%;height:300px;object-fit:cover;border-radius:6px;margin-bottom:12px"><div>${it.description}</div><div style="margin-top:12px"><button id="closeDetail" class="btn">Close</button></div>`;
-  o.appendChild(c); document.body.appendChild(o);
-  document.getElementById('closeDetail').onclick=()=>{o.remove();}
+// Auth modal
+const authModal=document.getElementById("authModal");
+const authLink=document.getElementById("auth-link");
+const authTitle=document.getElementById("authTitle");
+const authBtn=document.getElementById("authBtn");
+const switchAuth=document.getElementById("switchAuth");
+
+authLink.onclick = () => { openAuth(); }
+function openAuth(){ authModal.style.display="flex"; updateAuth(); }
+function closeAuth(){ authModal.style.display="none"; }
+
+let isSignUp=false;
+function updateAuth(){
+  authTitle.textContent = isSignUp ? "Sign Up":"Sign In";
+  authBtn.textContent=isSignUp ? "Sign Up":"Sign In";
+  switchAuth.textContent=isSignUp ? "Switch to Sign In":"Switch to Sign Up";
 }
 
-// Sign In / Sign Up
-el('#signInBtn').onclick=()=>{el('#signModal').style.display='flex';}
-el('#submitSignBtn').onclick=()=>{
-  const email=el('#emailInput').value.trim();
-  const pass=el('#passInput').value.trim();
-  if(!email||!pass){alert('Fill all fields');return;}
-  let users=JSON.parse(localStorage.getItem('users')||'{}');
-  if(!users[email]){users[email]={password:pass}; localStorage.setItem('users',JSON.stringify(users));}
-  else if(users[email].password!==pass){alert('Incorrect password'); return;}
-  localStorage.setItem('currentUser',JSON.stringify({email})); el('#signModal').style.display='none';
-  alert('Signed in successfully'); router();
+switchAuth.onclick=()=>{
+  isSignUp=!isSignUp; updateAuth();
 }
 
-// Router
-function router(){
-  const h=location.hash||'#/'; 
-  el('#navLinks a').forEach(a=>a.classList.remove('active'));
-  if(h==='#/') el('#navLinks a[href="#/"]').classList.add('active');
-  const currentUser=JSON.parse(localStorage.getItem('currentUser'));
-  if(currentUser) el('#signInBtn').style.display='none';
-  else el('#signInBtn').style.display='block';
-  show(SAMPLE.filter(s=>s.featured),'#featuredGrid'); show(SAMPLE,'#resultsGrid');
+// Auth submit
+authBtn.onclick=()=>{
+  const email=document.getElementById("authEmail").value;
+  const pass=document.getElementById("authPass").value;
+  if(!email || !pass){ alert("Enter email & password"); return; }
+  if(isSignUp){
+    if(users.find(u=>u.email===email)){ alert("Email exists"); return; }
+    const newUser={email,password:pass};
+    users.push(newUser);
+    localStorage.setItem("users",JSON.stringify(users));
+    user=newUser;
+    alert("Sign Up successful");
+    closeAuth();
+    authLink.style.display="none";
+    return;
+  } else {
+    const existing=users.find(u=>u.email===email && u.password===pass);
+    if(!existing){ alert("Invalid credentials"); return; }
+    user=existing;
+    alert("Signed in successfully");
+    closeAuth();
+    authLink.style.display="none";
+    return;
+  }
 }
 
-window.addEventListener('hashchange',router);
-window.addEventListener('load',()=>{router();});
+// Init
+window.onload=()=>{
+  showListings(SAMPLE.filter(x=>x.featured),"featuredGrid");
+  showListings(SAMPLE,"allGrid");
+  if(user){ authLink.style.display="none"; }
+};
 </script>
-
 </body>
 </html>
