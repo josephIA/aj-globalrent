@@ -6,7 +6,6 @@
   <title>AJ GlobalRent & Services</title>
   <link rel="icon" href="/static/assets/favicon.png" />
   <style>
-    /* Root Colors */
     :root {
       --bg: #0B0B0D;
       --panel: #111827;
@@ -82,17 +81,10 @@
       background: linear-gradient(180deg, rgba(13,15,17,0.6), transparent);
     }
 
-    .hero h1 {
-      font-size: 3rem;
-      line-height: 1.2;
-    }
+    .hero h1 { font-size: 3rem; line-height: 1.2; }
+    .hero p { font-size: 1.1rem; color: var(--muted); }
 
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--muted);
-    }
-
-    .hero .btn {
+    .btn {
       background: linear-gradient(90deg, var(--blue), #2563EB);
       color: #fff;
       font-weight: 700;
@@ -102,12 +94,7 @@
       margin-top: 12px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 36px;
-      flex: 1;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 36px; flex: 1; }
 
     .grid {
       display: grid;
@@ -128,11 +115,7 @@
 
     .card:hover { transform: translateY(-4px); }
 
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
 
     .card-content {
       padding: 12px 16px;
@@ -158,10 +141,20 @@
       background: var(--panel);
     }
 
-    #userArea { display: none; }
+    #userArea { display: none; margin-bottom: 18px; }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    input, select { padding: 8px; border-radius: 8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text); }
+
     @media (max-width: 768px) {
       .hero { padding: 60px 20px; text-align: center; }
       .hero h1 { font-size: 2rem; }
+      .filters { flex-direction: column; }
     }
   </style>
 </head>
@@ -187,25 +180,55 @@
   <div class="container" id="app">
     <div id="userArea"></div>
 
+    <!-- Search Filters -->
+    <div class="filters">
+      <input id="q" type="text" placeholder="Search city or listing" style="flex:1;">
+      <select id="country">
+        <option value="all">All countries</option>
+        <option value="US">USA</option>
+        <option value="DE">Germany</option>
+        <option value="ES">Spain</option>
+        <option value="UK">UK</option>
+        <option value="NG">Nigeria</option>
+      </select>
+      <select id="cat">
+        <option value="all">All</option>
+        <option value="rent">Rent</option>
+        <option value="sale">Sale</option>
+        <option value="service">Service</option>
+      </select>
+      <input id="min" type="number" placeholder="Min" style="width:100px;">
+      <input id="max" type="number" placeholder="Max" style="width:100px;">
+      <button class="btn" onclick="apply()">Search</button>
+    </div>
+
+    <!-- Featured -->
     <section id="featured">
       <h2>Featured Listings</h2>
       <div id="featuredGrid" class="grid"></div>
     </section>
 
+    <!-- All Listings -->
     <section id="results" style="margin-top:24px">
       <h2>All Listings</h2>
       <div id="resultsGrid" class="grid"></div>
     </section>
 
+    <!-- About -->
     <section id="aboutSection" style="display:none; margin-top:24px">
       <h2>About AJ GlobalRent & Services</h2>
       <p>Welcome to AJ GlobalRent & Services — your trusted partner for premium rentals, sales, and lifestyle services across the world’s most vibrant cities. We remove the stress and uncertainty from finding your next home or service.</p>
+    </section>
+
+    <!-- Contact -->
+    <section style="margin-top:24px">
+      <h3>Contact Us</h3>
+      <p>Email: <a href="mailto:homeandapartment@gmail.com">homeandapartment@gmail.com</a></p>
     </section>
   </div>
 
   <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
 
-  <!-- Sample Listings -->
   <script>
     const SAMPLE = [
       { id: 1, slug: "modern-loft-berlin", title: "Modern Loft in Berlin", category: "rent", country: "DE", price: 1200, currency: "EUR", featured:true, images:["/static/assets/sample-house.jpg"], description:"Spacious modern loft in Berlin." },
@@ -213,23 +236,37 @@
       { id: 3, slug: "event-chairs-set", title: "Event Chairs & Tables", category: "service", country: "US", price: 500, currency: "USD", featured:false, images:["/static/assets/sample-service.jpg"], description:"Complete chair and table set for events." }
     ];
 
-    function el(q) { return document.querySelector(q); }
-
-    function card(l) {
+    function el(q){ return document.querySelector(q); }
+    function card(l){
       const d = document.createElement('div'); d.className='card';
       const img = document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
       const c = document.createElement('div'); c.className='card-content';
       c.innerHTML = `<h3>${l.title}</h3><div class="meta"><span class="badge">${l.category.toUpperCase()}</span>${l.country}</div><div style="color:var(--gold);font-weight:800">${l.currency} ${l.price.toLocaleString()}</div>`;
       d.appendChild(c);
-      d.onclick = ()=>{ location.hash='#/item/'+l.slug; }
+      d.onclick=()=>{ location.hash='#/item/'+l.slug; }
       return d;
     }
 
-    function show(list, sel) { const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i))); }
+    function show(list, sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i))); }
 
-    function router() {
+    function apply(){
+      const q=el('#q').value.toLowerCase();
+      const c=el('#country').value;
+      const cat=el('#cat').value;
+      const min=parseFloat(el('#min').value || 0);
+      const max=parseFloat(el('#max').value || Infinity);
+      let r=SAMPLE.filter(s=>{
+        if(cat!=='all' && s.category!==cat) return false;
+        if(c!=='all' && s.country!==c) return false;
+        if(q && !(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false;
+        if(s.price<min || s.price>max) return false;
+        return true;
+      });
+      show(r,'#resultsGrid');
+    }
+
+    function router(){
       const h = location.hash || '#/';
-      if(h.startsWith('#/item/')) return; // handle later
       el('#aboutSection').style.display = (h==='#/about')?'block':'none';
       show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
       show(SAMPLE,'#resultsGrid');
@@ -239,18 +276,15 @@
     window.addEventListener('load', router);
   </script>
 
-  <!-- Netlify Identity -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => { updateUI(user); });
-      window.netlifyIdentity.on('login', user => {
+    if(window.netlifyIdentity){
+      window.netlifyIdentity.on('init', user=>{ updateUI(user); });
+      window.netlifyIdentity.on('login', user=>{
         window.netlifyIdentity.close();
         if(user.app_metadata?.roles?.includes('admin')){
           document.location.href='/admin';
-        } else {
-          updateUI(user);
-        }
+        } else { updateUI(user); }
       });
       window.netlifyIdentity.on('logout', ()=>{ updateUI(null); });
     }
@@ -272,7 +306,7 @@
       }
     }
 
-    function openIdentity(){ if(window.netlifyIdentity){window.netlifyIdentity.open();} }
+    function openIdentity(){ if(window.netlifyIdentity){ window.netlifyIdentity.open(); } }
   </script>
 </body>
 </html>
