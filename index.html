@@ -1,87 +1,169 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>AJ GlobalRent & Services</title>
-<link rel="icon" href="/static/assets/favicon.png">
-<style>
-:root {
-  --bg: #0B0B0D;
-  --panel: #111827;
-  --gold: #D4AF37;
-  --blue: #1E40AF;
-  --muted: #9CA3AF;
-  --text: #F8FAFC;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AJ GlobalRent & Services</title>
+  <link rel="icon" href="/static/assets/favicon.png">
+  <style>
+    :root {
+      --bg: #0B0B0D;
+      --panel: #111827;
+      --gold: #D4AF37;
+      --blue: #1E40AF;
+      --muted: #9CA3AF;
+      --text: #F8FAFC;
+    }
 
-* { box-sizing:border-box; }
-body { margin:0; font-family:Inter, system-ui, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
-a { color:inherit; text-decoration:none; }
-.container { max-width: 1400px; margin:28px auto; padding:0 18px; }
-header { display:flex; align-items:center; justify-content:space-between; padding:12px 0; flex-wrap:wrap; }
-.brand { display:flex; gap:12px; align-items:center; cursor:pointer; }
-.logo { width:56px; height:56px; border-radius:10px; background:linear-gradient(135deg,var(--gold),var(--blue)); display:flex; align-items:center; justify-content:center; color:#071022; font-weight:800; }
-.tag { font-size:13px; color:var(--muted); }
-nav { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-nav a { font-weight:700; color:var(--muted); }
-.hero { background:linear-gradient(180deg, rgba(13,15,17,0.5), transparent); padding:20px; border-radius:12px; margin-top:14px; display:flex; gap:18px; flex-wrap:wrap; }
-.hero-left { flex:1; min-width:280px; }
-h1 { margin:0 0 6px; font-size:26px; }
-.lead { margin:0; color:var(--muted); }
-.btn { background:linear-gradient(90deg, var(--blue), #2563EB); padding:9px 14px; border-radius:8px; color:#fff; font-weight:700; border:none; cursor:pointer; }
-.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px; }
-.card { background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:10px; padding:10px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 8px 30px rgba(2,6,23,0.7); position:relative; }
-.card img { width:100%; height:150px; object-fit:cover; border-radius:8px; }
-.meta { color:var(--muted); font-size:13px; }
-.badge { background:rgba(212,175,55,0.12); color:var(--gold); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
-.filters { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
-.sidebar { width:300px; }
-.main { display:flex; gap:16px; margin-top:18px; flex-wrap:wrap; }
-.muted { color:var(--muted); }
-footer { margin-top:28px; text-align:center; color:var(--muted); font-size:13px; }
-.preloader { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg); z-index:9999; }
-.spinner { width:64px; height:64px; border-radius:50%; border:6px solid rgba(212,175,55,0.12); border-top-color:var(--gold); animation:spin 1s linear infinite; }
-@keyframes spin { to{ transform:rotate(360deg); } }
-.modal { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:flex; justify-content:center; align-items:center; z-index:9999; display:none; }
-.modal-content { background:var(--panel); padding:24px; border-radius:10px; width:320px; max-width:90%; }
-.close-btn { background:transparent; border:none; color:var(--text); font-size:20px; cursor:pointer; position:absolute; top:10px; right:14px; }
-.favorite { position:absolute; top:10px; right:10px; font-size:22px; cursor:pointer; color:var(--muted); }
-.favorite.active { color:var(--gold); }
-@media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} .sidebar{width:100%;} .main{flex-direction:column;} nav{flex-direction:column; gap:6px;} }
-</style>
+    * { box-sizing: border-box; margin:0; padding:0; }
+
+    body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration:none; }
+
+    .container {
+      max-width: 1400px; /* increased container width */
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      background: linear-gradient(135deg,var(--gold),var(--blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      cursor: pointer;
+      color:#071022;
+    }
+
+    nav { display:flex; align-items:center; gap:12px; }
+    nav a { font-weight:700; color: var(--muted); }
+    .menu-toggle { display:none; cursor:pointer; }
+
+    .hero {
+      display:flex;
+      gap:18px;
+      margin-top:20px;
+      padding:20px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(13,15,17,0.5), transparent);
+    }
+
+    .hero-left { flex:1; }
+    h1 { font-size:26px; margin-bottom:6px; }
+    .lead { color:var(--muted); }
+
+    .filters { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+    .filters input, .filters select { padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text); }
+
+    .btn {
+      background: linear-gradient(90deg,var(--blue),#2563EB);
+      padding:9px 14px;
+      border-radius:8px;
+      color:#fff;
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+    }
+
+    .grid { display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-top:16px; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:10px;
+      padding:10px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 8px 30px rgba(2,6,23,0.7);
+      cursor:pointer;
+      position:relative;
+    }
+    .card img { width:100%; height:150px; object-fit:cover; border-radius:8px; }
+    .meta { color: var(--muted); font-size:13px; margin-top:6px; }
+    .badge { background: rgba(212,175,55,0.12); color:var(--gold); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+    .favorite { position:absolute; top:10px; right:10px; font-size:18px; color:var(--muted); cursor:pointer; }
+
+    .sidebar { width:300px; }
+    .main { display:flex; gap:16px; margin-top:18px; }
+    .muted { color:var(--muted); }
+
+    footer { margin-top:28px; text-align:center; color:var(--muted); font-size:13px; }
+
+    .preloader {
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      background: var(--bg); z-index:9999;
+    }
+
+    .spinner {
+      width:64px; height:64px; border-radius:50%;
+      border:6px solid rgba(212,175,55,0.12);
+      border-top-color: var(--gold);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { to{transform:rotate(360deg);} }
+
+    @media (max-width:900px){
+      .grid { grid-template-columns: repeat(2,1fr); }
+      .sidebar { width:100%; }
+      .main { flex-direction:column; }
+      nav { display:none; flex-direction:column; background:var(--panel); position:absolute; top:72px; right:0; width:200px; padding:12px; border-radius:8px; gap:12px; }
+      nav.show { display:flex; }
+      .menu-toggle { display:block; color:var(--muted); font-weight:bold; }
+    }
+  </style>
 </head>
 <body>
 <div id="pre" class="preloader"><div class="spinner"></div></div>
+
 <div class="container" id="app" style="display:none">
+
 <header>
-  <div class="brand" onclick="goHome()">
-    <div class="logo">AJ</div>
+  <div class="brand">
+    <div class="logo" id="homeLogo">AJ</div>
     <div>
       <div style="font-weight:800">AJ GlobalRent & Services</div>
       <div class="tag">Luxury. Trust. Global Convenience.</div>
     </div>
   </div>
-  <nav id="navLinks">
+  <div class="menu-toggle" id="menuToggle">Menu</div>
+  <nav id="navbar">
     <a href="#/">Home</a>
     <a href="#/rent">Houses (Rent)</a>
     <a href="#/sale">Houses (Sale)</a>
     <a href="#/services">Services</a>
     <a href="#/about">About</a>
-    <span id="authLinks">
-      <a href="#" onclick="openAuth('login')">Sign In</a>
-      <a href="#" onclick="openAuth('signup')">Sign Up</a>
-    </span>
+    <a href="#" id="authLink">Sign In / Sign Up</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-left">
     <h1>Premium global rentals — homes & services, simplified</h1>
-    <p class="lead">Search properties and services across multiple countries.</p>
+    <p class="lead">Search properties and services across the USA, Germany, Spain, UK, France, Italy, Canada, Australia, UAE.</p>
     <div class="filters">
-      <input id="q" type="text" placeholder="Search city or listing" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
-      <select id="country" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
+      <input id="q" type="text" placeholder="Search city or listing">
+      <select id="country">
         <option value="all">All countries</option>
         <option value="US">USA</option>
         <option value="DE">Germany</option>
@@ -91,15 +173,18 @@ footer { margin-top:28px; text-align:center; color:var(--muted); font-size:13px;
         <option value="IT">Italy</option>
         <option value="CA">Canada</option>
         <option value="AU">Australia</option>
-        <option value="MX">Mexico</option>
+        <option value="AE">UAE</option>
       </select>
-      <select id="cat" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)">
+      <select id="cat">
         <option value="all">All</option>
         <option value="rent">Rent</option>
         <option value="sale">Sale</option>
         <option value="service">Service</option>
       </select>
       <button class="btn" onclick="apply()">Search</button>
+    </div>
+    <div style="margin-top:12px">
+      <a class="btn" href="#/rent">Browse Rentals</a>
     </div>
   </div>
 </section>
@@ -110,127 +195,136 @@ footer { margin-top:28px; text-align:center; color:var(--muted); font-size:13px;
       <h2>Featured</h2>
       <div id="featuredGrid" class="grid"></div>
     </section>
+
     <section id="results" style="margin-top:18px">
       <h2>Results</h2>
       <div id="resultsGrid" class="grid"></div>
     </section>
   </div>
-  <aside class="sidebar">
-    <div class="card">
-      <h3 style="margin:0">Filters</h3>
-      <div style="margin-top:8px" class="muted">Quick filters</div>
-      <div style="margin-top:10px">
-        <label class="muted">Min</label>
-        <input id="min" type="text" placeholder="0" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent">
-      </div>
-      <div style="margin-top:8px">
-        <label class="muted">Max</label>
-        <input id="max" type="text" placeholder="1000000" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent">
-      </div>
-      <div style="margin-top:10px;display:flex;gap:8px">
-        <button class="btn" onclick="apply()">Apply</button>
-        <button class="btn" onclick="reset()">Reset</button>
-      </div>
-    </div>
-  </aside>
 </div>
 
 <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
+
 </div>
 
-<!-- Auth Modal -->
-<div id="authModal" class="modal">
-  <div class="modal-content">
-    <button class="close-btn" onclick="closeAuth()">×</button>
+<!-- Modal -->
+<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.9);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:var(--panel);padding:24px;border-radius:12px;max-width:400px;width:90%;position:relative;">
     <h2 id="authTitle">Sign In</h2>
-    <input id="authEmail" type="email" placeholder="Email" style="width:100%;margin-top:10px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
-    <input id="authPass" type="password" placeholder="Password" style="width:100%;margin-top:10px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
-    <button class="btn" style="margin-top:10px;width:100%" onclick="submitAuth()">Submit</button>
+    <input type="hidden" id="authType" value="login">
+    <input type="email" id="email" placeholder="Email" style="width:100%;margin-top:12px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text)">
+    <input type="password" id="password" placeholder="Password" style="width:100%;margin-top:12px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text)">
+    <button class="btn" style="margin-top:12px;width:100%;" id="authSubmit">Submit</button>
+    <div style="margin-top:8px;text-align:center;color:var(--muted);cursor:pointer;" id="toggleAuth">Don't have an account? Sign Up</div>
+    <div style="position:absolute;top:8px;right:12px;font-size:18px;cursor:pointer;" id="closeModal">×</div>
   </div>
 </div>
 
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-const el = q => document.querySelector(q);
-const usersDB = []; // store registered users
-let loggedInUser = null;
-const favoritesDB = [];
-
 const SAMPLE = [
-  {id:1,slug:"modern-loft-berlin",title:"Modern Loft in Berlin",category:"rent",country:"DE",price:1200,currency:"EUR",featured:true,images:["/static/assets/sample-house.jpg"],description:"Spacious modern loft in Berlin."},
-  {id:2,slug:"family-home-london",title:"Family Home London",category:"sale",country:"UK",price:450000,currency:"GBP",featured:true,images:["/static/assets/sample-sale.jpg"],description:"Beautiful 3-bedroom family home."},
-  {id:3,slug:"event-chairs-set",title:"Event Chairs & Tables",category:"service",country:"US",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"],description:"Complete chair and table set."},
-  {id:4,slug:"apartment-paris",title:"Apartment Paris",category:"rent",country:"FR",price:1800,currency:"EUR",featured:false,images:["/static/assets/sample2.jpg"],description:"Cozy apartment in Paris."},
-  {id:5,slug:"villa-italy",title:"Villa Italy",category:"sale",country:"IT",price:750000,currency:"EUR",featured:true,images:["/static/assets/sample3.jpg"],description:"Luxury villa in Italy."},
-  {id:6,slug:"condo-toronto",title:"Condo Toronto",category:"rent",country:"CA",price:2000,currency:"CAD",featured:false,images:["/static/assets/sample4.jpg"],description:"Modern condo in Toronto."},
-  {id:7,slug:"house-sydney",title:"House Sydney",category:"sale",country:"AU",price:650000,currency:"AUD",featured:false,images:["/static/assets/sample5.jpg"],description:"Spacious house in Sydney."},
-  {id:8,slug:"apartment-mexico",title:"Apartment Mexico",category:"rent",country:"MX",price:1000,currency:"USD",featured:false,images:["/static/assets/sample6.jpg"],description:"Comfortable apartment in Mexico."},
-  {id:9,slug:"loft-us",title:"Loft in NY",category:"rent",country:"US",price:2200,currency:"USD",featured:false,images:["/static/assets/sample7.jpg"],description:"Stylish loft in New York."}
+  {"id":1,"slug":"modern-loft-berlin","title":"Modern Loft in Berlin","category":"rent","country":"DE","price":1200,"currency":"EUR","featured":true,"images":["/static/assets/sample-house.jpg"],"date":"2025-10-01","description":"Spacious modern loft in the heart of Berlin. Furnished, 2 beds, fast internet."},
+  {"id":2,"slug":"family-home-london","title":"Family Home — London","category":"sale","country":"UK","price":450000,"currency":"GBP","featured":true,"images":["/static/assets/sample-sale.jpg"],"date":"2025-09-28","description":"Beautiful 3-bedroom family home near parks and schools."},
+  {"id":3,"slug":"event-chairs-set","title":"Event Chairs & Tables (Pack of 50)","category":"service","country":"US","price":500,"currency":"USD","featured":false,"images":["/static/assets/sample-service.jpg"],"date":"2025-10-18","description":"Complete chair and table set for events, delivery & setup available."},
+  {"id":4,"slug":"villa-paris","title":"Luxury Villa in Paris","category":"rent","country":"FR","price":2500,"currency":"EUR","featured":true,"images":["/static/assets/sample-house2.jpg"],"date":"2025-10-10","description":"Stunning villa in Paris city center."},
+  {"id":5,"slug":"apartment-rome","title":"Apartment in Rome","category":"sale","country":"IT","price":320000,"currency":"EUR","featured":false,"images":["/static/assets/sample-house3.jpg"],"date":"2025-10-15","description":"Cozy 2-bedroom apartment in Rome."},
+  {"id":6,"slug":"cottage-toronto","title":"Cottage in Toronto","category":"rent","country":"CA","price":900,"currency":"CAD","featured":false,"images":["/static/assets/sample-house4.jpg"],"date":"2025-10-12","description":"Cottage with lake view."},
+  {"id":7,"slug":"beachhouse-sydney","title":"Beach House Sydney","category":"rent","country":"AU","price":1800,"currency":"AUD","featured":false,"images":["/static/assets/sample-house5.jpg"],"date":"2025-10-14","description":"Beachfront property in Sydney."},
+  {"id":8,"slug":"apartment-dubai","title":"Apartment in Dubai","category":"sale","country":"AE","price":500000,"currency":"AED","featured":false,"images":["/static/assets/sample-house6.jpg"],"date":"2025-10-20","description":"Modern apartment in Dubai Marina."},
+  {"id":9,"slug":"penthouse-nyc","title":"Penthouse NYC","category":"sale","country":"US","price":1500000,"currency":"USD","featured":true,"images":["/static/assets/sample-house7.jpg"],"date":"2025-10-22","description":"Luxury penthouse in Manhattan."}
 ];
 
+function el(q){return document.querySelector(q);}
 function card(l){
-  const d = document.createElement('div'); d.className='card';
-  const img = document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
-  const h = document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
-  const m = document.createElement('div'); m.className='meta'; m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.country}</span>`; d.appendChild(m);
-  const p = document.createElement('div'); p.style.marginTop='10px'; p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`; d.appendChild(p);
+  const d=document.createElement('div');
+  d.className='card';
+  const img=document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
+  const h=document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
+  const m=document.createElement('div'); m.className='meta'; m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.country}</span>`; d.appendChild(m);
 
-  const fav = document.createElement('span'); fav.className='favorite'; fav.innerHTML='★';
-  if(favoritesDB.includes(l.id)) fav.classList.add('active');
-  fav.onclick = e => { e.stopPropagation(); toggleFavorite(l.id,fav); };
-  d.appendChild(fav);
+  const p=document.createElement('div'); p.style.marginTop='10px'; p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`; d.appendChild(p);
 
-  d.onclick = () => { alert('Open detail page: '+l.title); };
+  const f=document.createElement('div'); f.className='favorite'; f.innerHTML='☆';
+  f.onclick=e=>{
+    e.stopPropagation();
+    if(!window.netlifyIdentity.currentUser()){ openAuthModal('login'); return; }
+    alert('Listing favorited!');
+  }
+  d.appendChild(f);
+
+  d.onclick=()=>{location.hash='#/item/'+l.slug;};
   return d;
 }
-
-function show(list,sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i)); }
+function show(list, sel){const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i));)}
 
 function apply(){
-  const q=el('#q').value.toLowerCase(); const c=el('#country').value; const cat=el('#cat').value; const min=parseFloat(el('#min').value||0); const max=parseFloat(el('#max').value||Infinity);
-  let r=SAMPLE.filter(s=>{ if(cat!=='all' && s.category!==cat) return false; if(c!=='all' && s.country!==c) return false; if(q && !(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false; if(s.price<min || s.price>max) return false; return true; });
+  const q=el('#q').value.toLowerCase();
+  const c=el('#country').value;
+  const cat=el('#cat').value;
+  let r=SAMPLE.filter(s=>{
+    if(cat!=='all' && s.category!==cat) return false;
+    if(c!=='all' && s.country!==c) return false;
+    if(q && !(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false;
+    return true;
+  });
   show(r,'#resultsGrid');
 }
 
-function reset(){ el('#q').value=''; el('#country').value='all'; el('#cat').value='all'; el('#min').value=''; el('#max').value=''; show(SAMPLE,'#resultsGrid'); }
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('pre').style.display='none';
+    document.getElementById('app').style.display='block';
+  },500);
 
-function openAuth(type){
-  el('#authModal').style.display='flex';
-  el('#authTitle').textContent = type==='login' ? 'Sign In' : 'Sign Up';
-  el('#authType').value = type;
+  show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
+  show(SAMPLE,'#resultsGrid');
+});
+
+// Menu toggle
+document.getElementById('menuToggle').onclick=()=>{document.getElementById('navbar').classList.toggle('show');}
+document.getElementById('homeLogo').onclick=()=>{location.hash='#/';}
+
+// Authentication modal logic
+function openAuthModal(type){
+  document.getElementById('authModal').style.display='flex';
+  document.getElementById('authType').value=type;
+  document.getElementById('authTitle').textContent = type==='login'?'Sign In':'Sign Up';
+}
+document.getElementById('closeModal').onclick=()=>{document.getElementById('authModal').style.display='none';}
+document.getElementById('toggleAuth').onclick=()=>{
+  let type=document.getElementById('authType').value;
+  type=type==='login'?'signup':'login';
+  openAuthModal(type);
 }
 
-function closeAuth(){ el('#authModal').style.display='none'; }
+el('#authLink').onclick=()=>{openAuthModal('login');}
 
-function submitAuth(){
-  const email=el('#authEmail').value.trim(); const pass=el('#authPass').value.trim();
-  if(!email||!pass){ alert('Fill all fields'); return; }
-  const type=el('#authTitle').textContent.toLowerCase().includes('sign up')?'signup':'login';
-
+// Handle submit
+el('#authSubmit').onclick=()=>{
+  const type=el('#authType').value;
+  const email=el('#email').value.trim();
+  const password=el('#password').value.trim();
+  if(!email||!password){alert('Please enter email and password'); return;}
   if(type==='signup'){
-    if(usersDB.find(u=>u.email===email)){ alert('Email exists. Please login.'); return; }
-    const user={email,password:pass}; usersDB.push(user); loggedInUser=user;
-    alert('Welcome! Account created.');
+    window.netlifyIdentity.signup(email,password).then(u=>{
+      document.getElementById('authModal').style.display='none';
+      alert('Account created! Redirecting to home.');
+      location.hash='#/';
+    }).catch(err=>alert(err.message));
   } else {
-    const user=usersDB.find(u=>u.email===email && u.password===pass);
-    if(!user){ alert('Invalid credentials'); return; }
-    loggedInUser=user; alert('Welcome back!');
+    window.netlifyIdentity.login(email,password).then(u=>{
+      document.getElementById('authModal').style.display='none';
+      location.hash='#/';
+    }).catch(err=>alert(err.message));
   }
-
-  closeAuth();
-  el('#authEmail').value=''; el('#authPass').value='';
-  document.getElementById('authLinks').style.display='none';
-  location.hash='#/';
 }
 
-function toggleFavorite(id,el){ 
-  if(!loggedInUser){ alert('Please login first'); openAuth('login'); return; }
-  const idx=favoritesDB.indexOf(id);
-  if(idx>-1){ favoritesDB.splice(idx,1); el.classList.remove('active'); } else { favoritesDB.push(id); el.classList.add('active'); }
+// Initialize Netlify Identity
+if(window.netlifyIdentity){
+  window.netlifyIdentity.on('login',user=>{window.netlifyIdentity.close(); location.hash='#/';});
+  window.netlifyIdentity.on('logout',()=>{location.hash='#/';});
+  window.netlifyIdentity.init();
 }
-
-function goHome(){ location.hash='#/'; }
-
-window.addEventListener('load',()=>{ setTimeout(()=>{ el('#pre').style.display='none'; el('#app').style.display='block'; show(SAMPLE.filter(s=>s.featured),'#featuredGrid'); show(SAMPLE,'#resultsGrid'); },600); });
 </script>
 </body>
 </html>
