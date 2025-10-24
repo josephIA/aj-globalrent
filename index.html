@@ -29,11 +29,12 @@ body {
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; }
 
+/* Header & Nav */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px;
+  padding: 18px 36px;
   background: var(--panel);
   position: sticky;
   top: 0;
@@ -42,7 +43,7 @@ header {
 
 .logo {
   font-weight: 800;
-  font-size: 24px;
+  font-size: 28px;
   background: linear-gradient(135deg, var(--gold), var(--blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -51,7 +52,7 @@ header {
 
 nav {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
 }
 
@@ -60,7 +61,7 @@ nav a, nav button {
   font-weight: 700;
   background: transparent;
   border: none;
-  padding: 8px 14px;
+  padding: 10px 16px;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
@@ -72,8 +73,8 @@ nav a:hover, nav button:hover { color: var(--text); background: rgba(255,255,255
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 24px;
-  height: 18px;
+  width: 28px;
+  height: 20px;
   cursor: pointer;
 }
 
@@ -84,29 +85,31 @@ nav a:hover, nav button:hover { color: var(--text); background: rgba(255,255,255
   border-radius: 2px;
 }
 
-/* Responsive nav */
-@media (max-width: 768px) {
-  nav { 
+/* Mobile nav */
+@media (max-width: 900px) {
+  nav {
     position: absolute;
     top: 100%;
     left: 0;
-    right:0;
+    right: 0;
     background: var(--panel);
     flex-direction: column;
     display: none;
+    padding: 12px 0;
   }
   nav.active { display: flex; }
   .menu-toggle { display: flex; }
+  nav a, nav button { width: 100%; text-align: center; margin: 4px 0; }
 }
 
-/* Hero Section */
+/* Hero */
 .hero {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   text-align: left;
-  padding: 80px 24px;
+  padding: 80px 36px;
   gap: 24px;
   background: linear-gradient(180deg, rgba(13,15,17,0.6), transparent);
 }
@@ -123,8 +126,8 @@ nav a:hover, nav button:hover { color: var(--text); background: rgba(255,255,255
   margin-top: 12px;
 }
 
-/* Main Container */
-.container { max-width: 90%; margin: 0 auto; padding: 24px; flex:1; }
+/* Container & grids */
+.container { max-width: 1400px; margin: 0 auto; padding: 24px; flex:1; }
 
 .grid {
   display: grid;
@@ -159,13 +162,16 @@ nav a:hover, nav button:hover { color: var(--text); background: rgba(255,255,255
   margin-right: 6px;
 }
 
+/* User area */
 #userArea { display: none; margin-bottom: 18px; }
 
+/* Filters */
 .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 input, select { padding: 8px; border-radius: 8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text); }
 
 footer { text-align: center; padding: 24px; color: var(--muted); font-size: 13px; background: var(--panel); }
 
+/* Responsive adjustments */
 @media (max-width: 480px) {
   .hero h1 { font-size: 1.8rem; }
   .filters { flex-direction: column; }
@@ -175,16 +181,17 @@ footer { text-align: center; padding: 24px; color: var(--muted); font-size: 13px
 <body>
 
 <header>
-  <div class="logo" onclick="location.href='#/'">AJ GlobalRent</div>
+  <div class="logo" onclick="location.href='/'">AJ GlobalRent</div>
   <div class="menu-toggle" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
   <nav id="navMenu">
+    <a href="#/">Home</a>
     <a href="#/rent">Rentals</a>
     <a href="#/sale">Sales</a>
     <a href="#/services">Services</a>
     <a href="#/about">About</a>
-    <button id="signBtn" onclick="openIdentity()">Sign In / Sign Up</button>
+    <button id="signBtn" onclick="openUserIdentity()">Sign In / Sign Up</button>
   </nav>
 </header>
 
@@ -241,13 +248,17 @@ footer { text-align: center; padding: 24px; color: var(--muted); font-size: 13px
 
 <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
 
+<!-- Scripts -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
+// Sample data
 const SAMPLE = [
   { id:1, slug:"modern-loft-berlin", title:"Modern Loft in Berlin", category:"rent", country:"DE", price:1200, currency:"EUR", featured:true, images:["/static/assets/sample-house.jpg"], description:"Spacious modern loft in Berlin." },
   { id:2, slug:"family-home-london", title:"Family Home — London", category:"sale", country:"UK", price:450000, currency:"GBP", featured:true, images:["/static/assets/sample-sale.jpg"], description:"Beautiful 3-bedroom family home." },
   { id:3, slug:"event-chairs-set", title:"Event Chairs & Tables", category:"service", country:"US", price:500, currency:"USD", featured:false, images:["/static/assets/sample-service.jpg"], description:"Complete chair and table set for events." }
 ];
 
+// DOM helpers
 function el(q){ return document.querySelector(q); }
 function card(l){
   const d=document.createElement('div'); d.className='card';
@@ -258,7 +269,6 @@ function card(l){
   d.onclick=()=>{ location.hash='#/item/'+l.slug; }
   return d;
 }
-
 function show(list, sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i)); }
 
 function apply(){
@@ -287,16 +297,42 @@ function router(){
 window.addEventListener('hashchange', router);
 window.addEventListener('load', router);
 
-function toggleMenu(){
-  el('#navMenu').classList.toggle('active');
+function toggleMenu(){ el('#navMenu').classList.toggle('active'); }
+
+// User login popup
+function openUserIdentity(){
+  if(!window.userModal){
+    const modal = document.createElement('div');
+    modal.style.position='fixed'; modal.style.inset=0;
+    modal.style.background='rgba(0,0,0,0.85)';
+    modal.style.display='flex'; modal.style.alignItems='center'; modal.style.justifyContent='center';
+    modal.style.zIndex=9999; modal.id='userModal';
+
+    const form = document.createElement('div');
+    form.style.background=var(--panel); form.style.padding='24px'; form.style.borderRadius='12px';
+    form.style.minWidth='320px'; form.style.maxWidth='400px'; form.style.color='#fff';
+    form.innerHTML = `
+      <h2>Sign In / Sign Up</h2>
+      <button style="margin-top:12px;" onclick="window.netlifyIdentity.open()">Proceed</button>
+      <button style="margin-top:8px;" onclick="closeUserModal()">Cancel</button>
+    `;
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+    window.userModal = modal;
+  } else {
+    window.userModal.style.display='flex';
+  }
 }
 
-// Netlify Identity
+function closeUserModal(){ if(window.userModal) window.userModal.style.display='none'; }
+
+// Netlify Identity user management
 if(window.netlifyIdentity){
   window.netlifyIdentity.on('init', user=>{ updateUI(user); });
   window.netlifyIdentity.on('login', user=>{
     window.netlifyIdentity.close();
     updateUI(user);
+    closeUserModal();
   });
   window.netlifyIdentity.on('logout', ()=>{ updateUI(null); });
 }
@@ -315,10 +351,7 @@ function updateUI(user){
     userArea.style.display='none';
   }
 }
-
-function openIdentity(){ if(window.netlifyIdentity) window.netlifyIdentity.open(); }
 </script>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </body>
 </html>
