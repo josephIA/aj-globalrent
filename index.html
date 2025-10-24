@@ -1,99 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AJ GlobalRent & Services</title>
-<link rel="icon" href="/static/assets/favicon.png">
-<style>
-  :root {
-    --bg: #ffffff;
-    --text: #000000;
-    --btn-bg: #000000;
-    --btn-text: #ffffff;
-    --muted: #555555;
-    --highlight: #000000;
-  }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AJ GlobalRent & Services</title>
+  <link rel="icon" href="/static/assets/favicon.png">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --button-bg: #000000;
+      --button-text: #ffffff;
+      --muted: #555555;
+    }
 
-  * { box-sizing: border-box; margin:0; padding:0; font-family: Arial, sans-serif; }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); }
 
-  body { background: var(--bg); color: var(--text); }
+    a { text-decoration: none; color: inherit; }
 
-  a { text-decoration:none; color: inherit; }
+    .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 
-  .container { max-width: 1300px; margin: auto; padding: 20px; }
+    header { display:flex; justify-content: space-between; align-items:center; padding:20px 0; border-bottom:1px solid #ddd; }
+    .logo { font-size: 24px; font-weight:bold; cursor:default; }
+    nav { display:flex; gap:15px; flex-wrap:wrap; }
+    nav a { font-weight:600; }
+    .btn { background: var(--button-bg); color: var(--button-text); padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
 
-  header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #ddd; flex-wrap:wrap; }
+    .hero { display:flex; justify-content: space-between; gap:20px; margin:30px 0; flex-wrap:wrap; }
+    .hero-left { flex:1; min-width:250px; }
+    h1 { font-size:28px; margin-bottom:10px; }
+    .lead { color: var(--muted); }
 
-  .logo { font-weight:bold; font-size:24px; cursor:pointer; }
+    .filters { display:flex; gap:10px; margin-top:15px; flex-wrap:wrap; }
+    .filters input, .filters select { padding:8px; border:1px solid #ddd; border-radius:6px; }
 
-  nav { display:flex; gap:15px; flex-wrap:wrap; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:20px; margin-top:20px; }
+    .card { border:1px solid #ddd; border-radius:8px; padding:10px; position:relative; }
+    .card img { width:100%; height:180px; object-fit:cover; border-radius:6px; }
+    .meta { margin-top:5px; font-size:13px; color: var(--muted); }
+    .price { font-weight:bold; margin-top:8px; }
+    .favorite { position:absolute; top:10px; right:10px; font-size:20px; cursor:pointer; color:#ccc; }
+    .favorite.active { color: gold; }
 
-  nav a { padding:6px 12px; border-radius:5px; transition:0.2s; }
-  nav a:hover { background: var(--btn-bg); color: var(--btn-text); }
+    /* Sign-in / Sign-up modal */
+    .modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999; }
+    .modal-content { background:#fff; padding:20px; border-radius:8px; width:90%; max-width:400px; }
+    .modal-content h2 { margin-bottom:15px; }
+    .modal-content input { width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:6px; }
+    .modal-content .btn { width:100%; margin-top:5px; }
 
-  .btn { padding:6px 14px; border:none; border-radius:5px; cursor:pointer; background: var(--btn-bg); color: var(--btn-text); transition:0.2s; }
-  .btn:hover { opacity:0.8; }
+    footer { margin-top:40px; text-align:center; color: var(--muted); font-size:13px; padding:20px 0; border-top:1px solid #ddd; }
 
-  .hero { display:flex; justify-content:space-between; margin:20px 0; flex-wrap:wrap; gap:20px; }
-  .hero-left { flex:1; }
-  .hero-right { width:300px; }
-
-  .filters { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-  .filters input, .filters select { padding:6px 8px; border:1px solid #ccc; border-radius:5px; }
-
-  .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:15px; margin-top:20px; }
-
-  .card { border:1px solid #ddd; border-radius:8px; overflow:hidden; position:relative; cursor:pointer; transition:0.2s; }
-  .card:hover { box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-  .card img { width:100%; height:180px; object-fit:cover; }
-  .card h3 { padding:10px; margin:0; font-size:18px; }
-  .card .meta { padding:0 10px 10px; color: var(--muted); display:flex; justify-content:space-between; align-items:center; }
-  .card .price { padding:0 10px 10px; font-weight:bold; color:var(--highlight); }
-  .favorite { position:absolute; top:10px; right:10px; font-size:24px; cursor:pointer; }
-
-  footer { text-align:center; padding:20px 0; margin-top:30px; color: var(--muted); border-top:1px solid #ddd; }
-
-  /* Responsive nav for mobile */
-  @media(max-width:768px){
-    header { flex-direction:column; align-items:flex-start; }
-    nav { width:100%; justify-content:flex-start; gap:10px; }
-    .hero { flex-direction:column; }
-  }
-</style>
+    @media(max-width:800px){ nav { justify-content:center; } }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="logo">AJ GlobalRent</div>
+      <nav>
+        <a href="#/">Home</a>
+        <a href="#/rent">Houses (Rent)</a>
+        <a href="#/sale">Houses (Sale)</a>
+        <a href="#/services">Services</a>
+        <a href="#/favorites" id="favLink">Favorites</a>
+        <span id="authButtons">
+          <button class="btn" id="signInBtn">Sign In</button>
+          <button class="btn" id="signUpBtn">Sign Up</button>
+        </span>
+      </nav>
+    </header>
 
-<div class="container">
-
-  <header>
-    <div class="logo">AJ GlobalRent</div>
-    <nav>
-      <a href="#/">Home</a>
-      <a href="#/rent">Houses (Rent)</a>
-      <a href="#/sale">Houses (Sale)</a>
-      <a href="#/services">Services</a>
-      <a href="#/about">About</a>
-      <span id="authLinks">
-        <button class="btn" onclick="openAuth('login')">Sign In</button>
-        <button class="btn" onclick="openAuth('signup')">Sign Up</button>
-      </span>
-      <span id="userLinks" style="display:none;">
-        <span id="userEmail"></span>
-        <button class="btn" onclick="logoutUser()">Sign Out</button>
-      </span>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <div class="hero-left">
-      <h1>Premium global rentals — homes & services, simplified</h1>
-      <p style="color:var(--muted);">Search properties and services across the USA.</p>
-
-      <div class="filters">
-        <input id="q" type="text" placeholder="Search listing">
-        <select id="state">
-          <option value="all">All States</option>
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Find your perfect home or service</h1>
+        <p class="lead">Search premium listings across the USA.</p>
+        <div class="filters">
+          <input type="text" id="q" placeholder="Search...">
+          <select id="state">
+            <option value="all">All States</option>
     <option value="AL">Alabama</option>
     <option value="AK">Alaska</option>
     <option value="AZ">Arizona</option>
@@ -144,132 +130,181 @@
     <option value="WV">West Virginia</option>
     <option value="WI">Wisconsin</option>
     <option value="WY">Wyoming</option>
-        </select>
-        <select id="cat">
-          <option value="all">All</option>
-          <option value="rent">Rent</option>
-          <option value="sale">Sale</option>
-          <option value="service">Service</option>
-        </select>
-        <button class="btn" onclick="apply()">Search</button>
+          </select>
+          <select id="service">
+            <option value="all">All</option>
+            <option value="rent">Rent</option>
+            <option value="sale">Sale</option>
+            <option value="service">Service</option>
+          </select>
+          <button class="btn" onclick="apply()">Search</button>
+        </div>
       </div>
+    </section>
+
+    <div class="grid" id="resultsGrid"></div>
+    <footer>© 2025 AJ GlobalRent & Services</footer>
+  </div>
+
+  <!-- Sign-in / Sign-up modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <h2 id="authTitle">Sign In</h2>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button class="btn" id="authSubmit">Submit</button>
+      <p style="margin-top:10px; font-size:13px;">Don't have an account? <a href="#" id="toggleAuth">Sign Up</a></p>
     </div>
+  </div>
 
-    <div class="hero-right">
-      <div style="border:1px solid #ddd; padding:10px; border-radius:8px;">
-        <strong>Need Help?</strong>
-        <p>Email: <a href="mailto:homeandapartment@gmail.com">homeandapartment@gmail.com</a></p>
-      </div>
-    </div>
-  </section>
+  <script>
+    // Sample listings
+    const SAMPLE = [
+      {id:1,title:"Modern Loft California",category:"rent",state:"CA",price:2000,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
+      {id:2,title:"Luxury Apartment New York",category:"sale",state:"NY",price:500000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
+      {id:3,title:"Event Chairs & Tables",category:"service",state:"TX",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
+      {id:4,title:"Family Home Florida",category:"sale",state:"FL",price:450000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
+      {id:5,title:"Studio Apartment Illinois",category:"rent",state:"IL",price:1500,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"]},
+      {id:6,title:"Villa Pennsylvania",category:"sale",state:"PA",price:700000,currency:"USD",featured:false,images:["/static/assets/sample-sale.jpg"]},
+      {id:7,title:"Small Office Ohio",category:"rent",state:"OH",price:1200,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
+      {id:8,title:"Townhouse Georgia",category:"sale",state:"GA",price:380000,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
+      {id:9,title:"Workshop North Carolina",category:"service",state:"NC",price:600,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]}
+    ];
 
-  <section>
-    <h2>Featured Listings</h2>
-    <div id="featuredGrid" class="grid"></div>
-  </section>
+    // Authentication simulation
+    let USERS = JSON.parse(localStorage.getItem("USERS") || "[]");
+    let LOGGED_IN_USER = JSON.parse(localStorage.getItem("LOGGED_IN_USER") || "null");
+    const authModal = document.getElementById("authModal");
+    const authTitle = document.getElementById("authTitle");
+    const authSubmit = document.getElementById("authSubmit");
+    const toggleAuth = document.getElementById("toggleAuth");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const authButtons = document.getElementById("authButtons");
 
-  <section>
-    <h2>All Listings</h2>
-    <div id="resultsGrid" class="grid"></div>
-  </section>
+    function updateAuthUI() {
+      if(LOGGED_IN_USER) {
+        authButtons.innerHTML = `<button class="btn" onclick="logout()">Sign Out</button>`;
+      } else {
+        authButtons.innerHTML = `<button class="btn" id="signInBtn">Sign In</button><button class="btn" id="signUpBtn">Sign Up</button>`;
+        document.getElementById("signInBtn").onclick = ()=>openAuthModal('signin');
+        document.getElementById("signUpBtn").onclick = ()=>openAuthModal('signup');
+      }
+    }
 
-</div>
+    function openAuthModal(mode){
+      authModal.style.display = "flex";
+      authTitle.textContent = mode==="signin"?"Sign In":"Sign Up";
+      authSubmit.onclick = ()=>submitAuth(mode);
+      toggleAuth.textContent = mode==="signin"?"Sign Up":"Sign In";
+    }
 
-<footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
+    toggleAuth.onclick = ()=>{ openAuthModal(authTitle.textContent==="Sign In"?"signup":"signin"); };
 
-<!-- Netlify Identity Widget -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    function submitAuth(mode){
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      if(!email||!password){ alert("Email and password required"); return; }
+      if(mode==="signup"){
+        if(USERS.find(u=>u.email===email)){ alert("Email already exists"); return; }
+        USERS.push({email,password,favorites:[]});
+        localStorage.setItem("USERS",JSON.stringify(USERS));
+        LOGGED_IN_USER = {email,favorites:[]};
+        localStorage.setItem("LOGGED_IN_USER",JSON.stringify(LOGGED_IN_USER));
+      } else {
+        const user = USERS.find(u=>u.email===email && u.password===password);
+        if(!user){ alert("Invalid credentials"); return; }
+        LOGGED_IN_USER = user;
+        localStorage.setItem("LOGGED_IN_USER",JSON.stringify(LOGGED_IN_USER));
+      }
+      authModal.style.display = "none";
+      emailInput.value = passwordInput.value = "";
+      renderListings();
+      updateAuthUI();
+    }
 
-<script>
-// Sample Listings
-const SAMPLE = [
-  {id:1,slug:"modern-loft-ca",title:"Modern Loft California",category:"rent",state:"CA",price:1200,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
-  {id:2,slug:"family-home-ny",title:"Family Home New York",category:"sale",state:"NY",price:450000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
-  {id:3,slug:"event-chairs-set",title:"Event Chairs & Tables",category:"service",state:"TX",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
-  {id:4,slug:"beach-condo-fl",title:"Beach Condo Florida",category:"rent",state:"FL",price:1500,currency:"USD",featured:true,images:["/static/assets/sample-house2.jpg"]},
-  {id:5,slug:"downtown-apartment-il",title:"Downtown Apartment Illinois",category:"sale",state:"IL",price:300000,currency:"USD",featured:true,images:["/static/assets/sample-sale2.jpg"]},
-  {id:6,slug:"villa-ca",title:"Luxury Villa California",category:"sale",state:"CA",price:750000,currency:"USD",featured:true,images:["/static/assets/sample-villa.jpg"]},
-  {id:7,slug:"studio-ny",title:"Studio Apartment NY",category:"rent",state:"NY",price:1000,currency:"USD",featured:false,images:["/static/assets/sample-house3.jpg"]},
-  {id:8,slug:"event-tables",title:"Event Tables Rental",category:"service",state:"FL",price:300,currency:"USD",featured:false,images:["/static/assets/sample-service2.jpg"]},
-  {id:9,slug:"suburban-home-il",title:"Suburban Home Illinois",category:"sale",state:"IL",price:250000,currency:"USD",featured:false,images:["/static/assets/sample-sale3.jpg"]},
-];
+    function logout(){
+      LOGGED_IN_USER=null;
+      localStorage.setItem("LOGGED_IN_USER",null);
+      updateAuthUI();
+      renderListings();
+    }
 
-let favorites = [];
+    // Render listings
+    function card(item){
+      const d = document.createElement("div");
+      d.className="card";
 
-// DOM helpers
-function el(q){ return document.querySelector(q); }
+      const img = document.createElement("img");
+      img.src=item.images[0];
+      d.appendChild(img);
 
-// Render Cards
-function card(listing){
-  const d=document.createElement('div'); d.className='card';
-  const fav = document.createElement('span'); fav.className='favorite'; fav.innerHTML = '☆';
-  fav.onclick = e => { e.stopPropagation(); toggleFavorite(listing,fav); };
-  d.appendChild(fav);
-  const img=document.createElement('img'); img.src=listing.images[0]; d.appendChild(img);
-  const h=document.createElement('h3'); h.textContent=listing.title; d.appendChild(h);
-  const m=document.createElement('div'); m.className='meta'; m.innerHTML=`<span>${listing.category}</span> <span>${listing.state}</span>`; d.appendChild(m);
-  const p=document.createElement('div'); p.className='price'; p.textContent=`${listing.currency} ${listing.price.toLocaleString()}`; d.appendChild(p);
-  return d;
-}
+      const h = document.createElement("h3");
+      h.textContent=item.title;
+      d.appendChild(h);
 
-function show(list,sel){ const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i))); }
+      const m = document.createElement("div");
+      m.className="meta";
+      m.textContent=`${item.category.toUpperCase()} | ${item.state}`;
+      d.appendChild(m);
 
-function apply(){
-  const q=el('#q').value.toLowerCase();
-  const s=el('#state').value;
-  const c=el('#cat').value;
-  let r=SAMPLE.filter(i=>{
-    if(c!=='all'&&i.category!==c) return false;
-    if(s!=='all'&&i.state!==s) return false;
-    if(q&&!(i.title.toLowerCase().includes(q))) return false;
-    return true;
-  });
-  show(r,'#resultsGrid');
-}
+      const p = document.createElement("div");
+      p.className="price";
+      p.textContent=`${item.currency} ${item.price.toLocaleString()}`;
+      d.appendChild(p);
 
-function toggleFavorite(listing,favEl){
-  if(!window.netlifyIdentity.currentUser()){
-    alert('Please sign in to save favorites');
-    openAuth('login');
-    return;
-  }
-  const idx=favorites.findIndex(f=>f.id===listing.id);
-  if(idx===-1){ favorites.push(listing); favEl.innerHTML='★'; }
-  else { favorites.splice(idx,1); favEl.innerHTML='☆'; }
-  console.log('Favorites:',favorites);
-}
+      const fav = document.createElement("div");
+      fav.className="favorite";
+      fav.innerHTML="★";
+      if(LOGGED_IN_USER && LOGGED_IN_USER.favorites?.includes(item.id)) fav.classList.add("active");
+      fav.onclick = (e)=>{
+        e.stopPropagation();
+        if(!LOGGED_IN_USER){ openAuthModal('signin'); return; }
+        if(LOGGED_IN_USER.favorites.includes(item.id)){
+          LOGGED_IN_USER.favorites = LOGGED_IN_USER.favorites.filter(id=>id!==item.id);
+        } else {
+          LOGGED_IN_USER.favorites.push(item.id);
+        }
+        localStorage.setItem("LOGGED_IN_USER",JSON.stringify(LOGGED_IN_USER));
+        renderListings();
+      }
+      d.appendChild(fav);
 
-// Netlify Identity
-if(window.netlifyIdentity){
-  window.netlifyIdentity.on('init', user => updateAuthUI(user));
-  window.netlifyIdentity.on('login', user => { window.netlifyIdentity.close(); updateAuthUI(user); });
-  window.netlifyIdentity.on('logout', () => updateAuthUI(null));
-  window.netlifyIdentity.init();
-}
+      return d;
+    }
 
-function openAuth(type){
-  if(!window.netlifyIdentity) return alert("Netlify Identity not initialized!");
-  window.netlifyIdentity.open(type);
-}
+    function renderListings(){
+      const grid = document.getElementById("resultsGrid");
+      grid.innerHTML="";
+      SAMPLE.forEach(item=>{
+        const q = document.getElementById("q").value.toLowerCase();
+        const state = document.getElementById("state").value;
+        const service = document.getElementById("service").value;
+        if((q && !item.title.toLowerCase().includes(q)) ||
+           (state!=="all" && item.state!==state) ||
+           (service!=="all" && item.category!==service)) return;
+        grid.appendChild(card(item));
+      });
+    }
 
-function updateAuthUI(user){
-  if(user){
-    el('#authLinks').style.display='none';
-    el('#userLinks').style.display='inline';
-    el('#userEmail').textContent = user.email;
-  } else {
-    el('#authLinks').style.display='inline';
-    el('#userLinks').style.display='none';
-  }
-}
+    function apply(){ renderListings(); }
 
-function logoutUser(){ if(window.netlifyIdentity) window.netlifyIdentity.logout(); }
+    document.getElementById("q").addEventListener("input", renderListings);
+    document.getElementById("state").addEventListener("change", renderListings);
+    document.getElementById("service").addEventListener("change", renderListings);
 
-// Initial render
-window.addEventListener('load',()=>{
-  show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
-  show(SAMPLE,'#resultsGrid');
-});
-</script>
+    // Favorites page
+    document.getElementById("favLink").onclick = (e)=>{
+      e.preventDefault();
+      if(!LOGGED_IN_USER){ openAuthModal('signin'); return; }
+      const grid = document.getElementById("resultsGrid");
+      grid.innerHTML="";
+      SAMPLE.filter(item=>LOGGED_IN_USER.favorites.includes(item.id))
+            .forEach(item=>grid.appendChild(card(item)));
+    }
+
+    updateAuthUI();
+    renderListings();
+  </script>
 </body>
 </html>
