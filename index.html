@@ -1,58 +1,76 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AJ GlobalRent & Services</title>
-  <link rel="icon" href="/static/assets/favicon.png">
+  <link rel="icon" href="/static/assets/favicon.png" />
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --button-bg: #000000;
-      --button-text: #ffffff;
-      --muted: #555555;
+    :root{
+      --bg:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --accent:#0f172a;
+      --card:#ffffff;
+      --edge: #e6e9ee;
     }
 
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial, sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.4}
 
-    a { text-decoration: none; color: inherit; }
+    .container{max-width:1200px;margin:0 auto;padding:24px}
 
-    .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--edge)}
+    .logo{font-size:22px;font-weight:700;letter-spacing:0.2px}
+    nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    nav a{font-weight:600;color:var(--text);text-decoration:none;padding:6px 8px;border-radius:6px;transition:background .15s}
+    nav a:hover{background:var(--edge)}
 
-    header { display:flex; justify-content: space-between; align-items:center; padding:20px 0; border-bottom:1px solid #ddd; }
-    .logo { font-size: 24px; font-weight:bold; cursor:default; }
-    nav { display:flex; gap:15px; flex-wrap:wrap; }
-    nav a { font-weight:600; }
-    .btn { background: var(--button-bg); color: var(--button-text); padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
+    .auth-controls { display:flex; gap:8px; align-items:center; }
+    .btn{background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--edge)}
 
-    .hero { display:flex; justify-content: space-between; gap:20px; margin:30px 0; flex-wrap:wrap; }
-    .hero-left { flex:1; min-width:250px; }
-    h1 { font-size:28px; margin-bottom:10px; }
-    .lead { color: var(--muted); }
+    /* HERO */
+    .hero { display:flex; gap:24px; align-items:center; justify-content:space-between; margin:26px 0; flex-wrap:wrap; }
+    .hero-left{flex:1;min-width:260px}
+    h1{font-size:26px;margin-bottom:8px}
+    .lead{color:var(--muted);margin-bottom:12px}
 
-    .filters { display:flex; gap:10px; margin-top:15px; flex-wrap:wrap; }
-    .filters input, .filters select { padding:8px; border:1px solid #ddd; border-radius:6px; }
+    /* Static categories row (home only) */
+    .categories-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:18px}
+    .category-card{background:var(--card);border-radius:10px;overflow:hidden;cursor:pointer;box-shadow:0 6px 18px rgba(12,16,24,0.06);transition:transform .18s,box-shadow .18s}
+    .category-card:hover{transform:translateY(-6px)}
+    .category-card img{width:100%;height:130px;object-fit:cover;display:block}
+    .category-card .cap{padding:12px;font-weight:700;color:var(--accent);text-align:center}
 
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:20px; margin-top:20px; }
-    .card { border:1px solid #ddd; border-radius:8px; padding:10px; position:relative; }
-    .card img { width:100%; height:180px; object-fit:cover; border-radius:6px; }
-    .meta { margin-top:5px; font-size:13px; color: var(--muted); }
-    .price { font-weight:bold; margin-top:8px; }
-    .favorite { position:absolute; top:10px; right:10px; font-size:20px; cursor:pointer; color:#ccc; }
-    .favorite.active { color: gold; }
+    /* filters */
+    .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .filters input,.filters select{padding:10px 12px;border-radius:8px;border:1px solid var(--edge);min-width:140px}
+    .filters .apply{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:700}
 
-    /* Sign-in / Sign-up modal */
-    .modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999; }
-    .modal-content { background:#fff; padding:20px; border-radius:8px; width:90%; max-width:400px; }
-    .modal-content h2 { margin-bottom:15px; }
-    .modal-content input { width:100%; padding:8px; margin-bottom:10px; border:1px solid #ddd; border-radius:6px; }
-    .modal-content .btn { width:100%; margin-top:5px; }
+    /* grid listings */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:20px}
+    .card{background:var(--card);border-radius:10px;padding:12px;position:relative;border:1px solid var(--edge);box-shadow:0 6px 12px rgba(12,16,24,0.04);display:flex;flex-direction:column;gap:10px}
+    .card img{width:100%;height:180px;object-fit:cover;border-radius:6px}
+    .card h3{font-size:16px;margin-top:4px}
+    .meta{font-size:13px;color:var(--muted)}
+    .price{font-weight:700;margin-top:6px}
+    .favorite{position:absolute;top:12px;right:12px;font-size:20px;cursor:pointer;color:#cfcfcf;user-select:none}
+    .favorite.active{color:gold}
 
-    footer { margin-top:40px; text-align:center; color: var(--muted); font-size:13px; padding:20px 0; border-top:1px solid #ddd; }
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center;z-index:9999}
+    .modal-content{background:#fff;padding:18px;border-radius:10px;width:94%;max-width:420px;box-shadow:0 12px 30px rgba(2,6,23,0.2)}
+    .modal-content h2{margin-bottom:12px;font-size:18px}
+    .modal-content input{width:100%;padding:10px;border:1px solid var(--edge);border-radius:8px;margin-bottom:10px}
 
-    @media(max-width:800px){ nav { justify-content:center; } }
+    footer{margin-top:36px;padding:18px 0;text-align:center;color:var(--muted);border-top:1px solid var(--edge)}
+
+    @media(max-width:800px){
+      .hero{flex-direction:column;align-items:flex-start}
+      nav{justify-content:center}
+      .filters{width:100%;justify-content:flex-start}
+    }
   </style>
 </head>
 <body>
@@ -65,18 +83,37 @@
         <a href="#/sale">Houses (Sale)</a>
         <a href="#/services">Services</a>
         <a href="#/favorites" id="favLink">Favorites</a>
-        <span id="authButtons">
+        <span id="authButtons" class="auth-controls">
           <button class="btn" id="signInBtn">Sign In</button>
-          <button class="btn" id="signUpBtn">Sign Up</button>
+          <button class="btn ghost" id="signUpBtn">Sign Up</button>
         </span>
       </nav>
     </header>
 
+    <!-- HERO -->
     <section class="hero" id="heroSection">
       <div class="hero-left">
         <h1>Find your perfect home or service</h1>
         <p class="lead">Search premium listings across the USA.</p>
-        <div class="filters">
+
+        <!-- Static categories (visible on Home only) -->
+        <div id="homeCategories" class="categories-row" aria-hidden="false">
+          <div class="category-card" id="catRent" role="button" title="Rent">
+            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=60" alt="Rent">
+            <div class="cap">Houses for Rent</div>
+          </div>
+          <div class="category-card" id="catSale" role="button" title="Sale">
+            <img src="https://images.unsplash.com/photo-1572120360610-d971b9b7fba7?auto=format&fit=crop&w=900&q=60" alt="Sale">
+            <div class="cap">Houses for Sale</div>
+          </div>
+          <div class="category-card" id="catService" role="button" title="Service">
+            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=900&q=60" alt="Service">
+            <div class="cap">Home Services</div>
+          </div>
+        </div>
+
+        <!-- Filters (unchanged logic, styled) -->
+        <div class="filters" style="margin-top:14px;">
           <input type="text" id="q" placeholder="Search...">
           <select id="state">
             <option value="all">All States</option>
@@ -96,12 +133,14 @@
             <option value="sale">Sale</option>
             <option value="service">Service</option>
           </select>
-          <button class="btn" onclick="apply()">Search</button>
+          <button class="apply" onclick="apply()">Search</button>
         </div>
       </div>
     </section>
 
+    <!-- Results -->
     <div class="grid" id="resultsGrid"></div>
+
     <footer>© 2025 AJ GlobalRent & Services</footer>
   </div>
 
@@ -112,12 +151,12 @@
       <input type="email" id="email" placeholder="Email">
       <input type="password" id="password" placeholder="Password">
       <button class="btn" id="authSubmit">Submit</button>
-      <p style="margin-top:10px; font-size:13px;">Don't have an account? <a href="#" id="toggleAuth">Sign Up</a></p>
+      <p style="margin-top:10px;font-size:13px;color:var(--muted)">Don't have an account? <a href="#" id="toggleAuth">Sign Up</a></p>
     </div>
   </div>
 
   <script>
-    // Sample listings
+    // --- Original SAMPLE data (unchanged) ---
     const SAMPLE = [
       {id:1,title:"Modern Loft California",category:"rent",state:"CA",price:2000,currency:"USD",images:["/static/assets/sample-house.jpg"]},
       {id:2,title:"Luxury Apartment New York",category:"sale",state:"NY",price:500000,currency:"USD",images:["/static/assets/sample-sale.jpg"]},
@@ -130,7 +169,7 @@
       {id:9,title:"Workshop North Carolina",category:"service",state:"NC",price:600,currency:"USD",images:["/static/assets/sample-service.jpg"]}
     ];
 
-    // Authentication simulation
+    // --- Authentication simulation (unchanged) ---
     let USERS = JSON.parse(localStorage.getItem("USERS") || "[]");
     let LOGGED_IN_USER = JSON.parse(localStorage.getItem("LOGGED_IN_USER") || "null");
     const authModal = document.getElementById("authModal");
@@ -145,7 +184,7 @@
       if(LOGGED_IN_USER) {
         authButtons.innerHTML = `<button class="btn" onclick="logout()">Sign Out</button>`;
       } else {
-        authButtons.innerHTML = `<button class="btn" id="signInBtn">Sign In</button><button class="btn" id="signUpBtn">Sign Up</button>`;
+        authButtons.innerHTML = `<button class="btn" id="signInBtn">Sign In</button><button class="btn ghost" id="signUpBtn">Sign Up</button>`;
         document.getElementById("signInBtn").onclick = ()=>openAuthModal('signin');
         document.getElementById("signUpBtn").onclick = ()=>openAuthModal('signup');
       }
@@ -189,7 +228,7 @@
       renderListings();
     }
 
-    // Render listings
+    // --- Render listings (logic unchanged) ---
     function card(item){
       const d = document.createElement("div");
       d.className="card";
@@ -232,8 +271,13 @@
       return d;
     }
 
-    // Filter and render
+    // Filter and render (unchanged logic, adapted to show/hide categories)
     function renderListings(filterFn){
+      // Show categories only on home route
+      const homeCats = document.getElementById("homeCategories");
+      const route = location.hash || "#/";
+      homeCats.style.display = (route === "#/" || route === "") ? "grid" : "none";
+
       const grid = document.getElementById("resultsGrid");
       grid.innerHTML="";
       let items = SAMPLE;
@@ -250,7 +294,7 @@
         return true;
       });
 
-      if(items.length === 0) grid.innerHTML = "<p>No results found.</p>";
+      if(items.length === 0) grid.innerHTML = "<p style='color:var(--muted)'>No results found.</p>";
       else items.forEach(item=>grid.appendChild(card(item)));
     }
 
@@ -260,7 +304,12 @@
     document.getElementById("state").addEventListener("change", renderListings);
     document.getElementById("service").addEventListener("change", renderListings);
 
-    // Routing logic (handles Home, Favorites, etc.)
+    // --- Category card clicks (navigate via hash; router will handle rendering) ---
+    document.getElementById("catRent").addEventListener("click", ()=> { location.hash = "#/rent"; });
+    document.getElementById("catSale").addEventListener("click", ()=> { location.hash = "#/sale"; });
+    document.getElementById("catService").addEventListener("click", ()=> { location.hash = "#/services"; });
+
+    // Routing logic (handles Home, Favorites, etc.) - unchanged behavior
     function router(){
       const route = location.hash;
       if(route === "#/favorites"){
@@ -282,6 +331,11 @@
     // Initialize
     updateAuthUI();
     router(); // run once on load
+
+    // Close modal when clicking outside content
+    authModal.addEventListener('click', function(e){
+      if(e.target === authModal) authModal.style.display = 'none';
+    });
   </script>
 </body>
 </html>
