@@ -60,7 +60,7 @@
     <header>
       <div class="logo">AJ GlobalRent</div>
       <nav>
-        <a href="#/">Home</a>
+        <a href="#/" id="homeLink">Home</a>
         <a href="#/rent">Houses (Rent)</a>
         <a href="#/sale">Houses (Sale)</a>
         <a href="#/services">Services</a>
@@ -72,7 +72,7 @@
       </nav>
     </header>
 
-    <section class="hero">
+    <section class="hero" id="heroSection">
       <div class="hero-left">
         <h1>Find your perfect home or service</h1>
         <p class="lead">Search premium listings across the USA.</p>
@@ -80,56 +80,15 @@
           <input type="text" id="q" placeholder="Search...">
           <select id="state">
             <option value="all">All States</option>
-    <option value="AL">Alabama</option>
-    <option value="AK">Alaska</option>
-    <option value="AZ">Arizona</option>
-    <option value="AR">Arkansas</option>
-    <option value="CA">California</option>
-    <option value="CO">Colorado</option>
-    <option value="CT">Connecticut</option>
-    <option value="DE">Delaware</option>
-    <option value="FL">Florida</option>
-    <option value="GA">Georgia</option>
-    <option value="HI">Hawaii</option>
-    <option value="ID">Idaho</option>
-    <option value="IL">Illinois</option>
-    <option value="IN">Indiana</option>
-    <option value="IA">Iowa</option>
-    <option value="KS">Kansas</option>
-    <option value="KY">Kentucky</option>
-    <option value="LA">Louisiana</option>
-    <option value="ME">Maine</option>
-    <option value="MD">Maryland</option>
-    <option value="MA">Massachusetts</option>
-    <option value="MI">Michigan</option>
-    <option value="MN">Minnesota</option>
-    <option value="MS">Mississippi</option>
-    <option value="MO">Missouri</option>
-    <option value="MT">Montana</option>
-    <option value="NE">Nebraska</option>
-    <option value="NV">Nevada</option>
-    <option value="NH">New Hampshire</option>
-    <option value="NJ">New Jersey</option>
-    <option value="NM">New Mexico</option>
-    <option value="NY">New York</option>
-    <option value="NC">North Carolina</option>
-    <option value="ND">North Dakota</option>
-    <option value="OH">Ohio</option>
-    <option value="OK">Oklahoma</option>
-    <option value="OR">Oregon</option>
-    <option value="PA">Pennsylvania</option>
-    <option value="RI">Rhode Island</option>
-    <option value="SC">South Carolina</option>
-    <option value="SD">South Dakota</option>
-    <option value="TN">Tennessee</option>
-    <option value="TX">Texas</option>
-    <option value="UT">Utah</option>
-    <option value="VT">Vermont</option>
-    <option value="VA">Virginia</option>
-    <option value="WA">Washington</option>
-    <option value="WV">West Virginia</option>
-    <option value="WI">Wisconsin</option>
-    <option value="WY">Wyoming</option>
+            <option value="CA">California</option>
+            <option value="NY">New York</option>
+            <option value="TX">Texas</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="IL">Illinois</option>
+            <option value="OH">Ohio</option>
+            <option value="NC">North Carolina</option>
           </select>
           <select id="service">
             <option value="all">All</option>
@@ -160,15 +119,15 @@
   <script>
     // Sample listings
     const SAMPLE = [
-      {id:1,title:"Modern Loft California",category:"rent",state:"CA",price:2000,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
-      {id:2,title:"Luxury Apartment New York",category:"sale",state:"NY",price:500000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
-      {id:3,title:"Event Chairs & Tables",category:"service",state:"TX",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
-      {id:4,title:"Family Home Florida",category:"sale",state:"FL",price:450000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
-      {id:5,title:"Studio Apartment Illinois",category:"rent",state:"IL",price:1500,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"]},
-      {id:6,title:"Villa Pennsylvania",category:"sale",state:"PA",price:700000,currency:"USD",featured:false,images:["/static/assets/sample-sale.jpg"]},
-      {id:7,title:"Small Office Ohio",category:"rent",state:"OH",price:1200,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
-      {id:8,title:"Townhouse Georgia",category:"sale",state:"GA",price:380000,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
-      {id:9,title:"Workshop North Carolina",category:"service",state:"NC",price:600,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]}
+      {id:1,title:"Modern Loft California",category:"rent",state:"CA",price:2000,currency:"USD",images:["/static/assets/sample-house.jpg"]},
+      {id:2,title:"Luxury Apartment New York",category:"sale",state:"NY",price:500000,currency:"USD",images:["/static/assets/sample-sale.jpg"]},
+      {id:3,title:"Event Chairs & Tables",category:"service",state:"TX",price:500,currency:"USD",images:["/static/assets/sample-service.jpg"]},
+      {id:4,title:"Family Home Florida",category:"sale",state:"FL",price:450000,currency:"USD",images:["/static/assets/sample-sale.jpg"]},
+      {id:5,title:"Studio Apartment Illinois",category:"rent",state:"IL",price:1500,currency:"USD",images:["/static/assets/sample-house.jpg"]},
+      {id:6,title:"Villa Pennsylvania",category:"sale",state:"PA",price:700000,currency:"USD",images:["/static/assets/sample-sale.jpg"]},
+      {id:7,title:"Small Office Ohio",category:"rent",state:"OH",price:1200,currency:"USD",images:["/static/assets/sample-service.jpg"]},
+      {id:8,title:"Townhouse Georgia",category:"sale",state:"GA",price:380000,currency:"USD",images:["/static/assets/sample-house.jpg"]},
+      {id:9,title:"Workshop North Carolina",category:"service",state:"NC",price:600,currency:"USD",images:["/static/assets/sample-service.jpg"]}
     ];
 
     // Authentication simulation
@@ -273,18 +232,26 @@
       return d;
     }
 
-    function renderListings(){
+    // Filter and render
+    function renderListings(filterFn){
       const grid = document.getElementById("resultsGrid");
       grid.innerHTML="";
-      SAMPLE.forEach(item=>{
-        const q = document.getElementById("q").value.toLowerCase();
-        const state = document.getElementById("state").value;
-        const service = document.getElementById("service").value;
+      let items = SAMPLE;
+
+      const q = document.getElementById("q").value.toLowerCase();
+      const state = document.getElementById("state").value;
+      const service = document.getElementById("service").value;
+
+      if(filterFn) items = items.filter(filterFn);
+      else items = items.filter(item=>{
         if((q && !item.title.toLowerCase().includes(q)) ||
-           (state!=="all" && item.state!==state) ||
-           (service!=="all" && item.category!==service)) return;
-        grid.appendChild(card(item));
+          (state!=="all" && item.state!==state) ||
+          (service!=="all" && item.category!==service)) return false;
+        return true;
       });
+
+      if(items.length === 0) grid.innerHTML = "<p>No results found.</p>";
+      else items.forEach(item=>grid.appendChild(card(item)));
     }
 
     function apply(){ renderListings(); }
@@ -293,18 +260,28 @@
     document.getElementById("state").addEventListener("change", renderListings);
     document.getElementById("service").addEventListener("change", renderListings);
 
-    // Favorites page
-    document.getElementById("favLink").onclick = (e)=>{
-      e.preventDefault();
-      if(!LOGGED_IN_USER){ openAuthModal('signin'); return; }
-      const grid = document.getElementById("resultsGrid");
-      grid.innerHTML="";
-      SAMPLE.filter(item=>LOGGED_IN_USER.favorites.includes(item.id))
-            .forEach(item=>grid.appendChild(card(item)));
+    // Routing logic (handles Home, Favorites, etc.)
+    function router(){
+      const route = location.hash;
+      if(route === "#/favorites"){
+        if(!LOGGED_IN_USER){ openAuthModal('signin'); return; }
+        renderListings(item => LOGGED_IN_USER.favorites.includes(item.id));
+      } else if(route === "#/rent"){
+        renderListings(item => item.category === "rent");
+      } else if(route === "#/sale"){
+        renderListings(item => item.category === "sale");
+      } else if(route === "#/services"){
+        renderListings(item => item.category === "service");
+      } else {
+        renderListings(); // Home/default
+      }
     }
 
+    window.addEventListener("hashchange", router);
+
+    // Initialize
     updateAuthUI();
-    renderListings();
+    router(); // run once on load
   </script>
 </body>
 </html>
