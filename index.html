@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AJ GlobalRent & Services</title>
   <link rel="icon" href="/static/assets/favicon.png">
   <style>
@@ -15,19 +15,20 @@
       --text: #F8FAFC;
     }
 
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; }
 
     body {
+      margin: 0;
       font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
       background: var(--bg);
       color: var(--text);
     }
 
-    a { color: inherit; text-decoration:none; }
+    a { color: inherit; text-decoration: none; }
 
     .container {
-      max-width: 1400px; /* increased container width */
-      margin: 0 auto;
+      max-width: 1400px;
+      margin: 28px auto;
       padding: 0 24px;
     }
 
@@ -36,293 +37,294 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 0;
+      flex-wrap: wrap;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
+    .brand { display: flex; gap: 12px; align-items: center; }
     .logo {
       width: 56px;
       height: 56px;
       border-radius: 10px;
-      background: linear-gradient(135deg,var(--gold),var(--blue));
+      background: linear-gradient(135deg, var(--gold), var(--blue));
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #071022;
       font-weight: 800;
-      cursor: pointer;
-      color:#071022;
+      cursor: default;
     }
 
-    nav { display:flex; align-items:center; gap:12px; }
-    nav a { font-weight:700; color: var(--muted); }
-    .menu-toggle { display:none; cursor:pointer; }
+    .tag { font-size: 13px; color: var(--muted); }
+
+    nav {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a, nav button {
+      color: var(--muted);
+      font-weight: 700;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    nav button:hover, nav a:hover { color: var(--gold); }
 
     .hero {
-      display:flex;
-      gap:18px;
-      margin-top:20px;
-      padding:20px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(13,15,17,0.5), transparent);
+      background: linear-gradient(180deg, rgba(13, 15, 17, 0.5), transparent);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 14px;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
     }
 
-    .hero-left { flex:1; }
-    h1 { font-size:26px; margin-bottom:6px; }
-    .lead { color:var(--muted); }
+    .hero-left { flex: 1; min-width: 280px; }
 
-    .filters { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
-    .filters input, .filters select { padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text); }
+    h1 { margin: 0 0 6px; font-size: 26px; }
+    .lead { margin: 0; color: var(--muted); }
 
     .btn {
-      background: linear-gradient(90deg,var(--blue),#2563EB);
-      padding:9px 14px;
-      border-radius:8px;
-      color:#fff;
-      font-weight:700;
-      border:none;
-      cursor:pointer;
+      background: linear-gradient(90deg, var(--blue), #2563EB);
+      padding: 9px 14px;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
     }
 
-    .grid { display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-top:16px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-      border-radius:10px;
-      padding:10px;
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow:0 8px 30px rgba(2,6,23,0.7);
-      cursor:pointer;
-      position:relative;
-    }
-    .card img { width:100%; height:150px; object-fit:cover; border-radius:8px; }
-    .meta { color: var(--muted); font-size:13px; margin-top:6px; }
-    .badge { background: rgba(212,175,55,0.12); color:var(--gold); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
-    .favorite { position:absolute; top:10px; right:10px; font-size:18px; color:var(--muted); cursor:pointer; }
-
-    .sidebar { width:300px; }
-    .main { display:flex; gap:16px; margin-top:18px; }
-    .muted { color:var(--muted); }
-
-    footer { margin-top:28px; text-align:center; color:var(--muted); font-size:13px; }
-
-    .preloader {
-      position:fixed; inset:0;
-      display:flex; align-items:center; justify-content:center;
-      background: var(--bg); z-index:9999;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 8px 30px rgba(2, 6, 23, 0.7);
+      cursor: pointer;
     }
 
-    .spinner {
-      width:64px; height:64px; border-radius:50%;
-      border:6px solid rgba(212,175,55,0.12);
-      border-top-color: var(--gold);
-      animation: spin 1s linear infinite;
+    .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
+    .meta { color: var(--muted); font-size: 13px; }
+    .badge {
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--gold);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 12px;
     }
 
-    @keyframes spin { to{transform:rotate(360deg);} }
+    .filters { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .filters input, .filters select { padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text); }
 
-    @media (max-width:900px){
-      .grid { grid-template-columns: repeat(2,1fr); }
-      .sidebar { width:100%; }
-      .main { flex-direction:column; }
-      nav { display:none; flex-direction:column; background:var(--panel); position:absolute; top:72px; right:0; width:200px; padding:12px; border-radius:8px; gap:12px; }
-      nav.show { display:flex; }
-      .menu-toggle { display:block; color:var(--muted); font-weight:bold; }
+    .main { display: flex; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+    .sidebar { width: 300px; min-width: 280px; }
+
+    .muted { color: var(--muted); }
+
+    footer { margin-top: 28px; text-align: center; color: var(--muted); font-size: 13px; }
+
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .main { flex-direction: column; }
+      .sidebar { width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-<div id="pre" class="preloader"><div class="spinner"></div></div>
-
-<div class="container" id="app" style="display:none">
-
-<header>
-  <div class="brand">
-    <div class="logo" id="homeLogo">AJ</div>
-    <div>
-      <div style="font-weight:800">AJ GlobalRent & Services</div>
-      <div class="tag">Luxury. Trust. Global Convenience.</div>
+<div class="container" id="app">
+  <header>
+    <div class="brand">
+      <div class="logo">AJ</div>
+      <div>
+        <div style="font-weight:800">AJ GlobalRent & Services</div>
+        <div class="tag">Luxury. Trust. Global Convenience.</div>
+      </div>
     </div>
-  </div>
-  <div class="menu-toggle" id="menuToggle">Menu</div>
-  <nav id="navbar">
-    <a href="#/">Home</a>
-    <a href="#/rent">Houses (Rent)</a>
-    <a href="#/sale">Houses (Sale)</a>
-    <a href="#/services">Services</a>
-    <a href="#/about">About</a>
-    <a href="#" id="authLink">Sign In / Sign Up</a>
-  </nav>
-</header>
+    <nav>
+      <a href="#/">Home</a>
+      <a href="#/rent">Houses (Rent)</a>
+      <a href="#/sale">Houses (Sale)</a>
+      <a href="#/services">Services</a>
+      <a href="#/about">About</a>
+      <span id="authButtons"></span>
+    </nav>
+  </header>
 
-<section class="hero">
-  <div class="hero-left">
-    <h1>Premium global rentals — homes & services, simplified</h1>
-    <p class="lead">Search properties and services across the USA, Germany, Spain, UK, France, Italy, Canada, Australia, UAE.</p>
-    <div class="filters">
-      <input id="q" type="text" placeholder="Search city or listing">
-      <select id="country">
-        <option value="all">All countries</option>
-        <option value="US">USA</option>
-        <option value="DE">Germany</option>
-        <option value="ES">Spain</option>
-        <option value="UK">UK</option>
-        <option value="FR">France</option>
-        <option value="IT">Italy</option>
-        <option value="CA">Canada</option>
-        <option value="AU">Australia</option>
-        <option value="AE">UAE</option>
-      </select>
-      <select id="cat">
-        <option value="all">All</option>
-        <option value="rent">Rent</option>
-        <option value="sale">Sale</option>
-        <option value="service">Service</option>
-      </select>
-      <button class="btn" onclick="apply()">Search</button>
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Premium US Rentals — homes & services, simplified</h1>
+      <p class="lead">Search properties and services across the United States.</p>
+
+      <div class="filters">
+        <input id="q" type="text" placeholder="Search city or listing">
+        <select id="state">
+          <option value="all">All States</option>
+    <option value="AL">Alabama</option>
+    <option value="AK">Alaska</option>
+    <option value="AZ">Arizona</option>
+    <option value="AR">Arkansas</option>
+    <option value="CA">California</option>
+    <option value="CO">Colorado</option>
+    <option value="CT">Connecticut</option>
+    <option value="DE">Delaware</option>
+    <option value="FL">Florida</option>
+    <option value="GA">Georgia</option>
+    <option value="HI">Hawaii</option>
+    <option value="ID">Idaho</option>
+    <option value="IL">Illinois</option>
+    <option value="IN">Indiana</option>
+    <option value="IA">Iowa</option>
+    <option value="KS">Kansas</option>
+    <option value="KY">Kentucky</option>
+    <option value="LA">Louisiana</option>
+    <option value="ME">Maine</option>
+    <option value="MD">Maryland</option>
+    <option value="MA">Massachusetts</option>
+    <option value="MI">Michigan</option>
+    <option value="MN">Minnesota</option>
+    <option value="MS">Mississippi</option>
+    <option value="MO">Missouri</option>
+    <option value="MT">Montana</option>
+    <option value="NE">Nebraska</option>
+    <option value="NV">Nevada</option>
+    <option value="NH">New Hampshire</option>
+    <option value="NJ">New Jersey</option>
+    <option value="NM">New Mexico</option>
+    <option value="NY">New York</option>
+    <option value="NC">North Carolina</option>
+    <option value="ND">North Dakota</option>
+    <option value="OH">Ohio</option>
+    <option value="OK">Oklahoma</option>
+    <option value="OR">Oregon</option>
+    <option value="PA">Pennsylvania</option>
+    <option value="RI">Rhode Island</option>
+    <option value="SC">South Carolina</option>
+    <option value="SD">South Dakota</option>
+    <option value="TN">Tennessee</option>
+    <option value="TX">Texas</option>
+    <option value="UT">Utah</option>
+    <option value="VT">Vermont</option>
+    <option value="VA">Virginia</option>
+    <option value="WA">Washington</option>
+    <option value="WV">West Virginia</option>
+    <option value="WI">Wisconsin</option>
+    <option value="WY">Wyoming</option>
+  </select>
+        <select id="cat">
+          <option value="all">All</option>
+          <option value="rent">Rent</option>
+          <option value="sale">Sale</option>
+          <option value="service">Service</option>
+        </select>
+        <button class="btn" onclick="apply()">Search</button>
+      </div>
     </div>
-    <div style="margin-top:12px">
-      <a class="btn" href="#/rent">Browse Rentals</a>
+  </section>
+
+  <div class="main">
+    <div style="flex:1">
+      <section id="featured">
+        <h2>Featured</h2>
+        <div id="featuredGrid" class="grid"></div>
+      </section>
+
+      <section id="results" style="margin-top:18px">
+        <h2>Results</h2>
+        <div id="resultsGrid" class="grid"></div>
+      </section>
     </div>
+
+    <aside class="sidebar">
+      <div class="card">
+        <h3>About</h3>
+        <div class="muted">AJ GlobalRent provides top listings across the US. Trusted partners and easy search.</div>
+      </div>
+    </aside>
   </div>
-</section>
 
-<div class="main">
-  <div style="flex:1">
-    <section id="featured">
-      <h2>Featured</h2>
-      <div id="featuredGrid" class="grid"></div>
-    </section>
-
-    <section id="results" style="margin-top:18px">
-      <h2>Results</h2>
-      <div id="resultsGrid" class="grid"></div>
-    </section>
-  </div>
-</div>
-
-<footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
-
-</div>
-
-<!-- Modal -->
-<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.9);z-index:9999;align-items:center;justify-content:center;">
-  <div style="background:var(--panel);padding:24px;border-radius:12px;max-width:400px;width:90%;position:relative;">
-    <h2 id="authTitle">Sign In</h2>
-    <input type="hidden" id="authType" value="login">
-    <input type="email" id="email" placeholder="Email" style="width:100%;margin-top:12px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text)">
-    <input type="password" id="password" placeholder="Password" style="width:100%;margin-top:12px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text)">
-    <button class="btn" style="margin-top:12px;width:100%;" id="authSubmit">Submit</button>
-    <div style="margin-top:8px;text-align:center;color:var(--muted);cursor:pointer;" id="toggleAuth">Don't have an account? Sign Up</div>
-    <div style="position:absolute;top:8px;right:12px;font-size:18px;cursor:pointer;" id="closeModal">×</div>
-  </div>
+  <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
 </div>
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
 const SAMPLE = [
-  {"id":1,"slug":"modern-loft-berlin","title":"Modern Loft in Berlin","category":"rent","country":"DE","price":1200,"currency":"EUR","featured":true,"images":["/static/assets/sample-house.jpg"],"date":"2025-10-01","description":"Spacious modern loft in the heart of Berlin. Furnished, 2 beds, fast internet."},
-  {"id":2,"slug":"family-home-london","title":"Family Home — London","category":"sale","country":"UK","price":450000,"currency":"GBP","featured":true,"images":["/static/assets/sample-sale.jpg"],"date":"2025-09-28","description":"Beautiful 3-bedroom family home near parks and schools."},
-  {"id":3,"slug":"event-chairs-set","title":"Event Chairs & Tables (Pack of 50)","category":"service","country":"US","price":500,"currency":"USD","featured":false,"images":["/static/assets/sample-service.jpg"],"date":"2025-10-18","description":"Complete chair and table set for events, delivery & setup available."},
-  {"id":4,"slug":"villa-paris","title":"Luxury Villa in Paris","category":"rent","country":"FR","price":2500,"currency":"EUR","featured":true,"images":["/static/assets/sample-house2.jpg"],"date":"2025-10-10","description":"Stunning villa in Paris city center."},
-  {"id":5,"slug":"apartment-rome","title":"Apartment in Rome","category":"sale","country":"IT","price":320000,"currency":"EUR","featured":false,"images":["/static/assets/sample-house3.jpg"],"date":"2025-10-15","description":"Cozy 2-bedroom apartment in Rome."},
-  {"id":6,"slug":"cottage-toronto","title":"Cottage in Toronto","category":"rent","country":"CA","price":900,"currency":"CAD","featured":false,"images":["/static/assets/sample-house4.jpg"],"date":"2025-10-12","description":"Cottage with lake view."},
-  {"id":7,"slug":"beachhouse-sydney","title":"Beach House Sydney","category":"rent","country":"AU","price":1800,"currency":"AUD","featured":false,"images":["/static/assets/sample-house5.jpg"],"date":"2025-10-14","description":"Beachfront property in Sydney."},
-  {"id":8,"slug":"apartment-dubai","title":"Apartment in Dubai","category":"sale","country":"AE","price":500000,"currency":"AED","featured":false,"images":["/static/assets/sample-house6.jpg"],"date":"2025-10-20","description":"Modern apartment in Dubai Marina."},
-  {"id":9,"slug":"penthouse-nyc","title":"Penthouse NYC","category":"sale","country":"US","price":1500000,"currency":"USD","featured":true,"images":["/static/assets/sample-house7.jpg"],"date":"2025-10-22","description":"Luxury penthouse in Manhattan."}
+  {id:1, slug:"modern-loft-nyc", title:"Modern Loft in NYC", category:"rent", country:"US", state:"NY", price:2500, currency:"USD", featured:true, images:["/static/assets/sample-house.jpg"], description:"Spacious modern loft in Manhattan, 2 beds, fast internet."},
+  {id:2, slug:"family-home-austin", title:"Family Home in Austin", category:"sale", country:"US", state:"TX", price:450000, currency:"USD", featured:true, images:["/static/assets/sample-sale.jpg"], description:"Beautiful 3-bedroom family home near schools."},
+  {id:3, slug:"beach-condo-la", title:"Beach Condo in LA", category:"rent", country:"US", state:"CA", price:3200, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"Ocean view condo, 2 beds, 2 baths."},
+  {id:4, slug:"mountain-cabin-co", title:"Mountain Cabin in Colorado", category:"rent", country:"US", state:"CO", price:1800, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"Cozy cabin near the Rockies."},
+  {id:5, slug:"suburban-home-fl", title:"Suburban Home in Florida", category:"sale", country:"US", state:"FL", price:350000, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"Family home with garden."},
+  {id:6, slug:"city-apartment-il", title:"City Apartment in Chicago", category:"rent", country:"US", state:"IL", price:2100, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"Downtown apartment, 1 bed."},
+  {id:7, slug:"modern-villa-ga", title:"Modern Villa in Georgia", category:"sale", country:"US", state:"GA", price:550000, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"Luxury villa with pool."},
+  {id:8, slug:"lux-condo-wa", title:"Luxury Condo in Washington", category:"rent", country:"US", state:"WA", price:2800, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"High-rise condo with city view."},
+  {id:9, slug:"desert-house-nv", title:"Desert House in Nevada", category:"sale", country:"US", state:"NV", price:420000, currency:"USD", featured:false, images:["/static/assets/sample-house.jpg"], description:"Modern house in desert area."},
 ];
 
 function el(q){return document.querySelector(q);}
+
 function card(l){
-  const d=document.createElement('div');
-  d.className='card';
+  const d=document.createElement('div'); d.className='card';
   const img=document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
   const h=document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
-  const m=document.createElement('div'); m.className='meta'; m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.country}</span>`; d.appendChild(m);
-
-  const p=document.createElement('div'); p.style.marginTop='10px'; p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`; d.appendChild(p);
-
-  const f=document.createElement('div'); f.className='favorite'; f.innerHTML='☆';
-  f.onclick=e=>{
-    e.stopPropagation();
-    if(!window.netlifyIdentity.currentUser()){ openAuthModal('login'); return; }
-    alert('Listing favorited!');
-  }
-  d.appendChild(f);
-
-  d.onclick=()=>{location.hash='#/item/'+l.slug;};
+  const m=document.createElement('div'); m.className='meta'; m.innerHTML=`<span class=badge>${l.category.toUpperCase()}</span> <span style='margin-left:8px' class=muted>${l.state}</span>`;
+  d.appendChild(m);
+  const p=document.createElement('div'); p.style.marginTop='10px'; p.innerHTML=`<span style='color:var(--gold);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`;
+  d.appendChild(p);
   return d;
 }
-function show(list, sel){const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i));)}
+
+function show(list, sel){
+  const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i)));
+}
 
 function apply(){
   const q=el('#q').value.toLowerCase();
-  const c=el('#country').value;
+  const state=el('#state').value;
   const cat=el('#cat').value;
   let r=SAMPLE.filter(s=>{
-    if(cat!=='all' && s.category!==cat) return false;
-    if(c!=='all' && s.country!==c) return false;
-    if(q && !(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false;
+    if(cat!=='all'&&s.category!==cat) return false;
+    if(state!=='all'&&s.state!==state) return false;
+    if(q&&!(s.title.toLowerCase().includes(q)||s.description.toLowerCase().includes(q))) return false;
     return true;
   });
   show(r,'#resultsGrid');
 }
 
 window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    document.getElementById('pre').style.display='none';
-    document.getElementById('app').style.display='block';
-  },500);
-
   show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
   show(SAMPLE,'#resultsGrid');
 });
 
-// Menu toggle
-document.getElementById('menuToggle').onclick=()=>{document.getElementById('navbar').classList.toggle('show');}
-document.getElementById('homeLogo').onclick=()=>{location.hash='#/';}
+// --- Netlify Identity ---
+const authBtns = el('#authButtons');
 
-// Authentication modal logic
-function openAuthModal(type){
-  document.getElementById('authModal').style.display='flex';
-  document.getElementById('authType').value=type;
-  document.getElementById('authTitle').textContent = type==='login'?'Sign In':'Sign Up';
-}
-document.getElementById('closeModal').onclick=()=>{document.getElementById('authModal').style.display='none';}
-document.getElementById('toggleAuth').onclick=()=>{
-  let type=document.getElementById('authType').value;
-  type=type==='login'?'signup':'login';
-  openAuthModal(type);
-}
-
-el('#authLink').onclick=()=>{openAuthModal('login');}
-
-// Handle submit
-el('#authSubmit').onclick=()=>{
-  const type=el('#authType').value;
-  const email=el('#email').value.trim();
-  const password=el('#password').value.trim();
-  if(!email||!password){alert('Please enter email and password'); return;}
-  if(type==='signup'){
-    window.netlifyIdentity.signup(email,password).then(u=>{
-      document.getElementById('authModal').style.display='none';
-      alert('Account created! Redirecting to home.');
-      location.hash='#/';
-    }).catch(err=>alert(err.message));
+function updateAuthUI(user){
+  if(user){
+    authBtns.innerHTML=`<button onclick="window.netlifyIdentity.logout()">Logout</button>`;
   } else {
-    window.netlifyIdentity.login(email,password).then(u=>{
-      document.getElementById('authModal').style.display='none';
-      location.hash='#/';
-    }).catch(err=>alert(err.message));
+    authBtns.innerHTML=`<button onclick="window.netlifyIdentity.open('login')">Sign In</button> <button onclick="window.netlifyIdentity.open('signup')">Sign Up</button>`;
   }
 }
 
-// Initialize Netlify Identity
 if(window.netlifyIdentity){
-  window.netlifyIdentity.on('login',user=>{window.netlifyIdentity.close(); location.hash='#/';});
-  window.netlifyIdentity.on('logout',()=>{location.hash='#/';});
+  window.netlifyIdentity.on('init', user=>{updateAuthUI(user);});
+  window.netlifyIdentity.on('login', user=>{updateAuthUI(user); window.netlifyIdentity.close();});
+  window.netlifyIdentity.on('logout', ()=>{updateAuthUI(null);});
   window.netlifyIdentity.init();
 }
 </script>
