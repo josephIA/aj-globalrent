@@ -1,154 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AJ GlobalRent & Services</title>
 <link rel="icon" href="/static/assets/favicon.png">
-
 <style>
-/* Default (light theme) */
-:root {
-  --bg: #F8FAFC;
-  --panel: #FFFFFF;
-  --primary: #7C3AED;
-  --muted: #6B7280;
-  --text: #111827;
-  --card-bg: #FFFFFF;
-  --card-border: rgba(0,0,0,0.05);
-  --badge-bg: rgba(124,60,237,0.12);
-}
+  :root {
+    --bg: #000000;
+    --primary: #fa255e;
+    --secondary: #c39ea0;
+    --text: #f8e5e5;
+    --muted: rgba(248, 229, 229, 0.7);
+    --panel: #111827;
+  }
 
-/* Purple theme */
-body.purple {
-  --bg: #1E1B2E;
-  --panel: #2A2540;
-  --primary: #8B5CF6;
-  --muted: #D1D5DB;
-  --text: #F9FAFB;
-  --card-bg: #2A2540;
-  --card-border: rgba(255,255,255,0.1);
-  --badge-bg: rgba(139,92,246,0.2);
-}
+  * { box-sizing: border-box; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: Inter, system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+    background: var(--bg);
+    color: var(--text);
+  }
 
-a { color: inherit; text-decoration: none; }
-.container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+  a { color: inherit; text-decoration: none; }
 
-header {
-  display: flex; align-items: center; justify-content: space-between; padding: 16px 0;
-}
-.logo { font-weight: 800; font-size: 24px; color: var(--primary); cursor: default; }
-nav { display: flex; align-items: center; gap: 16px; }
-nav a { font-weight: 600; color: var(--muted); }
-.nav-toggle { display: none; cursor: pointer; font-size: 24px; }
+  .container { max-width: 1400px; margin: 28px auto; padding: 0 18px; }
 
-.hero {
-  background: linear-gradient(135deg, var(--primary), #EDE9FE);
-  color: var(--panel);
-  border-radius: 12px;
-  padding: 40px;
-  margin-bottom: 24px;
-  display: flex; flex-wrap: wrap; gap: 24px;
-  justify-content: space-between;
-}
-.hero-left { flex: 1; min-width: 280px; }
-.hero h1 { font-size: 36px; margin-bottom: 12px; }
-.hero p { color: var(--panel); margin-bottom: 20px; }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
 
-.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.filters input, .filters select, .filters button {
-  padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1);
-}
+  .brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
 
-.btn {
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-}
+  .logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg);
+    font-weight: 800;
+    font-size: 20px;
+  }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
+  .tag { font-size: 13px; color: var(--muted); }
 
-.card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.card:hover { transform: translateY(-4px); }
-.card img { width: 100%; border-radius: 8px; height: 180px; object-fit: cover; }
-.meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
-.badge { background: var(--badge-bg); color: var(--primary); padding: 2px 6px; border-radius: 999px; font-weight: 700; font-size: 11px; }
-.price { font-weight: 800; color: var(--primary); margin-top: 8px; }
+  nav a {
+    margin-left: 12px;
+    color: var(--muted);
+    font-weight: 700;
+  }
 
-footer {
-  text-align: center;
-  color: var(--muted);
-  padding: 24px 0;
-}
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+  }
+  .hamburger div {
+    width: 25px; height: 3px; background: var(--muted);
+  }
 
-.preloader {
-  position: fixed; inset: 0; display: flex; justify-content: center; align-items: center;
-  background: var(--bg); z-index: 9999;
-}
-.spinner {
-  width: 64px; height: 64px;
-  border: 6px solid rgba(0,0,0,0.1);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+  .nav-links {
+    display: flex;
+    gap: 12px;
+  }
 
-@media(max-width:900px) {
-  nav { display: none; flex-direction: column; gap: 12px; }
-  .nav-toggle { display: block; }
-}
+  @media(max-width:900px){
+    .nav-links { display: none; flex-direction: column; gap: 12px; background: var(--panel); position: absolute; top: 72px; right: 18px; padding: 18px; border-radius: 10px; }
+    .hamburger { display: flex; }
+  }
+
+  .hero {
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), transparent);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 14px;
+    display: flex;
+    gap: 18px;
+  }
+
+  .hero-left { flex:1; }
+  h1 { margin:0 0 6px; font-size:26px; }
+  .lead { margin:0; color: var(--muted); }
+  .btn { background: var(--primary); padding:9px 14px; border-radius:8px; color:#fff; font-weight:700; border:none; cursor:pointer; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 14px;
+    margin-top:16px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.03);
+    border-radius:10px;
+    padding:10px;
+    border:1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 8px 30px rgba(2,6,23,0.7);
+    position: relative;
+  }
+
+  .card img {
+    width:100%; height:150px; object-fit:cover; border-radius:8px;
+  }
+
+  .meta { color: var(--muted); font-size:13px; margin-top:6px; }
+  .badge { background: rgba(195,158,160,0.2); color: var(--secondary); padding:4px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+
+  .filters { display:flex; gap:8px; margin-top:12px; flex-wrap: wrap; }
+  .filters input, .filters select { padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:var(--text); flex:1; }
+
+  .sidebar { width:300px; }
+  .main { display:flex; gap:16px; margin-top:18px; flex-wrap: wrap; }
+
+  footer { margin-top:28px; text-align:center; color: var(--muted); font-size:13px; }
+
+  .preloader {
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background: var(--bg); z-index:9999;
+  }
+
+  .spinner {
+    width:64px; height:64px; border-radius:50%; border:6px solid rgba(195,158,160,0.12);
+    border-top-color: var(--primary);
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media(max-width:900px){
+    .grid { grid-template-columns: repeat(2,1fr); }
+    .sidebar { width:100%; }
+    .main { flex-direction: column; }
+  }
+
+  .favorite {
+    position: absolute;
+    top:10px; right:10px;
+    font-size:20px; cursor:pointer;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .favorite.active { color: var(--primary); }
 </style>
 </head>
 <body>
-
 <div id="pre" class="preloader"><div class="spinner"></div></div>
 
 <div class="container" id="app" style="display:none;">
   <header>
-    <div class="logo">AJ GlobalRent</div>
-    <div class="nav-toggle" onclick="toggleNav()">☰</div>
-    <nav id="navbar">
+    <div class="brand">
+      <div class="logo">AJ</div>
+      <div>
+        <div style="font-weight:800">AJ GlobalRent & Services</div>
+        <div class="tag">Luxury. Trust. Global Convenience.</div>
+      </div>
+    </div>
+    <div class="hamburger" onclick="toggleNav()">
+      <div></div><div></div><div></div>
+    </div>
+    <nav class="nav-links">
       <a href="#/">Home</a>
-      <a href="#/rent">Rent</a>
-      <a href="#/sale">Sale</a>
+      <a href="#/rent">Houses (Rent)</a>
+      <a href="#/sale">Houses (Sale)</a>
       <a href="#/services">Services</a>
       <a href="#/about">About</a>
-      <a id="signinBtn" href="#" onclick="openSignIn()">Sign In / Sign Up</a>
-      <button class="btn" onclick="toggleTheme()">Toggle Theme</button>
+      <a href="#" onclick="openLogin()">Sign In / Sign Up</a>
     </nav>
   </header>
 
   <section class="hero">
     <div class="hero-left">
-      <h1>Find Your Perfect Home & Services</h1>
-      <p>Search properties and services across the USA.</p>
+      <h1>Premium USA rentals — homes & services, simplified</h1>
+      <p class="lead">Search properties and services across the USA.</p>
       <div class="filters">
-        <input type="text" id="q" placeholder="Search city or listing">
+        <input id="q" type="text" placeholder="Search city or listing">
         <select id="state">
           <option value="all">All States</option>
     <option value="AL">Alabama</option>
@@ -202,7 +240,7 @@ footer {
     <option value="WI">Wisconsin</option>
     <option value="WY">Wyoming</option>
   </select>
-        <select id="category">
+        <select id="cat">
           <option value="all">All</option>
           <option value="rent">Rent</option>
           <option value="sale">Sale</option>
@@ -213,106 +251,162 @@ footer {
     </div>
   </section>
 
-  <section>
-    <h2>Featured Listings</h2>
-    <div class="grid" id="featuredGrid"></div>
-  </section>
-
-  <section>
-    <h2>All Listings</h2>
-    <div class="grid" id="resultsGrid"></div>
-  </section>
+  <div class="main">
+    <div style="flex:1">
+      <section id="featured">
+        <h2>Featured</h2>
+        <div id="featuredGrid" class="grid"></div>
+      </section>
+      <section id="results" style="margin-top:18px">
+        <h2>Results</h2>
+        <div id="resultsGrid" class="grid"></div>
+      </section>
+    </div>
+  </div>
 
   <footer>© 2025 AJ GlobalRent & Services. All Rights Reserved.</footer>
 </div>
 
-<!-- Sign In / Sign Up Modal -->
-<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;justify-content:center;align-items:center;">
-  <div style="background:var(--panel);padding:24px;border-radius:12px;width:320px;position:relative;">
+<!-- Login / Signup Modal -->
+<div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:var(--panel);padding:24px;border-radius:12px;max-width:400px;width:100%;color:var(--text);position:relative;">
     <h2>Sign In / Sign Up</h2>
-    <input type="email" id="authEmail" placeholder="Email" style="width:100%;margin:6px 0;padding:8px;">
-    <input type="password" id="authPass" placeholder="Password" style="width:100%;margin:6px 0;padding:8px;">
-    <button class="btn" onclick="authUser()">Submit</button>
-    <div style="margin-top:12px;font-size:12px;color:var(--muted)">Existing users will login, new users will create account</div>
-    <button onclick="closeAuth()" style="position:absolute;top:8px;right:8px;">✕</button>
+    <input id="email" type="email" placeholder="Email" style="width:100%;padding:10px;margin-top:12px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text)">
+    <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin-top:12px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text)">
+    <div style="margin-top:12px;display:flex;gap:12px;">
+      <button class="btn" onclick="signup()">Sign Up</button>
+      <button class="btn" onclick="login()">Sign In</button>
+    </div>
+    <button style="position:absolute;top:12px;right:12px;background:none;border:none;color:var(--text);font-size:18px;cursor:pointer;" onclick="closeLogin()">×</button>
   </div>
 </div>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-// Toggle navbar on mobile
-function toggleNav() {
-  const nav = document.getElementById('navbar');
-  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-}
-
-// Theme toggle
-function toggleTheme() { document.body.classList.toggle('purple'); }
-
-// Preloader
-window.addEventListener('load', () => {
-  setTimeout(() => { document.getElementById('pre').style.display = 'none'; document.getElementById('app').style.display = 'block'; showSamples(); }, 500);
-});
-
-// Sample listings
 const SAMPLE = [
-  {id:1,title:"Modern Loft LA",category:"rent",state:"CA",price:1200,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"]},
-  {id:2,title:"Family Home NY",category:"sale",state:"NY",price:450000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"]},
-  {id:3,title:"Event Chairs TX",category:"service",state:"TX",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
-  {id:4,title:"Luxury Condo FL",category:"rent",state:"FL",price:2200,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"]},
-  {id:5,title:"Cozy Apartment OH",category:"rent",state:"OH",price:900,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"]},
-  {id:6,title:"Villa GA",category:"sale",state:"GA",price:650000,currency:"USD",featured:false,images:["/static/assets/sample-sale.jpg"]},
-  {id:7,title:"Penthouse IL",category:"rent",state:"IL",price:3500,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"]},
-  {id:8,title:"Townhouse PA",category:"sale",state:"PA",price:320000,currency:"USD",featured:false,images:["/static/assets/sample-sale.jpg"]},
-  {id:9,title:"Service Package MI",category:"service",state:"MI",price:400,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"]},
+  {id:1,slug:"modern-loft-la",title:"Modern Loft - LA",category:"rent",state:"CA",price:1200,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"],description:"Furnished loft in LA."},
+  {id:2,slug:"family-home-ny",title:"Family Home - NY",category:"sale",state:"NY",price:450000,currency:"USD",featured:true,images:["/static/assets/sample-sale.jpg"],description:"Beautiful 3-bed home."},
+  {id:3,slug:"event-chairs-set",title:"Event Chairs",category:"service",state:"CA",price:500,currency:"USD",featured:false,images:["/static/assets/sample-service.jpg"],description:"Chair & table set."},
+  {id:4,slug:"villa-miami",title:"Villa - Miami",category:"rent",state:"FL",price:2500,currency:"USD",featured:true,images:["/static/assets/sample-house.jpg"],description:"Luxury villa."},
+  {id:5,slug:"apartment-chicago",title:"Apartment - Chicago",category:"rent",state:"IL",price:1800,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"],description:"Modern apartment."},
+  {id:6,slug:"condo-philly",title:"Condo - Philadelphia",category:"sale",state:"PA",price:300000,currency:"USD",featured:false,images:["/static/assets/sample-sale.jpg"],description:"Spacious condo."},
+  {id:7,slug:"townhouse-ohio",title:"Townhouse - Ohio",category:"rent",state:"OH",price:1500,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"],description:"Townhouse with 2 beds."},
+  {id:8,slug:"loft-atlanta",title:"Loft - Atlanta",category:"sale",state:"GA",price:400000,currency:"USD",featured:false,images:["/static/assets/sample-sale.jpg"],description:"Stylish loft."},
+  {id:9,slug:"cottage-nc",title:"Cottage - NC",category:"rent",state:"NC",price:1300,currency:"USD",featured:false,images:["/static/assets/sample-house.jpg"],description:"Cozy cottage."}
 ];
 
-// Render listings
-function card(l) {
-  const d = document.createElement('div'); d.className='card';
-  const img = document.createElement('img'); img.src=l.images[0]; d.appendChild(img);
-  const h = document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
-  const m = document.createElement('div'); m.className='meta';
-  m.innerHTML=`<span class="badge">${l.category.toUpperCase()}</span> <span>${l.state}</span>`; d.appendChild(m);
-  const p = document.createElement('div'); p.className='price'; p.textContent=`${l.currency} ${l.price.toLocaleString()}`; d.appendChild(p);
+let users = JSON.parse(localStorage.getItem('users')||'[]');
+let currentUser = JSON.parse(localStorage.getItem('currentUser')||'null');
+
+function toggleNav(){
+  const nav = document.querySelector('.nav-links');
+  nav.style.display = nav.style.display==='flex'?'none':'flex';
+}
+
+function el(q){return document.querySelector(q);}
+
+function card(l){
+  const d=document.createElement('div');
+  d.className='card';
+  const img=document.createElement('img');
+  img.src=l.images[0];
+  d.appendChild(img);
+
+  const h=document.createElement('h3'); h.textContent=l.title; d.appendChild(h);
+
+  const m=document.createElement('div'); m.className='meta';
+  m.innerHTML=`<span class="badge">${l.category.toUpperCase()}</span> <span style='margin-left:8px' class='muted'>${l.state}</span>`;
+  d.appendChild(m);
+
+  const p=document.createElement('div'); p.style.marginTop='10px';
+  p.innerHTML=`<span style='color:var(--primary);font-weight:800'>${l.currency} ${l.price.toLocaleString()}</span>`;
+  d.appendChild(p);
+
+  const fav = document.createElement('span');
+  fav.className='favorite';
+  fav.innerHTML='★';
+  fav.onclick = (e)=>{
+    e.stopPropagation();
+    if(!currentUser){
+      openLogin();
+      return;
+    }
+    if(!currentUser.favorites) currentUser.favorites=[];
+    if(currentUser.favorites.includes(l.id)){
+      currentUser.favorites=currentUser.favorites.filter(x=>x!==l.id);
+      fav.classList.remove('active');
+    }else{
+      currentUser.favorites.push(l.id);
+      fav.classList.add('active');
+    }
+    localStorage.setItem('currentUser',JSON.stringify(currentUser));
+    users = users.map(u=>u.email===currentUser.email?currentUser:u);
+    localStorage.setItem('users',JSON.stringify(users));
+  };
+  if(currentUser && currentUser.favorites && currentUser.favorites.includes(l.id)){
+    fav.classList.add('active');
+  }
+  d.appendChild(fav);
+
   return d;
 }
-function showSamples() {
-  const featured = SAMPLE.filter(s=>s.featured); const all=SAMPLE;
-  const fGrid=document.getElementById('featuredGrid'); const rGrid=document.getElementById('resultsGrid');
-  fGrid.innerHTML=''; rGrid.innerHTML='';
-  featured.forEach(i=>fGrid.appendChild(card(i))); all.forEach(i=>rGrid.appendChild(card(i)));
-}
 
-// Search filter
-function apply() {
-  const q=document.getElementById('q').value.toLowerCase();
-  const st=document.getElementById('state').value;
-  const cat=document.getElementById('category').value;
-  const r=SAMPLE.filter(s=>{
+function show(list,sel){const g=el(sel); g.innerHTML=''; list.forEach(i=>g.appendChild(card(i)));}
+
+function apply(){
+  const q=el('#q').value.toLowerCase();
+  const st=el('#state').value;
+  const cat=el('#cat').value;
+  let r=SAMPLE.filter(s=>{
     if(cat!=='all' && s.category!==cat) return false;
     if(st!=='all' && s.state!==st) return false;
-    if(q && !s.title.toLowerCase().includes(q)) return false;
+    if(q && !(s.title.toLowerCase().includes(q) || s.description.toLowerCase().includes(q))) return false;
     return true;
   });
-  const grid=document.getElementById('resultsGrid'); grid.innerHTML=''; r.forEach(i=>grid.appendChild(card(i)));
+  show(r,'#resultsGrid');
 }
 
-// Netlify Identity Auth
-function openSignIn(){document.getElementById('authModal').style.display='flex';}
-function closeAuth(){document.getElementById('authModal').style.display='none';}
-function authUser(){
-  const email=document.getElementById('authEmail').value;
-  const pass=document.getElementById('authPass').value;
-  if(!email || !pass){alert('Please fill email and password'); return;}
-  if(window.netlifyIdentity){
-    window.netlifyIdentity.signup(email,pass,{}) // Netlify Identity auto-login
-      .then(user=>{closeAuth(); showSamples();})
-      .catch(err=>{
-        window.netlifyIdentity.login(email,pass).then(u=>{closeAuth(); showSamples();}).catch(e=>alert(e.message));
-      });
-  }
+function openLogin(){el('#loginModal').style.display='flex';}
+function closeLogin(){el('#loginModal').style.display='none';}
+
+function signup(){
+  const email=el('#email').value.trim();
+  const password=el('#password').value.trim();
+  if(!email||!password){alert('Enter email & password'); return;}
+  if(users.find(u=>u.email===email)){alert('Email already exists'); return;}
+  const u={email,password,favorites:[]};
+  users.push(u);
+  localStorage.setItem('users',JSON.stringify(users));
+  currentUser=u;
+  localStorage.setItem('currentUser',JSON.stringify(currentUser));
+  closeLogin(); renderUI();
 }
+
+function login(){
+  const email=el('#email').value.trim();
+  const password=el('#password').value.trim();
+  const u=users.find(u=>u.email===email && u.password===password);
+  if(!u){alert('Invalid credentials'); return;}
+  currentUser=u;
+  localStorage.setItem('currentUser',JSON.stringify(currentUser));
+  closeLogin(); renderUI();
+}
+
+function renderUI(){
+  // hide login link if logged in
+  document.querySelectorAll('nav a').forEach(a=>{
+    if(a.textContent.includes('Sign In')) a.style.display=currentUser?'none':'inline-block';
+  });
+  show(SAMPLE.filter(s=>s.featured),'#featuredGrid');
+  show(SAMPLE,'#resultsGrid');
+}
+
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    el('#pre').style.display='none';
+    el('#app').style.display='block';
+    renderUI();
+  },600);
+});
 </script>
 </body>
 </html>
