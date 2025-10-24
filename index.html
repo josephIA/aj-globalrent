@@ -2,127 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AJ GlobalRent & Services</title>
-  <link rel="icon" href="/static/assets/favicon.png" />
   <style>
-    /* --- Palette & base (keeps light minimalist feel but with flyer warm tone) --- */
+    /* Palette inspired by reference flyer (maroon + warm beige + white) */
     :root{
-      --bg:#fff;
-      --text:#0b1220;
-      --muted:#6b7280;
-      --accent:#7b2f2f; /* maroon-ish from flyer */
-      --soft:#f7f4f2; /* warm beige background in hero panels */
-      --edge:#e6e9ee;
+      --maroon: #6f2b2b;
+      --beige: #f6efe9;
+      --white: #ffffff;
+      --muted: #6b7280;
+      --edge: #e6e0dd;
+      --text: #231f20;
+      --accent-dark: #4b1b1b;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial, sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.45}
+    body{font-family:Arial, sans-serif;background:var(--beige);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.45}
 
-    .container{max-width:1200px;margin:0 auto;padding:20px}
+    .wrap{max-width:1150px;margin:18px auto;padding:18px}
 
-    /* --- Compact top bar with everything in one row --- */
-    header{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:12px 0}
-    .top-left{display:flex;align-items:center;gap:12px;min-width:0}
-    .logo{font-weight:700;font-size:20px;white-space:nowrap}
-    .top-controls{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-    .search-input{flex:1;min-width:120px;padding:10px 12px;border:1px solid var(--edge);border-radius:8px}
-    select.filter{padding:10px;border:1px solid var(--edge);border-radius:8px}
-    button.search-btn{background:var(--accent);color:#fff;border:none;padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:700}
-    button.menu-toggle{background:transparent;border:1px solid var(--edge);padding:8px;border-radius:8px;cursor:pointer}
+    /* Top compact bar: logo + search + state + service + search button + toggle + auth */
+    header{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .left{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{font-weight:700;font-size:20px;color:var(--maroon);white-space:nowrap}
+    .controls{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+    .controls input[type="text"]{flex:1;min-width:140px;padding:10px 12px;border-radius:8px;border:1px solid var(--edge)}
+    .controls select{padding:10px;border-radius:8px;border:1px solid var(--edge)}
+    .controls .search-btn{background:var(--maroon);color:var(--white);border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer}
+    .menu-btn{background:transparent;border:1px solid var(--edge);padding:8px;border-radius:8px;cursor:pointer}
+    .auth-area{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--maroon);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid var(--edge);color:var(--maroon)}
 
-    /* --- small nav panel for toggle --- */
-    .nav-panel{position:absolute;right:20px;top:64px;background:#fff;border:1px solid var(--edge);box-shadow:0 8px 30px rgba(2,6,23,0.08);border-radius:10px;padding:12px;display:none;z-index:80}
-    .nav-panel a{display:block;padding:8px 10px;color:var(--text);text-decoration:none;border-radius:6px}
-    .nav-panel a:hover{background:var(--soft)}
+    /* small nav panel */
+    .nav-panel{position:absolute;right:28px;top:64px;background:var(--white);border-radius:8px;padding:8px;border:1px solid var(--edge);box-shadow:0 12px 30px rgba(0,0,0,0.08);display:none;z-index:50}
+    .nav-panel a{display:block;padding:8px 12px;text-decoration:none;color:var(--text);border-radius:6px}
+    .nav-panel a:hover{background:var(--beige)}
 
-    /* --- Hero full-screen style (uses uploaded reference image) --- */
-    .hero-full{
-      margin-top:12px;
-      width:100%;
-      height:64vh;
-      border-radius:12px;
-      overflow:hidden;
-      display:flex;
-      box-shadow: 0 10px 40px rgba(2,6,23,0.08);
-      position:relative;
-    }
-    .hero-image{
-      flex:1;
-      background-image: url('/mnt/data/ea8cbb1d-9e2c-45df-9198-87407150ea45.png'); /* reference image uploaded */
-      background-size:cover;
-      background-position:center;
-      filter:contrast(1.02) saturate(0.95);
-      min-width:360px;
-    }
-    .hero-panel{
-      width:420px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98));
-      padding:28px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap:12px;
-    }
-    .hero-panel h1{font-size:26px;color:var(--accent);margin-bottom:4px}
-    .hero-panel p.lead{color:var(--muted);font-size:14px}
-    .cta-row{display:flex;gap:10px;align-items:center;margin-top:8px}
-    .btn-primary{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
-    .btn-ghost{background:transparent;border:1px solid var(--edge);padding:8px 12px;border-radius:8px;cursor:pointer}
+    /* Hero area: large left image, right text panel -> matches flyer */
+    .hero{display:flex;gap:18px;margin-top:18px;border-radius:12px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,0.06)}
+    .hero-left{flex:1;background-image:url('/mnt/data/9b21a79b-8ca0-4019-b4d8-7f7a91128fb8.png');background-size:cover;background-position:center;min-height:420px}
+    .hero-right{width:420px;background:var(--maroon);color:var(--white);padding:28px;display:flex;flex-direction:column;gap:14px}
+    .hero-right h1{font-size:22px;margin-top:6px;color:var(--white);letter-spacing:0.4px}
+    .hero-right .sub{background:var(--beige);color:var(--maroon);padding:12px;border-radius:10px;font-weight:700;align-self:flex-end}
+    .offer-box{background:var(--white);color:var(--maroon);padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:8px}
+    .offer-box .price{font-weight:800;font-size:20px;color:var(--accent-dark)}
+    .contact-btn{background:var(--maroon);color:var(--white);padding:10px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
 
-    /* --- Static categories row (home only) --- */
-    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
-    .cat-card{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--edge);cursor:pointer;display:flex;flex-direction:column;align-items:stretch;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
-    .cat-card img{width:100%;height:140px;object-fit:cover}
-    .cat-card .cap{padding:12px;font-weight:700;color:var(--accent);text-align:center}
+    /* small features icons row (simple placeholders) */
+    .features{display:flex;gap:12px;flex-wrap:wrap;color:var(--white);font-size:13px}
+    .feature-item{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+    .feature-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-weight:700}
 
-    /* --- results grid (3 samples only below hero as requested) --- */
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:20px}
-    .card{background:#fff;border-radius:10px;padding:12px;position:relative;border:1px solid var(--edge);box-shadow:0 8px 24px rgba(2,6,23,0.04);display:flex;flex-direction:column;gap:10px}
+    /* categories row */
+    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:18px}
+    .cat{background:var(--white);border-radius:10px;overflow:hidden;border:1px solid var(--edge);cursor:pointer;display:flex;flex-direction:column}
+    .cat img{width:100%;height:120px;object-fit:cover}
+    .cat .cap{padding:12px;font-weight:800;color:var(--maroon);text-align:center}
+
+    /* results grid - 3 samples on home page */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}
+    .card{background:var(--white);border-radius:10px;padding:12px;border:1px solid var(--edge);box-shadow:0 8px 24px rgba(0,0,0,0.04);position:relative;display:flex;flex-direction:column;gap:10px}
     .card img{width:100%;height:180px;object-fit:cover;border-radius:6px}
-    .card h3{font-size:16px;margin-top:4px}
+    .card h3{font-size:16px;color:var(--accent-dark)}
     .meta{font-size:13px;color:var(--muted)}
-    .price{font-weight:700;margin-top:6px}
+    .price{font-weight:800;color:var(--accent-dark)}
     .favorite{position:absolute;top:12px;right:12px;font-size:20px;cursor:pointer;color:#cfcfcf}
     .favorite.active{color:gold}
 
-    /* --- modal --- */
+    /* modal */
     .modal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center;z-index:9999}
-    .modal-content{background:#fff;padding:18px;border-radius:10px;width:94%;max-width:420px;box-shadow:0 12px 30px rgba(2,6,23,0.2)}
-    .modal-content h2{margin-bottom:12px;font-size:18px}
-    .modal-content input{width:100%;padding:10px;border:1px solid var(--edge);border-radius:8px;margin-bottom:10px}
+    .modal-content{background:#fff;padding:18px;border-radius:10px;width:94%;max-width:420px;box-shadow:0 12px 30px rgba(0,0,0,0.18)}
+    .modal-content h2{margin-bottom:12px}
+    .modal-content input{width:100%;padding:10px;border-radius:8px;border:1px solid var(--edge);margin-bottom:10px}
 
-    footer{margin-top:28px;padding:18px 0;text-align:center;color:var(--muted)}
+    footer{margin-top:22px;text-align:center;color:var(--muted);padding:12px}
 
-    @media(max-width:1100px){
-      .hero-panel{width:360px}
-    }
-    @media(max-width:900px){
-      header{flex-direction:column;align-items:stretch;gap:10px}
-      .top-controls{order:2;display:flex;gap:8px}
-      .hero-full{flex-direction:column;height:auto}
-      .hero-image{height:220px}
-      .hero-panel{width:100%;padding:18px}
-      .nav-panel{right:12px;top:120px}
+    @media(max-width:1000px){
+      .hero{flex-direction:column}
+      .hero-right{width:100%}
+      .left .logo{font-size:18px}
+      .controls{flex-direction:column;gap:8px}
     }
     @media(max-width:540px){
-      .top-controls{flex-direction:column;gap:8px}
-      .search-input{width:100%}
-      select.filter{width:100%}
+      .controls input[type="text"]{min-width:0}
+      .controls select{width:100%}
     }
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Top compact bar -->
+  <div class="wrap">
+    <!-- Top bar -->
     <header>
-      <div class="top-left">
+      <div class="left">
         <div class="logo">AJ GlobalRent</div>
       </div>
 
-      <div class="top-controls">
-        <input id="q" class="search-input" type="text" placeholder="Search..." />
-        <select id="state" class="filter">
+      <div class="controls" role="search" aria-label="Search controls">
+        <input type="text" id="q" placeholder="Search..." />
+        <select id="state">
           <option value="all">All States</option>
           <option value="CA">California</option>
           <option value="NY">New York</option>
@@ -134,81 +113,105 @@
           <option value="OH">Ohio</option>
           <option value="NC">North Carolina</option>
         </select>
-
-        <select id="service" class="filter">
+        <select id="service">
           <option value="all">All</option>
           <option value="rent">Rent</option>
           <option value="sale">Sale</option>
           <option value="service">Service</option>
         </select>
-
         <button class="search-btn" onclick="apply()">Search</button>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false">☰</button>
 
-        <button class="menu-toggle" id="menuToggle" aria-expanded="false" title="Menu">☰</button>
-
-        <span id="authButtons" style="margin-left:8px;display:flex;gap:8px;align-items:center">
+        <div class="auth-area" id="authButtons">
           <button class="btn" id="signInBtn">Sign In</button>
-          <button class="btn" id="signUpBtn">Sign Up</button>
-        </span>
+          <button class="btn ghost" id="signUpBtn">Sign Up</button>
+        </div>
       </div>
 
-      <!-- small nav panel -->
+      <!-- nav panel -->
       <div class="nav-panel" id="navPanel" aria-hidden="true">
-        <a href="#/" id="navHome">Home</a>
-        <a href="#/rent" id="navRent">Houses (Rent)</a>
-        <a href="#/sale" id="navSale">Houses (Sale)</a>
-        <a href="#/services" id="navServices">Services</a>
-        <a href="#/favorites" id="navFav">Favorites</a>
+        <a href="#/" id="homeNav">Home</a>
+        <a href="#/rent">Houses (Rent)</a>
+        <a href="#/sale">Houses (Sale)</a>
+        <a href="#/services">Services</a>
+        <a href="#/favorites">Favorites</a>
       </div>
     </header>
 
-    <!-- Fullscreen hero -->
-    <section class="hero-full" role="region" aria-label="Featured">
-      <div class="hero-image" aria-hidden="true"></div>
-      <div class="hero-panel">
-        <h1>Exclusive Private Villa</h1>
-        <p class="lead">Experience refined living in this exquisite villa with panoramic views, private pool and concierge services.</p>
+    <!-- HERO -->
+    <section class="hero" role="region" aria-label="Featured property">
+      <div class="hero-left" aria-hidden="true"></div>
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <div style="display:flex;gap:12px;align-items:center;color:var(--muted);">
-            <div style="font-weight:700;color:var(--accent)">₦1,200,000</div>
-            <div style="font-size:13px;color:var(--muted)">/year</div>
+      <aside class="hero-right">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="font-size:12px;color:var(--beige);opacity:0.85">MARY SMITH REAL ESTATE</div>
+          <div style="font-family:serif;font-size:20px;color:var(--beige)">Exclusive Private Villa</div>
+        </div>
+
+        <img src="" alt="" style="display:none" />
+
+        <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+          <div style="flex:1">
+            <p style="color:var(--beige);opacity:0.95;font-size:14px;margin-top:4px">
+              We elevate luxury living with bespoke experiences, blending architectural mastery with unparalleled privacy and service.
+            </p>
           </div>
 
-          <div style="flex:1"></div>
+          <div class="offer-box" style="min-width:160px">
+            <div style="font-size:13px;color:var(--muted)">August Limited Offer</div>
+            <div class="price">$ 599 <span style="font-size:12px;color:var(--muted)">/ day</span></div>
+            <div style="font-size:13px;color:var(--muted)">Reserve your perfect stay with us. Don't miss out on curated unforgettable moments.</div>
+            <button class="contact-btn" onclick="openContact()">(555) 555-0135</button>
+          </div>
         </div>
 
-        <div class="cta-row">
-          <button class="btn-primary" onclick="scrollToSamples()">View Samples</button>
-          <button class="btn-ghost" onclick="openContact()">Contact Agent</button>
+        <div class="features" aria-hidden="true">
+          <div class="feature-item">
+            <div class="feature-icon">🛏</div>
+            <div style="font-size:13px;color:var(--beige)">Queen Bed</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🧺</div>
+            <div style="font-size:13px;color:var(--beige)">Washing Machine</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🚿</div>
+            <div style="font-size:13px;color:var(--beige)">Shower & Bath</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🍽</div>
+            <div style="font-size:13px;color:var(--beige)">Big Kitchen</div>
+          </div>
         </div>
-      </div>
+
+        <div style="margin-top:12px;color:var(--beige);font-size:13px">2701 Willow Oaks Lane Lake Charles, LA</div>
+      </aside>
     </section>
 
-    <!-- Static categories (Home only) -->
+    <!-- Static categories row (Home only) -->
     <div id="homeCategories" class="categories" style="margin-top:18px">
-      <div class="cat-card" id="catRent">
-        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=60" alt="Houses for Rent">
+      <div class="cat" id="catRent">
+        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=60" alt="Rent">
         <div class="cap">Houses for Rent</div>
       </div>
-      <div class="cat-card" id="catSale">
-        <img src="https://images.unsplash.com/photo-1572120360610-d971b9b7fba7?auto=format&fit=crop&w=900&q=60" alt="Houses for Sale">
+      <div class="cat" id="catSale">
+        <img src="https://images.unsplash.com/photo-1572120360610-d971b9b7fba7?auto=format&fit=crop&w=900&q=60" alt="Sale">
         <div class="cap">Houses for Sale</div>
       </div>
-      <div class="cat-card" id="catService">
-        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=900&q=60" alt="Home Services">
+      <div class="cat" id="catService">
+        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=900&q=60" alt="Service">
         <div class="cap">Home Services</div>
       </div>
     </div>
 
-    <!-- 3 sample listings (explicitly only 3 as requested) -->
-    <div class="grid" id="resultsGrid" style="margin-top:18px"></div>
+    <!-- 3 sample listings (explicitly only 3 on home) -->
+    <div class="grid" id="resultsGrid" aria-live="polite" style="margin-top:18px"></div>
 
     <footer>© 2025 AJ GlobalRent & Services</footer>
   </div>
 
-  <!-- Sign-in / Sign-up modal (unchanged logic) -->
-  <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <!-- Sign-in / Sign-up modal (kept unchanged) -->
+  <div class="modal" id="authModal" aria-hidden="true">
     <div class="modal-content">
       <h2 id="authTitle">Sign In</h2>
       <input type="email" id="email" placeholder="Email">
@@ -219,9 +222,7 @@
   </div>
 
   <script>
-    /* ---------------------------
-       EXACT ORIGINAL LOGIC (kept)
-       --------------------------- */
+    // === ORIGINAL DATA & LOGIC (kept exactly, names preserved) ===
     const SAMPLE = [
       {id:1,title:"Modern Loft California",category:"rent",state:"CA",price:2000,currency:"USD",images:["/static/assets/sample-house.jpg"]},
       {id:2,title:"Luxury Apartment New York",category:"sale",state:"NY",price:500000,currency:"USD",images:["/static/assets/sample-sale.jpg"]},
@@ -249,7 +250,7 @@
       if(LOGGED_IN_USER) {
         authButtons.innerHTML = `<button class="btn" onclick="logout()">Sign Out</button>`;
       } else {
-        authButtons.innerHTML = `<button class="btn" id="signInBtn">Sign In</button><button class="btn" id="signUpBtn">Sign Up</button>`;
+        authButtons.innerHTML = `<button class="btn" id="signInBtn">Sign In</button><button class="btn ghost" id="signUpBtn">Sign Up</button>`;
         document.getElementById("signInBtn").onclick = ()=>openAuthModal('signin');
         document.getElementById("signUpBtn").onclick = ()=>openAuthModal('signup');
       }
@@ -295,14 +296,13 @@
       renderListings();
     }
 
-    // Render listings (logic unchanged, adapted to show/hide categories)
+    // Render card (keeps same structure & favorite logic)
     function card(item){
       const d = document.createElement("div");
       d.className="card";
 
       const img = document.createElement("img");
-      // keep original image path; if not found, show placeholder
-      img.src = item.images[0] || 'https://via.placeholder.com/600x400?text=No+Image';
+      img.src = item.images[0] || 'https://via.placeholder.com/800x600?text=No+Image';
       d.appendChild(img);
 
       const h = document.createElement("h3");
@@ -316,8 +316,7 @@
 
       const p = document.createElement("div");
       p.className="price";
-      // preserve number formatting via toLocaleString when numeric
-      const priceText = (typeof item.price === 'number') ? `${item.currency} ${item.price.toLocaleString()}` : `${item.price}`;
+      const priceText = (typeof item.price === 'number') ? `${item.currency} ${item.price.toLocaleString()}` : `${item.currency ? item.currency + ' ' + item.price : item.price}`;
       p.textContent = priceText;
       d.appendChild(p);
 
@@ -341,6 +340,7 @@
       return d;
     }
 
+    // Filter and render listings (unchanged logic). Home shows only 3 samples.
     function renderListings(filterFn){
       // Show categories only on home route
       const homeCats = document.getElementById("homeCategories");
@@ -351,8 +351,7 @@
       grid.innerHTML="";
       let items = SAMPLE;
 
-      const qVal = document.getElementById("q").value || "";
-      const q = qVal.toLowerCase();
+      const q = document.getElementById("q").value.toLowerCase();
       const state = document.getElementById("state").value;
       const service = document.getElementById("service").value;
 
@@ -364,9 +363,7 @@
         return true;
       });
 
-      // If on home route, show only 3 samples (as requested) - but maintain filtering logic:
-      if(route === "#/" || route === "" ){
-        // show up to 3 items from filtered results
+      if(route === "#/" || route === ""){
         const three = items.slice(0,3);
         if(three.length === 0) grid.innerHTML = "<p style='color:var(--muted)'>No results found.</p>";
         else three.forEach(item=>grid.appendChild(card(item)));
@@ -387,23 +384,23 @@
     document.getElementById("catSale").addEventListener("click", ()=> { location.hash = "#/sale"; });
     document.getElementById("catService").addEventListener("click", ()=> { location.hash = "#/services"; });
 
-    // Nav toggle behavior
-    const menuToggle = document.getElementById('menuToggle');
+    // Nav toggle
+    const menuBtn = document.getElementById('menuBtn');
     const navPanel = document.getElementById('navPanel');
-    menuToggle.addEventListener('click', ()=>{
-      const shown = navPanel.style.display === 'block';
-      navPanel.style.display = shown ? 'none' : 'block';
-      menuToggle.setAttribute('aria-expanded', String(!shown));
+    menuBtn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const visible = navPanel.style.display === 'block';
+      navPanel.style.display = visible ? 'none' : 'block';
+      menuBtn.setAttribute('aria-expanded', String(!visible));
     });
-    // close nav when clicking outside
     document.addEventListener('click', (e)=>{
-      if(!navPanel.contains(e.target) && e.target !== menuToggle) {
+      if(!navPanel.contains(e.target) && e.target !== menuBtn){
         navPanel.style.display = 'none';
-        menuToggle.setAttribute('aria-expanded','false');
+        menuBtn.setAttribute('aria-expanded','false');
       }
     });
 
-    // Routing logic (handles Home, Favorites, etc.) - unchanged behavior
+    // Routing logic (keeps original)
     function router(){
       const route = location.hash;
       if(route === "#/favorites"){
@@ -426,16 +423,12 @@
     updateAuthUI();
     router(); // run once on load
 
-    // Small helpers
-    function scrollToSamples(){
-      const el = document.getElementById('resultsGrid');
-      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
-    }
+    // helper actions
     function openContact(){
-      alert('Contact agent: +234 800 000 0000 (placeholder)');
+      alert('Call us: (555) 555-0135 — placeholder');
     }
 
-    // Close modal when clicking outside content
+    // close modal on backdrop click
     authModal.addEventListener('click', function(e){
       if(e.target === authModal) authModal.style.display = 'none';
     });
